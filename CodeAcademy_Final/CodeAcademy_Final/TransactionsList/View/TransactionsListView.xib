@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TransactionsListViewController" customModule="CodeAcademy_Final" customModuleProvider="target">
+            <connections>
+                <outlet property="inAndOutTransactions" destination="2a1-d9-wfg" id="gBx-ta-qEf"/>
+                <outlet property="tableView" destination="C88-sd-zqQ" id="rpj-NC-65M"/>
+                <outlet property="view" destination="iN0-l3-epB" id="1Ts-3g-Iyq"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2a1-d9-wfg">
+                    <rect key="frame" x="24" y="59" width="345" height="32"/>
+                    <segments>
+                        <segment title="First"/>
+                        <segment title="Second"/>
+                    </segments>
+                </segmentedControl>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="C88-sd-zqQ">
+                    <rect key="frame" x="0.0" y="114" width="393" height="310"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="310" id="eWS-Ed-ARf"/>
+                    </constraints>
+                </tableView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBrownColor"/>
+            <constraints>
+                <constraint firstItem="C88-sd-zqQ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="2A1-Q4-WYG"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2a1-d9-wfg" secondAttribute="trailing" constant="24" id="4IX-Ib-rbC"/>
+                <constraint firstItem="C88-sd-zqQ" firstAttribute="top" secondItem="2a1-d9-wfg" secondAttribute="bottom" constant="24" id="CPD-kC-yap"/>
+                <constraint firstItem="2a1-d9-wfg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="ZKh-MU-J9Y"/>
+                <constraint firstItem="2a1-d9-wfg" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="l8z-aW-wZq"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="C88-sd-zqQ" secondAttribute="trailing" id="wI4-se-kaN"/>
+            </constraints>
+            <point key="canvasLocation" x="-327" y="-10"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBrownColor">
+            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
