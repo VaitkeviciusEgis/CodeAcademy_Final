@@ -13,6 +13,7 @@ protocol UpdateTableViewDelegate: NSObjectProtocol {
     func reloadData(sender: TransactionsViewModel)
 }
 
+private var displayedTransactions = [TransactionEntity]()
 class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
     
     var isDataLoaded = false
@@ -34,6 +35,9 @@ class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
       
                do {
                    try fetchedResultsController?.performFetch()
+                   if let transactions = fetchedResultsController?.fetchedObjects {
+                                      displayedTransactions = transactions
+                                  }
 
                } catch {
                    print("Failed to initialize FetchedResultsController: \(error)")
