@@ -15,8 +15,8 @@ protocol TransactionsFetching {
 extension TransactionsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("numberOfRowsInSection() called")
-//        let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
-//            return transactions.count
+        //        let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
+        //            return transactions.count
         print("numberOfRowsInSection() called")
         return viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0
     }
@@ -30,21 +30,21 @@ extension TransactionsListViewController: UITableViewDataSource {
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
-//
-//        if let transaction = viewModel.fetchedResultsController?.object(at: indexPath) {
-//            cell.titleLabel.text = transaction.receiverPhoneNumber
-//            cell.amountLabel.text = "\(transaction.amount)"
-//        }
-//
-//        return cell
-//    }
+    //    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    //        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
+    //
+    //        if let transaction = viewModel.fetchedResultsController?.object(at: indexPath) {
+    //            cell.titleLabel.text = transaction.receiverPhoneNumber
+    //            cell.amountLabel.text = "\(transaction.amount)"
+    //        }
+    //
+    //        return cell
+    //    }
 }
 
 class TransactionsListViewController: UIViewController, UpdateTableViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate {
     
-//    var transactions: [TransactionInfo] = []
+    //    var transactions: [TransactionInfo] = []
     private var viewModel = TransactionsViewModel()
     
     private func loadData() {
@@ -62,117 +62,104 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
         tableView.backgroundColor = .systemTeal
         setupSearchBar()
         segmentSetup()
-        tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
     }
-//
-//    private func loadTransactionsData() {
-//
-//        // Fetch data from the server
-//        guard let currentAccountId = loggedInUser?.accountInfo.id else  {
-//
-//            return
-//        }
-//
-//        serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: currentAccountId), completion: { [weak self] (result) in
-//
-//
-//            guard let self = self else {
-//                return
-//            }
-//
-//            switch result {
-//
-//                case .success(let transactions):
-//                    CoreDataManager.sharedInstance.saveDataOf(transactions: transactions)
-//
-//                    self.tableView.reloadData()
-//                case .failure(let error):
-//                    print("Error processing json data: \(error)")
-//            }
-//
-//
-//            self.tableView.reloadData()
-//
-//        })
-//    }
+    //
+    //    private func loadTransactionsData() {
+    //
+    //        // Fetch data from the server
+    //        guard let currentAccountId = loggedInUser?.accountInfo.id else  {
+    //
+    //            return
+    //        }
+    //
+    //        serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: currentAccountId), completion: { [weak self] (result) in
+    //
+    //
+    //            guard let self = self else {
+    //                return
+    //            }
+    //
+    //            switch result {
+    //
+    //                case .success(let transactions):
+    //                    CoreDataManager.sharedInstance.saveDataOf(transactions: transactions)
+    //
+    //                    self.tableView.reloadData()
+    //                case .failure(let error):
+    //                    print("Error processing json data: \(error)")
+    //            }
+    //
+    //
+    //            self.tableView.reloadData()
+    //
+    //        })
+    //    }
     
-//-------------------------------------------------//
+    //-------------------------------------------------//
     
     @IBOutlet weak var inAndOutTransactions: UISegmentedControl!
     
     var loggedInUser: UserAuthenticationResponse?
-//    var currentAccount: AccountEntity?
+    //    var currentAccount: AccountEntity?
     let searchBar = UISearchBar()
     var serviceAPI: ServiceAPI?
-
+    
     func loadTransactionsData() {
         print("loadTransactionsData called")
         guard !viewModel.isDataLoaded else {
             return
         }
-         // Fetch data from the server
-         guard let currentAccountId = loggedInUser?.accountInfo.id else  {
-          
-             return
-         }
-         
-         serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: currentAccountId), completion: { [weak self] (result) in
-             
-             
-             guard let self = self else {
-                 return
-             }
-             
-             switch result {
-                 
-                 case .success(let transactions):
-                     CoreDataManager.sharedInstance.saveDataOf(transactions: transactions)
-                     viewModel.retrieveDataFromCoreData()
-                     self.tableView.reloadData()
-                     print("Is this reload ?")
-               
-                 case .failure(let error):
-                     print("Error processing json data: \(error)")
-             }
-             
+        // Fetch data from the server
+        guard let currentAccountId = loggedInUser?.accountInfo.id else  {
             
- 
+            return
+        }
+        
+        serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: currentAccountId), completion: { [weak self] (result) in
             
-         })
-     }
+            
+            guard let self = self else {
+                return
+            }
+            
+            switch result {
+                    
+                case .success(let transactions):
+                    CoreDataManager.sharedInstance.saveDataOf(transactions: transactions)
+                    print("Is this reload ?")
+                    
+                case .failure(let error):
+                    print("Error processing json data: \(error)")
+            }
+            
+            
+            
+            
+        })
+    }
     
     @IBOutlet weak var tableView: UITableView!
     
+    
     override func viewDidLoad() {
-           super.viewDidLoad()
-           print("viewDidLoad() called")
-           tableView.delegate = self
-           tableView.dataSource = self
-           tableView.backgroundColor = .systemTeal
-           setupSearchBar()
-           segmentSetup()
-
+        super.viewDidLoad()
+        setupTableView()
+        tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadData()
+        tableView.reloadData()
+        print("ViewDidAppear")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadTransactionsData()
         
-
-        
-        
-        // Reload the table view data
-//        tableView.reloadData()
-       }
-       
-       override func viewDidAppear(_ animated: Bool) {
-           super.viewDidAppear(animated)
-           tableView.reloadData()
-           print("ViewDidAppear")
-       }
-       
-       override func viewWillAppear(_ animated: Bool) {
-           super.viewWillAppear(animated)
-           // Register table view cell class
-           tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
-           loadTransactionsData()
-           print("viewWillAppear() called")
-       }
+        print("viewWillAppear() called")
+    }
     
     func segmentSetup() {
         inAndOutTransactions.setTitle("Ingoing", forSegmentAt: 0)
@@ -194,7 +181,7 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
     //                        }
     //                    }
     
-
+    
     
     func setupSearchBar() {
         searchBar.delegate = self
@@ -206,7 +193,7 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
         clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         clearButton.addTarget(self, action: #selector(clearSearchBar), for: .touchUpInside)
         searchBar.addSubview(clearButton)
-
+        
     }
     
     @objc func clearSearchBar() {

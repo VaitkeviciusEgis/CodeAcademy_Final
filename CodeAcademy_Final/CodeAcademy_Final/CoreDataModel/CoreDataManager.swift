@@ -29,6 +29,7 @@ class CoreDataManager {
         self.container?.performBackgroundTask{ [weak self] (context) in
 //            self?.deleteObjectsfromCoreData(context: context)
             self?.saveDataToCoreData(transactions: transactions, context: context)
+            print("Saved data ? \(transactions)")
         }
     }
     

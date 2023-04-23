@@ -40,6 +40,11 @@ class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
                }
            }
        }
+    
+    override init() {
+        super.init()
+        retrieveDataFromCoreData()
+    }
 
     // Changes have happened in fetchedResultsController so we need to notify the tableView
 //    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

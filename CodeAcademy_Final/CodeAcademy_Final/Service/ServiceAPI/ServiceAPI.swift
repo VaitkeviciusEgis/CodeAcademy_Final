@@ -141,9 +141,6 @@ class ServiceAPI: Registering, Logging {
         let data = try! JSONEncoder().encode(transferRequest)
         print("TRANSFER REQUEST Encoded \(String(data: data, encoding: .utf8) ?? "")")
         networkService.postRequest(url: url, body: data) { [weak self] result in
-            guard let self = self else {
-                return
-            }
             switch result {
                 case .success(let data):
                     if let jsonString = String(data: data, encoding: .utf8) {
