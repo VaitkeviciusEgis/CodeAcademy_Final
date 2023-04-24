@@ -138,7 +138,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         ])
     }
     
-    // called when user taps the send money button
+    // called when user taps the send money buttontableView.separatorStyle = .nonec
     @objc func sendMoneyTapped() {
         let senderPhoneNumber = loggedInUser?.accountInfo.ownerPhoneNumber
         let token = loggedInUser?.accessToken

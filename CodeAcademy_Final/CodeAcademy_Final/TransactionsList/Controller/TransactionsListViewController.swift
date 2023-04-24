@@ -35,6 +35,8 @@ extension TransactionsListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.configure(with: transaction)
+        
+        cell.backgroundColor = .systemGray6
         return cell
     }
     
@@ -68,7 +70,8 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
         tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = .systemTeal
+        tableView.backgroundColor = .systemGray6
+        tableView.separatorStyle = .none
     }
     
     @IBOutlet weak var inAndOutTransactions: UISegmentedControl!
@@ -83,6 +86,7 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemGray6
         setupSearchBar()
         segmentSetup()
 

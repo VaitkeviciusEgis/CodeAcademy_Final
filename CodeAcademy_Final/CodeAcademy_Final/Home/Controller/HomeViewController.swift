@@ -31,6 +31,7 @@ extension HomeViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.configure(with: transaction)
+        cell.backgroundColor = .systemGray6
         return cell
     }
     
@@ -107,14 +108,19 @@ class HomeViewController: UIViewController {
         showHideButton = UIButton(type: .system)
         showHideButton.translatesAutoresizingMaskIntoConstraints = false
         showHideButton.setTitle("Hide Last Transactions", for: .normal)
+        showHideButton.titleLabel?.textColor = .white
+//        showHideButton.tintColor = UIColor(red: 64/255, green: 200/255, blue: 224/255, alpha: 1)
+        showHideButton.tintColorDidChange()
         showHideButton.addTarget(self, action: #selector(toggleTableView), for: .touchUpInside)
         view.addSubview(showHideButton)
         
         NSLayoutConstraint.activate([
-            //              showHideButton.centerXAnchor.constraint(equalTo: balanceLabel.centerXAnchor),
-            //              showHideButton.topAnchor.constraint(equalTo:  balanceLabel.bottomAnchor)
-            showHideButton.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -12),
-            showHideButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+            showHideButton.centerXAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -100),
+            showHideButton.topAnchor.constraint(equalTo:  cardView.topAnchor, constant: 16)
+//            showHideButton.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -12),
+//            showHideButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+//            showHideButton.widthAnchor.constraint(equalToConstant: 100),
+//            showHideButton.heightAnchor.constraint(equalToConstant: 20)
             
             
             
@@ -137,6 +143,7 @@ class HomeViewController: UIViewController {
     func setupTableView() {
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
         view.addSubview(tableView)
         tableView.isScrollEnabled = false
         tableView.layer.cornerRadius = 1
@@ -165,7 +172,10 @@ class HomeViewController: UIViewController {
         guard let loggedInUser = loggedInUser, let phoneNumber = loggedInUser.accountInfo.ownerPhoneNumber else {
             return
         }
-        cardholderLabel.text = "Cardholder: \(String(describing: phoneNumber))"
+        let cardholder = "Cardholder: "
+
+        cardholderLabel.text = "\(cardholder) \(String(describing: phoneNumber))"
+//        cardholderLabel.textColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
     }
     
     @objc func didTransferMoneySuccessfully(_ notification: Notification) {
@@ -178,6 +188,8 @@ class HomeViewController: UIViewController {
                 
                 // Update the balance label text
                 self.balanceLabel.text = self.formatter.string(from: NSNumber(value: updatedBalance))
+
+
             }
         }
     }
@@ -189,13 +201,20 @@ class HomeViewController: UIViewController {
         formatter.numberStyle = .currency
         formatter.currencySymbol = eurSymbol
         
-        
+
         // Set up the balance label
         balanceLabel.adjustsFontSizeToFitWidth = true
         balanceLabel.minimumScaleFactor = 0.5
-        balanceLabel.font = UIFont.boldSystemFont(ofSize: 24)
-        balanceLabel.textColor = .white
+        balanceLabel.font = UIFont.boldSystemFont(ofSize: 32)
+        
+        if loggedInUser?.accountInfo.balance ?? 0 > 0.00 {
+            balanceLabel.textColor = UIColor(red: 31/255, green: 223/255, blue: 100/255, alpha: 1)
+        }
+           else {
+               balanceLabel.tintColor = .white
+        }
         balanceLabel.textAlignment = .center
+        
         
         cardView.addSubview(balanceLabel)
         balanceLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -206,8 +225,11 @@ class HomeViewController: UIViewController {
             balanceLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16)
         ])
         // Set up the card view
-        cardView.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+//        cardView.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        cardView.backgroundColor = .systemGray5
         cardView.layer.cornerRadius = 10
+        cardView.layer.borderColor = CGColor(red: 83/255, green: 63/255, blue: 35/255, alpha: 1)
+        cardView.layer.borderWidth = 1
         //        view.addSubview(cardView)
         cardView.translatesAutoresizingMaskIntoConstraints = false
         let guide = view.safeAreaLayoutGuide
@@ -220,7 +242,6 @@ class HomeViewController: UIViewController {
         
         // Set up the cardholder label
         cardholderLabel.font = UIFont.systemFont(ofSize: 16)
-        cardholderLabel.textColor = .white
         cardholderLabel.textAlignment = .left
         cardholderLabel.text = "Cardholder: \(loggedInUser?.accountInfo.ownerPhoneNumber ?? "")"
         cardView.addSubview(cardholderLabel)
@@ -233,7 +254,7 @@ class HomeViewController: UIViewController {
         ])
         // Set up the company label
         companyLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        companyLabel.textColor = .white
+        companyLabel.textColor = UIColor(red: 214/255, green: 160/255, blue: 86/255, alpha: 1)
         companyLabel.textAlignment = .left
         companyLabel.text = "Card Pay"
         cardView.addSubview(companyLabel)
@@ -248,7 +269,8 @@ class HomeViewController: UIViewController {
     
     func setupUI() {
         
-        view.backgroundColor = .systemTeal
+//        view.backgroundColor = .systemTeal
+        view.backgroundColor = .systemGray6
         // Set up the Add Money button
         let addMoneyButton = UIButton(type: .system)
         addMoneyButton.setTitle("Add Money", for: .normal)
