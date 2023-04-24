@@ -40,6 +40,11 @@ extension TransactionsListViewController: UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 64
+        
+    }
+    
 }
 
 class TransactionsListViewController: UIViewController, UpdateTableViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate {
@@ -49,7 +54,7 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
 
     var viewModel: TransactionsViewModel?
     
-
+    var currentLoggedInAccount: AccountEntity!
   
 //    private var viewModel = TransactionsViewModel()
     
@@ -60,6 +65,8 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
         }
         viewModel.retrieveDataFromCoreData()
     }
+    
+
     
     // Update the tableView if changes have been made
     func reloadData(sender: TransactionsViewModel) {
@@ -72,6 +79,7 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
         tableView.dataSource = self
         tableView.backgroundColor = .systemGray6
         tableView.separatorStyle = .none
+        
     }
     
     @IBOutlet weak var inAndOutTransactions: UISegmentedControl!

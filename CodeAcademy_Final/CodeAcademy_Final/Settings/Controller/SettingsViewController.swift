@@ -17,7 +17,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     var homeVC: HomeViewController?
-    
+    let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+     let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
     override func viewDidLoad() {
         super.viewDidLoad()
         phoneTextField.delegate = self
@@ -35,19 +36,21 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tapGestureRecognizer)
         
         // Set up title label
-            titleLabel.text = "Settings"
+            titleLabel.text = "Change Settings"
             titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(titleLabel)
             
             // Add constraints for title label
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
             
             // Set up phone text field
             phoneTextField.placeholder = "Phone number"
             phoneTextField.borderStyle = .roundedRect
             phoneTextField.keyboardType = .phonePad
+        phoneTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        passwordTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
             view.addSubview(phoneTextField)
             
             // Set up password text field
@@ -89,7 +92,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             logoutButton.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 logoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                logoutButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 100),
+                logoutButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 120),
                 logoutButton.widthAnchor.constraint(equalToConstant: 120),
                 logoutButton.heightAnchor.constraint(equalToConstant: 40)
             ])
@@ -100,10 +103,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         
         // Set up Submit button
         let submitButton = UIButton(type: .system)
-        submitButton.setTitle("Change settings", for: .normal)
+        submitButton.setTitle("Submit Changes", for: .normal)
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        submitButton.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        submitButton.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         submitButton.layer.cornerRadius = 8
         submitButton.layer.borderWidth = 1
         submitButton.layer.borderColor = UIColor.white.cgColor
@@ -113,7 +116,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         submitButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            submitButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 40),
+            submitButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 60),
             submitButton.widthAnchor.constraint(equalToConstant: 200),
             submitButton.heightAnchor.constraint(equalToConstant: 40)
         ])
@@ -174,17 +177,48 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.setViewControllers([LoginViewController()], animated: true)
     }
 
-    // Called when editing ends for the textfield
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        // Hide the keyboard
-        textField.resignFirstResponder()
+//    // Called when editing ends for the textfield
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        // Hide the keyboard
+//        textField.resignFirstResponder()
+//    }
+//
+//    // Called when the return key is pressed
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        // Hide the keyboard
+//        textField.resignFirstResponder()
+//        return true
+//    }
+    
+    // MARK: - Text Field Delegate
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == phoneTextField {
+           passwordTextField.becomeFirstResponder()
+        }
+        
+        return true
     }
     
-    // Called when the return key is pressed
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // Hide the keyboard
-        textField.resignFirstResponder()
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == phoneTextField {
+            let allowedCharacterSet = CharacterSet(charactersIn: "0123456789+")
+            let replacementStringCharacterSet = CharacterSet(charactersIn: string)
+            return allowedCharacterSet.isSuperset(of: replacementStringCharacterSet)
+        }
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == phoneTextField || textField == submitButton || textField == passwordTextField {
+            textField.backgroundColor = selectedColor
+        } else {
+            textField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        }
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.backgroundColor = normalColor
     }
 }
 

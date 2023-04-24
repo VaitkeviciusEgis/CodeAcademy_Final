@@ -70,7 +70,7 @@ class HomeViewController: UIViewController {
         showHideButton = UIButton(type: .system)
         showHideButton.translatesAutoresizingMaskIntoConstraints = false
         showHideButton.setTitle("Hide Last Transactions", for: .normal)
-        showHideButton.titleLabel?.textColor = .white
+//        showHideButton.titleLabel?.textColor = .white
 //        showHideButton.tintColor = UIColor(red: 64/255, green: 200/255, blue: 224/255, alpha: 1)
         showHideButton.tintColorDidChange()
         showHideButton.addTarget(self, action: #selector(toggleTableView), for: .touchUpInside)
@@ -112,7 +112,7 @@ class HomeViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            tableView.heightAnchor.constraint(equalToConstant: 240)
+            tableView.heightAnchor.constraint(equalToConstant: 400)
             
         ])
         // Register any necessary cells or headers/footers
@@ -165,11 +165,11 @@ class HomeViewController: UIViewController {
         balanceLabel.minimumScaleFactor = 0.5
         balanceLabel.font = UIFont.boldSystemFont(ofSize: 32)
         
-        if loggedInUser?.accountInfo.balance ?? 0 > 0.00 {
+        if loggedInUser?.accountInfo.balance ?? 0 > 0 {
             balanceLabel.textColor = UIColor(red: 31/255, green: 223/255, blue: 100/255, alpha: 1)
         }
            else {
-               balanceLabel.tintColor = .white
+               balanceLabel.textColor = .white
         }
         balanceLabel.textAlignment = .center
         
@@ -192,7 +192,7 @@ class HomeViewController: UIViewController {
         cardView.translatesAutoresizingMaskIntoConstraints = false
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 12),
+            cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 6),
             cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 16),
             cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -16),
             cardView.heightAnchor.constraint(equalToConstant: 200)
@@ -244,7 +244,7 @@ class HomeViewController: UIViewController {
         addMoneyButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             addMoneyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            addMoneyButton.topAnchor.constraint(equalTo: cardView.bottomAnchor, constant: 12),
+            addMoneyButton.topAnchor.constraint(equalTo: cardView.bottomAnchor, constant: 24),
             addMoneyButton.widthAnchor.constraint(equalToConstant: 120),
             addMoneyButton.heightAnchor.constraint(equalToConstant: 40)
         ])
@@ -252,7 +252,7 @@ class HomeViewController: UIViewController {
     
     
     @objc func addMoneyButtonTapped() {
-        let alertController = UIAlertController(title: "Amount", message: "Please enter the amount:", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Card Pay", message: "Please enter the amount:", preferredStyle: .alert)
         
         alertController.addTextField { textField in
             textField.placeholder = "Enter amount"
@@ -334,7 +334,7 @@ extension HomeViewController: UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 80
         
     }
 }

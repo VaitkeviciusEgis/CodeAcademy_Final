@@ -18,6 +18,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     private let senderCurrencyTextField = UITextField()
     private let commentTextField = UITextField()
     private let enterSumTextField = UITextField()
+    let titleLabel = UILabel()
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     var viewModel: TransactionsViewModel?
@@ -63,13 +64,20 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
         view.backgroundColor = .systemGray6
-        
+        titleLabel.text = "Make Transaction"
         // Set up text fields
         recipientPhoneNumberTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         senderCurrencyTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         commentTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         enterSumTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         // selected UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        view.addSubview(titleLabel)
+        
+        // Add constraints for title label
+        titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
         
         recipientPhoneNumberTextField.placeholder = "Recipient phone number"
         recipientPhoneNumberTextField.textAlignment = .center
@@ -105,7 +113,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         enterSumTextField.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            recipientPhoneNumberTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            recipientPhoneNumberTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
             recipientPhoneNumberTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             recipientPhoneNumberTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             recipientPhoneNumberTextField.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.05),
@@ -164,7 +172,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         
         // set constraints for the button
         NSLayoutConstraint.activate([
-            sendMoneyButton.topAnchor.constraint(equalTo: enterSumTextField.bottomAnchor, constant: 16),
+            sendMoneyButton.topAnchor.constraint(equalTo: enterSumTextField.bottomAnchor, constant: 60),
             sendMoneyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             sendMoneyButton.widthAnchor.constraint(equalToConstant: 120),
             sendMoneyButton.heightAnchor.constraint(equalToConstant: 44)
@@ -269,7 +277,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         if textField == senderCurrencyTextField || textField == sendMoneyButton {
             textField.backgroundColor = selectedColor
         } else {
-            textField.backgroundColor = UIColor.white
+            textField.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
         }
     }
 

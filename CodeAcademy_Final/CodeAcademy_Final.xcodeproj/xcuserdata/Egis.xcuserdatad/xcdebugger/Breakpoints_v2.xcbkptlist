@@ -14,42 +14,10 @@
             filePath = "CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "handleTransferMoneyNotification()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F2FE605F-1182-425A-A0EE-087D2FEC1055 - 284a33ddcf7cedc7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CodeAcademy_Final.TransactionsListViewController.handleTransferMoneyNotification() -&gt; ()"
-                  moduleName = "CodeAcademy_Final"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "123"
-                  endingLineNumber = "123"
-                  offsetFromSymbolStart = "34">
-               </Location>
-               <Location
-                  uuid = "F2FE605F-1182-425A-A0EE-087D2FEC1055 - 284a33ddcf7cec05"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CodeAcademy_Final.TransactionsListViewController.handleTransferMoneyNotification() -&gt; ()"
-                  moduleName = "CodeAcademy_Final"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "121"
-                  endingLineNumber = "121"
-                  offsetFromSymbolStart = "43">
-               </Location>
-            </Locations>
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "TransactionsListViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -28,11 +28,8 @@
                     </segments>
                 </segmentedControl>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="C88-sd-zqQ">
-                    <rect key="frame" x="0.0" y="114" width="393" height="320"/>
+                    <rect key="frame" x="0.0" y="114" width="393" height="704"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="320" id="eWS-Ed-ARf"/>
-                    </constraints>
                 </tableView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
@@ -42,6 +39,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2a1-d9-wfg" secondAttribute="trailing" constant="24" id="4IX-Ib-rbC"/>
                 <constraint firstItem="C88-sd-zqQ" firstAttribute="top" secondItem="2a1-d9-wfg" secondAttribute="bottom" constant="24" id="CPD-kC-yap"/>
                 <constraint firstItem="2a1-d9-wfg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="ZKh-MU-J9Y"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="C88-sd-zqQ" secondAttribute="bottom" id="gwh-qb-7CG"/>
                 <constraint firstItem="2a1-d9-wfg" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="l8z-aW-wZq"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="C88-sd-zqQ" secondAttribute="trailing" id="wI4-se-kaN"/>
             </constraints>
