@@ -20,6 +20,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     private let enterSumTextField = UITextField()
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
+    var viewModel: TransactionsViewModel?
     
     // MARK: - View Lifecycle
     
@@ -175,6 +176,9 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                      loggedInUser?.accountInfo.balance = newBalance // update loggedInUser with the new balance
                      let userInfo = ["currentBalance": newBalance]
                      NotificationCenter.default.post(name: NSNotification.Name(rawValue: "didTransferMoneySuccessfully"), object: nil, userInfo: userInfo)
+                   
+                    viewModel?.retrieveDataFromCoreData()
+                
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
                                                      message: "Error with status code: \(error.statusCode)",
