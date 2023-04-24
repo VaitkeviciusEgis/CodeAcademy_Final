@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     func setupUI() {
         
-        view.backgroundColor = .systemTeal
+        view.backgroundColor = .systemGray6
         // Add tap gesture recognizer to dismiss keyboard
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)

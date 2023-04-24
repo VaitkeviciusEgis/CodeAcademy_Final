@@ -51,7 +51,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         // Add tap gesture recognizer to dismiss keyboard
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
-        view.backgroundColor = .systemTeal
+        view.backgroundColor = .systemGray6
         
         // Set up text fields
         recipientPhoneNumberTextField.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)

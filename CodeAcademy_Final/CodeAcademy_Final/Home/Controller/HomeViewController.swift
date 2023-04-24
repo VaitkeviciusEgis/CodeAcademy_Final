@@ -103,6 +103,7 @@ class HomeViewController: UIViewController {
         tableView.separatorStyle = .none
         view.addSubview(tableView)
         tableView.isScrollEnabled = false
+        tableView.backgroundColor = .systemGray6
         tableView.layer.cornerRadius = 1
         tableView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         // Add constraints to position the table view 0 points from the top safe area
@@ -327,6 +328,7 @@ extension HomeViewController: UITableViewDataSource {
         }
         cell.configure(with: transaction)
         cell.backgroundColor = .systemGray6
+        
         return cell
     }
     
