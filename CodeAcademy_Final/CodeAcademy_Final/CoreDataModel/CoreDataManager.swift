@@ -68,11 +68,12 @@ class CoreDataManager {
             
             let accountEntity = AccountEntity(context: context)
             accountEntity.id = Int64(userId.userId)
-        
-        do {
-            try container?.viewContext.save()
-        } catch {
-            print("Failed to save account data: \(error.localizedDescription)")
+            
+            do {
+                try container?.viewContext.save()
+            } catch {
+                print("Failed to save account data: \(error.localizedDescription)")
+            }
         }
     }
     
