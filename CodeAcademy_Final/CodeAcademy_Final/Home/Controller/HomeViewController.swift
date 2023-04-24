@@ -296,9 +296,9 @@ class HomeViewController: UIViewController {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             self.formatter.numberStyle = .currency
                             self.formatter.currencySymbol = self.eurSymbol
-//                            let balance = response.balance
-//                            self.balanceLabel.text = self.formatter.string(from: NSNumber(value: balance))
-//                            self.loggedInUser?.accountInfo.balance = response.balance
+                            let balance = response.balance
+                            self.balanceLabel.text = self.formatter.string(from: NSNumber(value: balance))
+                            self.loggedInUser?.accountInfo.balance = response.balance
 
    
 
