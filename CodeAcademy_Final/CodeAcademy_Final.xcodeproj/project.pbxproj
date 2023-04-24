@@ -24,7 +24,6 @@
 		EDF0F06829F4B7CF00DD41F5 /* UserAuthenticationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05929F4B7CF00DD41F5 /* UserAuthenticationResponse.swift */; };
 		EDF0F06929F4B7CF00DD41F5 /* UpdateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05A29F4B7CF00DD41F5 /* UpdateUserRequest.swift */; };
 		EDF0F06A29F4B7CF00DD41F5 /* UserRegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05B29F4B7CF00DD41F5 /* UserRegisterRequest.swift */; };
-		EDF0F06B29F4B7CF00DD41F5 /* UpdateBalanceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05C29F4B7CF00DD41F5 /* UpdateBalanceResponse.swift */; };
 		EDF0F06C29F4B7CF00DD41F5 /* UserRegisterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05D29F4B7CF00DD41F5 /* UserRegisterResponse.swift */; };
 		EDF0F06D29F4B7CF00DD41F5 /* UserAuthorizationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05E29F4B7CF00DD41F5 /* UserAuthorizationRequest.swift */; };
 		EDF0F06E29F4B7CF00DD41F5 /* UpdateBalanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05F29F4B7CF00DD41F5 /* UpdateBalanceRequest.swift */; };
@@ -42,6 +41,7 @@
 		EDF0F09629F4B89400DD41F5 /* TransactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F09529F4B89300DD41F5 /* TransactionsViewModel.swift */; };
 		EDF0F09929F4B90B00DD41F5 /* TransactionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F09729F4B90B00DD41F5 /* TransactionEntity+CoreDataClass.swift */; };
 		EDF0F09A29F4B90B00DD41F5 /* TransactionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F09829F4B90B00DD41F5 /* TransactionEntity+CoreDataProperties.swift */; };
+		EDF0F0FF29F6522600DD41F5 /* ListCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F0FE29F6522600DD41F5 /* ListCell2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,7 +64,6 @@
 		EDF0F05929F4B7CF00DD41F5 /* UserAuthenticationResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAuthenticationResponse.swift; sourceTree = "<group>"; };
 		EDF0F05A29F4B7CF00DD41F5 /* UpdateUserRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateUserRequest.swift; sourceTree = "<group>"; };
 		EDF0F05B29F4B7CF00DD41F5 /* UserRegisterRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRegisterRequest.swift; sourceTree = "<group>"; };
-		EDF0F05C29F4B7CF00DD41F5 /* UpdateBalanceResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateBalanceResponse.swift; sourceTree = "<group>"; };
 		EDF0F05D29F4B7CF00DD41F5 /* UserRegisterResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRegisterResponse.swift; sourceTree = "<group>"; };
 		EDF0F05E29F4B7CF00DD41F5 /* UserAuthorizationRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAuthorizationRequest.swift; sourceTree = "<group>"; };
 		EDF0F05F29F4B7CF00DD41F5 /* UpdateBalanceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateBalanceRequest.swift; sourceTree = "<group>"; };
@@ -82,6 +81,7 @@
 		EDF0F09529F4B89300DD41F5 /* TransactionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsViewModel.swift; sourceTree = "<group>"; };
 		EDF0F09729F4B90B00DD41F5 /* TransactionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		EDF0F09829F4B90B00DD41F5 /* TransactionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		EDF0F0FE29F6522600DD41F5 /* ListCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,7 +212,6 @@
 				EDF0F05929F4B7CF00DD41F5 /* UserAuthenticationResponse.swift */,
 				EDF0F05A29F4B7CF00DD41F5 /* UpdateUserRequest.swift */,
 				EDF0F05B29F4B7CF00DD41F5 /* UserRegisterRequest.swift */,
-				EDF0F05C29F4B7CF00DD41F5 /* UpdateBalanceResponse.swift */,
 				EDF0F05D29F4B7CF00DD41F5 /* UserRegisterResponse.swift */,
 				EDF0F05E29F4B7CF00DD41F5 /* UserAuthorizationRequest.swift */,
 				EDF0F05F29F4B7CF00DD41F5 /* UpdateBalanceRequest.swift */,
@@ -340,6 +339,7 @@
 			children = (
 				EDF0F08E29F4B87400DD41F5 /* TransactionsListTableViewCell.swift */,
 				EDF0F08F29F4B87400DD41F5 /* ListCell.swift */,
+				EDF0F0FE29F6522600DD41F5 /* ListCell2.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -450,7 +450,6 @@
 				EDF0F04F29F4B7C500DD41F5 /* TabBarViewController.swift in Sources */,
 				EDF0F06D29F4B7CF00DD41F5 /* UserAuthorizationRequest.swift in Sources */,
 				EDF0F08A29F4B86000DD41F5 /* TransactionsListViewController.swift in Sources */,
-				EDF0F06B29F4B7CF00DD41F5 /* UpdateBalanceResponse.swift in Sources */,
 				EDF0F06C29F4B7CF00DD41F5 /* UserRegisterResponse.swift in Sources */,
 				EDF0F06A29F4B7CF00DD41F5 /* UserRegisterRequest.swift in Sources */,
 				EDF0F09929F4B90B00DD41F5 /* TransactionEntity+CoreDataClass.swift in Sources */,
@@ -458,6 +457,7 @@
 				EDF0F06229F4B7CF00DD41F5 /* NetworkService.swift in Sources */,
 				EDF0F09A29F4B90B00DD41F5 /* TransactionEntity+CoreDataProperties.swift in Sources */,
 				EDF0F06529F4B7CF00DD41F5 /* ServiceAPI.swift in Sources */,
+				EDF0F0FF29F6522600DD41F5 /* ListCell2.swift in Sources */,
 				EDF0F06929F4B7CF00DD41F5 /* UpdateUserRequest.swift in Sources */,
 				EDF0F06629F4B7CF00DD41F5 /* TransactionInfo.swift in Sources */,
 				EDF0F06829F4B7CF00DD41F5 /* UserAuthenticationResponse.swift in Sources */,

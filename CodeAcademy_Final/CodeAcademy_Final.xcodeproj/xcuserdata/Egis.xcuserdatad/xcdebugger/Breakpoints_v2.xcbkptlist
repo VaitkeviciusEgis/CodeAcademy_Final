@@ -7,70 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1B9F1265-5C8A-43F0-A821-A4E620915D88"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CodeAcademy_Final/Home/Controller/HomeViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "HomeViewController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F10E5FA8-162F-4730-BC46-7C1BC1969FC7"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CodeAcademy_Final/Home/Controller/HomeViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "HomeViewController"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "F10E5FA8-162F-4730-BC46-7C1BC1969FC7 - 5b128b73779734c4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CodeAcademy_Final.HomeViewController.fetchTransactions() -&gt; ()"
-                  moduleName = "CodeAcademy_Final"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/Home/Controller/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "55"
-                  endingLineNumber = "55"
-                  offsetFromSymbolStart = "287">
-               </Location>
-               <Location
-                  uuid = "F10E5FA8-162F-4730-BC46-7C1BC1969FC7 - 31cc1e8d055472bc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;CodeAcademy_Final.TransactionInfo&gt;, Swift.Error&gt;) -&gt; () in CodeAcademy_Final.HomeViewController.fetchTransactions() -&gt; ()"
-                  moduleName = "CodeAcademy_Final"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/Home/Controller/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "55"
-                  endingLineNumber = "55"
-                  offsetFromSymbolStart = "155">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "04B3A387-D161-4B4C-A969-CB07D5C055FB"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -78,10 +14,72 @@
             filePath = "CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "reloadData(sender:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "04B3A387-D161-4B4C-A969-CB07D5C055FB - 96216f585a9dcf70"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TransactionsListViewController.searchBar.getter : __C.UISearchBar"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "49">
+               </Location>
+               <Location
+                  uuid = "04B3A387-D161-4B4C-A969-CB07D5C055FB - 982b0124e188e94d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TransactionsListViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; CodeAcademy_Final.TransactionsListViewController"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "312">
+               </Location>
+               <Location
+                  uuid = "04B3A387-D161-4B4C-A969-CB07D5C055FB - 1d12fb6b1ef8ca06"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TransactionsListViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;CodeAcademy_Final.TransactionsListViewController&gt;"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "269">
+               </Location>
+               <Location
+                  uuid = "04B3A387-D161-4B4C-A969-CB07D5C055FB - bae41c93ea7a4eba"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TransactionsListViewController.reloadData(sender: CodeAcademy_Final.TransactionsViewModel) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

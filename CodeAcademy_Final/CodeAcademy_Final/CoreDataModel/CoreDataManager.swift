@@ -33,6 +33,33 @@ class CoreDataManager {
         }
     }
     
+    // MARK: - Save transfer to Core Data
+       func saveTransferToCoreData(transfer: TransactionInfo) {
+           
+           // Updates CoreData with the new data from the server - Off the main thread
+           self.container?.performBackgroundTask{ [weak self] (context) in
+               guard let self = self else {
+                   return
+               }
+               let transactionEntity = TransactionEntity(context: context)
+               transactionEntity.senderPhoneNumber = transfer.senderPhoneNumber
+               transactionEntity.receiverPhoneNumber = transfer.receiverPhoneNumber
+               transactionEntity.sendingAccountId = transfer.sendingAccountId
+               transactionEntity.receivingAccountId = transfer.receivingAccountId
+               transactionEntity.transactionTime = transfer.transactionTime
+               transactionEntity.amount = transfer.amount
+               transactionEntity.comment = transfer.comment
+               
+               // Save Data
+               do {
+                   try context.save()
+                
+               } catch {
+                   fatalError("Failure to save context: \(error)")
+               }
+           }
+       }
+    
     
     // MARK: - Delete Core Data objects before saving new data
     func deleteObjectsfromCoreData(context: NSManagedObjectContext) {

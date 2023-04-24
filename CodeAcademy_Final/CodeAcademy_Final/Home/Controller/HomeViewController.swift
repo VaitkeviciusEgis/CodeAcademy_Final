@@ -7,6 +7,47 @@
 
 import UIKit
 
+extension HomeViewController: UITableViewDataSource {
+  
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let viewModel = self.viewModel else {
+            print("ViewModel != ViewModel")
+            return 0
+        }
+ 
+        print("count \( viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0)")
+        let lastFiveTransactions = viewModel.fetchedResultsController?.fetchedObjects?.suffix(5)
+        return min(lastFiveTransactions?.count ?? 0, 5)
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("cellForRowAt() called for indexPath: \(indexPath)")
+        guard let viewModel = self.viewModel else {
+            print("ViewModel != ViewModel")
+            return UITableViewCell()
+        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
+        guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath) else {
+            return UITableViewCell()
+        }
+        cell.configure(with: transaction)
+        return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
+        
+    }
+}
+
+extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+
 class HomeViewController: UIViewController {
     
 
@@ -22,6 +63,7 @@ class HomeViewController: UIViewController {
     let formatter = NumberFormatter()
     private var showHideButton: UIButton!
     private var isTableViewHidden = false
+    var viewModel: TransactionsViewModel?
     var transactions: [TransactionInfo] = []
     
     override func viewDidLoad() {
@@ -37,6 +79,12 @@ class HomeViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        loadData()
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupCardHolderLabel()
@@ -47,31 +95,13 @@ class HomeViewController: UIViewController {
     
     
     //MARK: - Action
-    // do not forget to call it viewdidload
-//    func fetchTransactions() {
-//        guard let currentAccountId = loggedInUser?.accountInfo.id else  {
-//            return
-//        }
-//        serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: currentAccountId), completion: { [weak self] (result) in
-//
-//
-//            guard let self = self else {
-//                return
-//            }
-//
-//            switch result {
-//
-//                case .success(let transactions):
-//                    self.transactions = transactions
-//                case .failure(let error):
-//                    print("Error processing json data: \(error)")
-//            }
-//
-//
-//
-//            tableView.reloadData()
-//        })
-//    }
+    private func loadData() {
+        guard let viewModel = self.viewModel else {
+            print("ViewModel != ViewModel")
+            return
+        }
+        viewModel.retrieveDataFromCoreData()
+    }
 
     private func setupShowHideButton() {
         showHideButton = UIButton(type: .system)
@@ -108,7 +138,7 @@ class HomeViewController: UIViewController {
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
-        tableView.isScrollEnabled = true
+        tableView.isScrollEnabled = false
         tableView.layer.cornerRadius = 1
         tableView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         // Add constraints to position the table view 0 points from the top safe area
@@ -120,9 +150,8 @@ class HomeViewController: UIViewController {
             tableView.heightAnchor.constraint(equalToConstant: 200)
             
         ])
-        
         // Register any necessary cells or headers/footers
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: ListCell.identifier)
+        tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
         
         // Set the table view's data source and delegate
         tableView.dataSource = self
@@ -260,17 +289,22 @@ class HomeViewController: UIViewController {
                 guard let self = self else { return }
                 switch result {
                     case .success(let response):
+                        
                         UIAlertController.showErrorAlert(title: "Success!",
                                                          message: "Your deposit was successful!",
                                                          controller: self)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             self.formatter.numberStyle = .currency
                             self.formatter.currencySymbol = self.eurSymbol
-                            let balance = response.balance
-                            self.balanceLabel.text = self.formatter.string(from: NSNumber(value: balance))
-                            self.loggedInUser?.accountInfo.balance = response.balance
-                            
+//                            let balance = response.balance
+//                            self.balanceLabel.text = self.formatter.string(from: NSNumber(value: balance))
+//                            self.loggedInUser?.accountInfo.balance = response.balance
+
+   
+
                         }
+                        
+                        
                     case .failure(let error):
                         UIAlertController.showErrorAlert(title: "Error with status code: \(error.statusCode)",
                                                          message: error.localizedDescription,
@@ -289,36 +323,30 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-extension HomeViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-//        return 5
-
-        
-//        let lastFiveTransactions = transactions.suffix(5)
-//        return min(lastFiveTransactions.count, 5)
-        return transactions.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier) ?? UITableViewCell()
-
-
-         let lastFiveTransactions = Array(transactions.suffix(5))
-         if indexPath.row < lastFiveTransactions.count {
-             let transaction = lastFiveTransactions[lastFiveTransactions.count - 1 - indexPath.row]
-             cell.textLabel?.text = transaction.receiverPhoneNumber
-         }
-         return cell
-     }
-    
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40    }
-}
+//extension HomeViewController: UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//
+////        return 5
+//
+//
+////        let lastFiveTransactions = transactions.suffix(5)
+////        return min(lastFiveTransactions.count, 5)
+//        return transactions.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier) ?? UITableViewCell()
+//
+//
+//         let lastFiveTransactions = Array(transactions.suffix(5))
+//         if indexPath.row < lastFiveTransactions.count {
+//             let transaction = lastFiveTransactions[lastFiveTransactions.count - 1 - indexPath.row]
+//             cell.textLabel?.text = transaction.receiverPhoneNumber
+//         }
+//         return cell
+//     }
+//
+//
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 40    }
+//}

@@ -15,13 +15,21 @@ protocol TransactionsFetching {
 extension TransactionsListViewController: UITableViewDataSource {
   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let viewModel = self.viewModel else {
+            print("ViewModel != ViewModel")
+            return 0
+        }
  
-print("count \( viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0)")
+        print("count \( viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0)")
         return viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("cellForRowAt() called for indexPath: \(indexPath)")
+        guard let viewModel = self.viewModel else {
+            print("ViewModel != ViewModel")
+            return UITableViewCell()
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
         guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath) else {
             return UITableViewCell()
@@ -37,12 +45,17 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
    
 
 
+    var viewModel: TransactionsViewModel?
     
+
   
-    private var viewModel = TransactionsViewModel()
+//    private var viewModel = TransactionsViewModel()
     
     private func loadData() {
-        
+        guard let viewModel = self.viewModel else {
+            print("ViewModel != ViewModel")
+            return
+        }
         viewModel.retrieveDataFromCoreData()
     }
     
@@ -81,6 +94,11 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
         setupTableView()
         loadData()
 
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
 
     }
 

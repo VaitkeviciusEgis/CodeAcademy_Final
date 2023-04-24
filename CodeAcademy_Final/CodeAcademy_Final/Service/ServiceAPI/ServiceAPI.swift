@@ -83,7 +83,7 @@ class ServiceAPI: Registering, Logging {
         }
     }
     
-    func addMoney(accountId: Int, amountToAdd: Double, completion: @escaping (Result<UpdateBalanceResponse, NetworkError>) -> Void) {
+    func addMoney(accountId: Int, amountToAdd: Double, completion: @escaping (Result<TransactionInfo, NetworkError>) -> Void) {
         let url = URL(string: "http://134.122.94.77:7000/api/Accounts")!
         let updateBalanceRequest = UpdateBalanceRequest(accountId: accountId, amountToAdd: amountToAdd)
         let data = try! JSONEncoder().encode(updateBalanceRequest)
@@ -91,15 +91,19 @@ class ServiceAPI: Registering, Logging {
         networkService.putRequest(url: url, body: data) { result in
             switch result {
                 case .success(let data):
-                    guard let requestResponse = try? JSONDecoder().decode(UpdateBalanceResponse.self, from: data) else {
+                    guard let requestResponse = try? JSONDecoder().decode(TransactionInfo.self, from: data) else {
                         completion(.failure(.init(statusCode: -1, errorType: .decodingFailed)))
                         return
                     }
                     
                     print("Update balance data \(String(data: data, encoding: .utf8) ?? "")")
                 
-                    let newUpdatedBalance = UpdateBalanceResponse(id: requestResponse.id, currency: requestResponse.currency, balance: requestResponse.balance, ownerPhoneNumber: requestResponse.ownerPhoneNumber)
-                    completion(.success(newUpdatedBalance))
+                    let newTransaction = TransactionInfo(senderPhoneNumber: requestResponse.senderPhoneNumber, receiverPhoneNumber: requestResponse.receiverPhoneNumber, sendingAccountId: requestResponse.sendingAccountId, receivingAccountId: requestResponse.receivingAccountId, transactionTime: requestResponse.transactionTime, amount: requestResponse.amount, comment: requestResponse.comment)
+                    
+                    completion(.success(newTransaction))
+                    CoreDataManager.sharedInstance.saveTransferToCoreData(transfer: newTransaction)
+                    
+                    
                 case .failure(let error):
                   completion(.failure(error))
                   print("error updating task: \(error.localizedDescription) Error ServiceAPI AddMoney() -> networkService.putRequest()")

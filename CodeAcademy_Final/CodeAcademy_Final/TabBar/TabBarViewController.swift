@@ -14,7 +14,7 @@ class TabBarViewController: UITabBarController {
     let transactionsVC = TransactionsListViewController()
     let settingsVC = SettingsViewController()
     let sendMoneyVC = TransferViewController()
-    
+    let viewModel = TransactionsViewModel()
     
     var serviceAPI: ServiceAPI? // Perduodu is loginVC
 
@@ -64,6 +64,8 @@ class TabBarViewController: UITabBarController {
         settingsVC.homeVC = homeVC
         sendMoneyVC.serviceAPI = serviceAPI
         transactionsVC.serviceAPI = serviceAPI
+        transactionsVC.viewModel = viewModel
+        homeVC.viewModel = viewModel
 
     }
 
