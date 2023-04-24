@@ -45,7 +45,7 @@ extension TransactionsListViewController: UITableViewDataSource {
 class TransactionsListViewController: UIViewController, UpdateTableViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate {
     
    
-
+    let didReceiveTransferMoneyNotification = Notification.Name("didReceiveTransferMoneyNotification")
 
     var viewModel: TransactionsViewModel?
     
@@ -89,6 +89,7 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
         view.backgroundColor = .systemGray6
         setupSearchBar()
         segmentSetup()
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleTransferMoneyNotification), name: didReceiveTransferMoneyNotification, object: nil)
 
     }
     
@@ -96,14 +97,13 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
         super.viewDidAppear(animated)
         print("ViewDidAppear")
         setupTableView()
-        loadData()
-
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTransferMoneyNotification), name: didReceiveTransferMoneyNotification, object: nil)
+        loadData()
+        tableView.reloadData()
     }
 
 
@@ -112,7 +112,14 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
         inAndOutTransactions.setTitle("Outgoing", forSegmentAt: 1)
     }
     
+
     
+    
+    @objc func handleTransferMoneyNotification() {
+        // Reload data here...
+        loadData()
+        tableView.reloadData()
+    }
     // for testing purpose
     //                    let url = URL(string: "http://134.122.94.77:7000/api/User/")!
     //                    serviceAPI?.fetchingUsers(url: url) { [weak self] user in

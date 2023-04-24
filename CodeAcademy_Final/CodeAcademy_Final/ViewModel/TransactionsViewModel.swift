@@ -16,7 +16,7 @@ protocol UpdateTableViewDelegate: NSObjectProtocol {
 private var displayedTransactions = [TransactionEntity]()
 class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
     
-    var isDataLoaded = false
+//    var isDataLoaded = false
     private let container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     
     var fetchedResultsController: NSFetchedResultsController<TransactionEntity>?
@@ -44,6 +44,7 @@ class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
                }
            }
        }
+
 
     // MARK: - NSFetchedResultsControllerDelegate
 

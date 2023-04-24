@@ -150,8 +150,6 @@ class LoginViewController: UIViewController {
                     
                    
                         print("loadTransactionsData called")
-         
-
                     
                     
                     self.navigationController?.setViewControllers([self.taskBarNav], animated: true)

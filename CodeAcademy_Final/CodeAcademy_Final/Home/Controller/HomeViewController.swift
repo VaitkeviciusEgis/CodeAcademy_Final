@@ -7,51 +7,11 @@
 
 import UIKit
 
-extension HomeViewController: UITableViewDataSource {
-  
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let viewModel = self.viewModel else {
-            print("ViewModel != ViewModel")
-            return 0
-        }
- 
-        print("count \( viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0)")
-        let lastFiveTransactions = viewModel.fetchedResultsController?.fetchedObjects?.suffix(5)
-        return min(lastFiveTransactions?.count ?? 0, 5)
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("cellForRowAt() called for indexPath: \(indexPath)")
-        guard let viewModel = self.viewModel else {
-            print("ViewModel != ViewModel")
-            return UITableViewCell()
-        }
-        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
-        guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath) else {
-            return UITableViewCell()
-        }
-        cell.configure(with: transaction)
-        cell.backgroundColor = .systemGray6
-        return cell
-    }
-    
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
-        
-    }
-}
-
-extension HomeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
 
 class HomeViewController: UIViewController {
     
-
+//MARK: Properties
+    
     var tableView = UITableView()
     let cardView = UIView()
     let balanceLabel = UILabel()
@@ -66,6 +26,9 @@ class HomeViewController: UIViewController {
     private var isTableViewHidden = false
     var viewModel: TransactionsViewModel?
     var transactions: [TransactionInfo] = []
+
+    
+    //MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,26 +36,25 @@ class HomeViewController: UIViewController {
         setupCardView()
         setupShowHideButton()
         setupUI()
-        let balance = loggedInUser?.accountInfo.balance ?? 0
-        balanceLabel.text = formatter.string(from: NSNumber(value: balance))
-        
-       
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-//        loadData()
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let balance = loggedInUser?.accountInfo.balance ?? 0
+        balanceLabel.text = formatter.string(from: NSNumber(value: balance))
         setupCardHolderLabel()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(didTransferMoneySuccessfully(_:)), name: NSNotification.Name(rawValue: "didTransferMoneySuccessfully"), object: nil)
-//        fetchTransactions()
+//        NotificationCenter.default.addObserver(self, selector: #selector(didTransferMoneySuccessfully(_:)), name: NSNotification.Name(rawValue: "didTransferMoneySuccessfully"), object: nil)
+       
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        loadData()
+        tableView.reloadData()
+
+    }
+    
     
     
     //MARK: - Action
@@ -122,9 +84,6 @@ class HomeViewController: UIViewController {
 //            showHideButton.widthAnchor.constraint(equalToConstant: 100),
 //            showHideButton.heightAnchor.constraint(equalToConstant: 20)
             
-            
-            
-            
         ])
     }
     
@@ -137,8 +96,6 @@ class HomeViewController: UIViewController {
         showHideButton.setTitle(title, for: .normal)
         tableView.isHidden = isTableViewHidden
     }
-    
-    
     
     func setupTableView() {
         tableView = UITableView(frame: .zero, style: .plain)
@@ -154,7 +111,7 @@ class HomeViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            tableView.heightAnchor.constraint(equalToConstant: 200)
+            tableView.heightAnchor.constraint(equalToConstant: 240)
             
         ])
         // Register any necessary cells or headers/footers
@@ -178,22 +135,22 @@ class HomeViewController: UIViewController {
 //        cardholderLabel.textColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
     }
     
-    @objc func didTransferMoneySuccessfully(_ notification: Notification) {
-        DispatchQueue.main.async {
-            // Update balance with updated balance from notification userInfo dictionary
-            if let userInfo = notification.userInfo,
-               let updatedBalance = userInfo["currentBalance"] as? Double {
-                // Update the balance of loggedInUser
-                self.loggedInUser?.accountInfo.balance = updatedBalance
-                
-                // Update the balance label text
-                self.balanceLabel.text = self.formatter.string(from: NSNumber(value: updatedBalance))
+//    @objc func didTransferMoneySuccessfully(_ notification: Notification) {
+//        DispatchQueue.main.async {
+//            // Update balance with updated balance from notification userInfo dictionary
+//            if let userInfo = notification.userInfo,
+//               let updatedBalance = userInfo["currentBalance"] as? Double {
+//                // Update the balance of loggedInUser
+//                self.loggedInUser?.accountInfo.balance = updatedBalance
+//
+//                // Update the balance label text
+//                self.balanceLabel.text = self.formatter.string(from: NSNumber(value: updatedBalance))
+//
+//
+//            }
+//        }
+//    }
 
-
-            }
-        }
-    }
-    
     
     func setupCardView() {
         
@@ -226,7 +183,7 @@ class HomeViewController: UIViewController {
         ])
         // Set up the card view
 //        cardView.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-        cardView.backgroundColor = .systemGray5
+        cardView.backgroundColor = .black
         cardView.layer.cornerRadius = 10
         cardView.layer.borderColor = CGColor(red: 83/255, green: 63/255, blue: 35/255, alpha: 1)
         cardView.layer.borderWidth = 1
@@ -273,6 +230,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemGray6
         // Set up the Add Money button
         let addMoneyButton = UIButton(type: .system)
+//        addMoneyButton.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         addMoneyButton.setTitle("Add Money", for: .normal)
         addMoneyButton.setTitleColor(.white, for: .normal)
         addMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
@@ -336,11 +294,51 @@ class HomeViewController: UIViewController {
             
         }
         
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(submitAction)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true)
+    }
+}
+
+extension HomeViewController: UITableViewDataSource {
+  
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let viewModel = self.viewModel else {
+            print("ViewModel != ViewModel")
+            return 0
+        }
+ 
+        print("count \( viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0)")
+        let lastFiveTransactions = viewModel.fetchedResultsController?.fetchedObjects?.suffix(5)
+        return min(lastFiveTransactions?.count ?? 0, 5)
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("cellForRowAt() called for indexPath: \(indexPath)")
+        guard let viewModel = self.viewModel else {
+            print("ViewModel != ViewModel")
+            return UITableViewCell()
+        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
+        guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath) else {
+            return UITableViewCell()
+        }
+        cell.configure(with: transaction)
+        cell.backgroundColor = .systemGray6
+        return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+        
+    }
+}
+
+extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

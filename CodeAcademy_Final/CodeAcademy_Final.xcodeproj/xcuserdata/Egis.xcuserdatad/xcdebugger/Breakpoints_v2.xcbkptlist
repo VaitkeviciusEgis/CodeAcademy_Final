@@ -7,47 +7,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CB35B0C0-DB5C-49F0-BDBF-0396AB84F07D"
+            uuid = "F2FE605F-1182-425A-A0EE-087D2FEC1055"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CodeAcademy_Final/Home/Controller/HomeViewController.swift"
+            filePath = "CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
-            landmarkName = "didTransferMoneySuccessfully(_:)"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "handleTransferMoneyNotification()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "CB35B0C0-DB5C-49F0-BDBF-0396AB84F07D - e79c2aca2ec42e5c"
+                  uuid = "F2FE605F-1182-425A-A0EE-087D2FEC1055 - 284a33ddcf7cedc7"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "CodeAcademy_Final.HomeViewController.didTransferMoneySuccessfully(Foundation.Notification) -&gt; ()"
+                  symbolName = "CodeAcademy_Final.TransactionsListViewController.handleTransferMoneyNotification() -&gt; ()"
                   moduleName = "CodeAcademy_Final"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/Home/Controller/HomeViewController.swift"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "181"
-                  endingLineNumber = "181"
-                  offsetFromSymbolStart = "238">
+                  startingLineNumber = "123"
+                  endingLineNumber = "123"
+                  offsetFromSymbolStart = "34">
                </Location>
                <Location
-                  uuid = "CB35B0C0-DB5C-49F0-BDBF-0396AB84F07D - e79c2aca2ec42e3f"
+                  uuid = "F2FE605F-1182-425A-A0EE-087D2FEC1055 - 284a33ddcf7cec05"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "CodeAcademy_Final.HomeViewController.didTransferMoneySuccessfully(Foundation.Notification) -&gt; ()"
+                  symbolName = "CodeAcademy_Final.TransactionsListViewController.handleTransferMoneyNotification() -&gt; ()"
                   moduleName = "CodeAcademy_Final"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/Home/Controller/HomeViewController.swift"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "182"
-                  endingLineNumber = "182"
-                  offsetFromSymbolStart = "238">
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "43">
                </Location>
             </Locations>
          </BreakpointContent>

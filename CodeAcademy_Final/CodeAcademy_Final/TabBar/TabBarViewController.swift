@@ -44,9 +44,9 @@ class TabBarViewController: UITabBarController {
 
     func setupTabBarUI() {
         let transactionsViewControllerNavigation = UINavigationController(rootViewController: transactionsVC)
-        self.setViewControllers([transactionsViewControllerNavigation, homeVC, sendMoneyVC, settingsVC], animated: true)
+        self.setViewControllers([homeVC, transactionsViewControllerNavigation, sendMoneyVC, settingsVC], animated: true)
         guard let items = self.tabBar.items else { return }
-        let images = ["list.bullet.clipboard.fill", "house.fill", "arrow.left.arrow.right", "gearshape.fill"]
+        let images = ["house.fill", "arrow.left.arrow.right","list.bullet.clipboard.fill", "gearshape.fill"]
 
         let color = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
 

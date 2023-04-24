@@ -42,7 +42,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             // Remove observer for didTransferMoneySuccessfully notification
 //            NotificationCenter.default.removeObserver(self, name: Notification.Name("didTransferMoneySuccessfully"), object: nil)
         }
-
+    let didTransferMoneyNotification = Notification.Name("didTransferMoneyNotification")
 
     // MARK: - UI Setup
     
@@ -114,6 +114,27 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             enterSumTextField.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.05),
         ])
     }
+
+    func didTransferMoneySuccessfully() {
+        // Transfer money code here...
+        serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: loggedInUser?.accountInfo.id ?? 0), completion: { [weak self] (result) in
+            guard self != nil else {
+                return
+            }
+            DispatchQueue.main.async {
+                switch result {
+                    case .success(let transactions):
+                        print("\(transactions)")
+    
+                    case .failure(let error):
+                        print("Error processing json data: \(error)")
+                }
+                    }
+            
+            })
+        // Post a notification
+        NotificationCenter.default.post(name: didTransferMoneyNotification, object: nil)
+    }
     
     func setupSendButton() {
         // create a button and add it to the view
@@ -136,6 +157,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             sendMoneyButton.widthAnchor.constraint(equalToConstant: 120),
             sendMoneyButton.heightAnchor.constraint(equalToConstant: 44)
         ])
+        
     }
     
     // called when user taps the send money buttontableView.separatorStyle = .nonec
@@ -177,7 +199,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                      let userInfo = ["currentBalance": newBalance]
 //                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "didTransferMoneySuccessfully"), object: nil, userInfo: userInfo)
                     
-                
+                    didTransferMoneySuccessfully()
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
                                                      message: "Error with status code: \(error.statusCode)",
