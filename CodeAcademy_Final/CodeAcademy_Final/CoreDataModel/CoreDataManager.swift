@@ -59,7 +59,31 @@ class CoreDataManager {
                }
            }
        }
+    func saveAccountData(userId: UserRegisterResponse) {
+        
+        self.container?.performBackgroundTask{ [weak self] (context) in
+            guard let self = self else {
+                return
+            }
+            
+            let accountEntity = AccountEntity(context: context)
+            accountEntity.id = Int64(userId.userId)
+        
+        do {
+            try container?.viewContext.save()
+        } catch {
+            print("Failed to save account data: \(error.localizedDescription)")
+        }
+    }
     
+    
+//    func saveAccountData(accountEntity: AccountEntity) {
+//        do {
+//            try container?.viewContext.save()
+//        } catch {
+//            print("Failed to save account data: \(error.localizedDescription)")
+//        }
+//    }
     
     // MARK: - Delete Core Data objects before saving new data
     func deleteObjectsfromCoreData(context: NSManagedObjectContext) {

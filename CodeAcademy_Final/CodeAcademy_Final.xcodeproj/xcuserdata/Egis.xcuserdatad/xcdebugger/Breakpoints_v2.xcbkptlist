@@ -7,17 +7,223 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F2FE605F-1182-425A-A0EE-087D2FEC1055"
+            uuid = "E3F31B9C-3EBC-4146-BEF1-1069890C2EE1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CodeAcademy_Final/TransactionsList/Controller/TransactionsListViewController.swift"
+            filePath = "CodeAcademy_Final/TabBar/TabBarViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "TransactionsListViewController"
-            landmarkType = "3">
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "setUser(_:serviceAPI:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E3F31B9C-3EBC-4146-BEF1-1069890C2EE1 - 1eccd58e0cd56047"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TabBarViewController.setUser(_: CodeAcademy_Final.UserAuthenticationResponse, serviceAPI: Swift.Optional&lt;CodeAcademy_Final.ServiceAPI&gt;) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TabBar/TabBarViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "2794">
+               </Location>
+               <Location
+                  uuid = "E3F31B9C-3EBC-4146-BEF1-1069890C2EE1 - 1eccd58e0cd56047"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TabBarViewController.setUser(_: CodeAcademy_Final.UserAuthenticationResponse, serviceAPI: Swift.Optional&lt;CodeAcademy_Final.ServiceAPI&gt;) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TabBar/TabBarViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "2801">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A75CC2D9-820C-4016-8CF7-D0060428C329"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CodeAcademy_Final/TabBar/TabBarViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "setUser(_:serviceAPI:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A75CC2D9-820C-4016-8CF7-D0060428C329 - 1eccd58e0cd56060"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TabBarViewController.setUser(_: CodeAcademy_Final.UserAuthenticationResponse, serviceAPI: Swift.Optional&lt;CodeAcademy_Final.ServiceAPI&gt;) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TabBar/TabBarViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "105"
+                  endingLineNumber = "105"
+                  offsetFromSymbolStart = "2954">
+               </Location>
+               <Location
+                  uuid = "A75CC2D9-820C-4016-8CF7-D0060428C329 - 1eccd58e0cd56060"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TabBarViewController.setUser(_: CodeAcademy_Final.UserAuthenticationResponse, serviceAPI: Swift.Optional&lt;CodeAcademy_Final.ServiceAPI&gt;) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TabBar/TabBarViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "105"
+                  endingLineNumber = "105"
+                  offsetFromSymbolStart = "2961">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "18369264-4DAB-4876-BF80-4E726A00651A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CodeAcademy_Final/TabBar/TabBarViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "setUser(_:serviceAPI:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "18369264-4DAB-4876-BF80-4E726A00651A - 1eccd58e0cd56081"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TabBarViewController.setUser(_: CodeAcademy_Final.UserAuthenticationResponse, serviceAPI: Swift.Optional&lt;CodeAcademy_Final.ServiceAPI&gt;) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TabBar/TabBarViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "3017">
+               </Location>
+               <Location
+                  uuid = "18369264-4DAB-4876-BF80-4E726A00651A - 1eccd58e0cd56081"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TabBarViewController.setUser(_: CodeAcademy_Final.UserAuthenticationResponse, serviceAPI: Swift.Optional&lt;CodeAcademy_Final.ServiceAPI&gt;) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TabBar/TabBarViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "3024">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7EBFEC4A-68D2-45F8-9972-FB4B76F16D23"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CodeAcademy_Final/TabBar/TabBarViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "setUser(_:serviceAPI:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7EBFEC4A-68D2-45F8-9972-FB4B76F16D23 - bd9924e20fb3f412"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;CodeAcademy_Final.TransactionInfo&gt;, Swift.Error&gt;) -&gt; () in CodeAcademy_Final.TabBarViewController.setUser(_: CodeAcademy_Final.UserAuthenticationResponse, serviceAPI: Swift.Optional&lt;CodeAcademy_Final.ServiceAPI&gt;) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TabBar/TabBarViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "248">
+               </Location>
+               <Location
+                  uuid = "7EBFEC4A-68D2-45F8-9972-FB4B76F16D23 - 1eccd58e0cd5671d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TabBarViewController.setUser(_: CodeAcademy_Final.UserAuthenticationResponse, serviceAPI: Swift.Optional&lt;CodeAcademy_Final.ServiceAPI&gt;) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TabBar/TabBarViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "4035">
+               </Location>
+               <Location
+                  uuid = "7EBFEC4A-68D2-45F8-9972-FB4B76F16D23 - bd9924e20fb3f412"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;CodeAcademy_Final.TransactionInfo&gt;, Swift.Error&gt;) -&gt; () in CodeAcademy_Final.TabBarViewController.setUser(_: CodeAcademy_Final.UserAuthenticationResponse, serviceAPI: Swift.Optional&lt;CodeAcademy_Final.ServiceAPI&gt;) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TabBar/TabBarViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "236">
+               </Location>
+               <Location
+                  uuid = "7EBFEC4A-68D2-45F8-9972-FB4B76F16D23 - 1eccd58e0cd5671d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.TabBarViewController.setUser(_: CodeAcademy_Final.UserAuthenticationResponse, serviceAPI: Swift.Optional&lt;CodeAcademy_Final.ServiceAPI&gt;) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/TabBar/TabBarViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "4037">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
