@@ -16,13 +16,30 @@ class TabBarViewController: UITabBarController {
     let sendMoneyVC = TransferViewController()
     let viewModel = TransactionsViewModel()
     let transferVC = TransferViewController()
-    
+//    var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI? // Perduodu is loginVC
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBarUI()
-
+        fetchTransactions()
+    }
+    
+    func fetchTransactions() {
+//        serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: loggedInUser?.accountInfo.id ?? 0), completion: { [weak self] (result) in
+//            guard let self = self else {
+//                return
+//            }
+//            DispatchQueue.main.async {
+//                switch result {
+//                    case .success(let transactions):
+//                        print("\(transactions)")
+//
+//                    case .failure(let error):
+//                        print("Error processing json data: \(error)")
+//                }
+//                    }
+//            })
     }
 
     func setupTabBarUI() {
@@ -63,6 +80,22 @@ class TabBarViewController: UITabBarController {
             print("Reference of serviceAPI was not transferred")
             return
         }
+        
+        serviceAPI.fetchingTransactions(url: URLBuilder.getTaskURL(withId: loggedInUser.accountInfo.id), completion: { [weak self] (result) in
+            guard let self = self else {
+                return
+            }
+            DispatchQueue.main.async {
+                switch result {
+                    case .success(let transactions):
+                        print("\(transactions)")
+    
+                    case .failure(let error):
+                        print("Error processing json data: \(error)")
+                }
+                    }
+            
+            })
 
         homeVC.serviceAPI = serviceAPI
         settingsVC.serviceAPI = serviceAPI

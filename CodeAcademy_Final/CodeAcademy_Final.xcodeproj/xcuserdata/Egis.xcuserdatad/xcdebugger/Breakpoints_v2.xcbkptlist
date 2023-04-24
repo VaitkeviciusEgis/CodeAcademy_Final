@@ -16,8 +16,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "181"
             endingLineNumber = "181"
-            landmarkName = "setupCardHolderLabel()"
+            landmarkName = "didTransferMoneySuccessfully(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CB35B0C0-DB5C-49F0-BDBF-0396AB84F07D - e79c2aca2ec42e5c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.HomeViewController.didTransferMoneySuccessfully(Foundation.Notification) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/Home/Controller/HomeViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "181"
+                  endingLineNumber = "181"
+                  offsetFromSymbolStart = "238">
+               </Location>
+               <Location
+                  uuid = "CB35B0C0-DB5C-49F0-BDBF-0396AB84F07D - e79c2aca2ec42e3f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CodeAcademy_Final.HomeViewController.didTransferMoneySuccessfully(Foundation.Notification) -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/Home/Controller/HomeViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "182"
+                  endingLineNumber = "182"
+                  offsetFromSymbolStart = "238">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

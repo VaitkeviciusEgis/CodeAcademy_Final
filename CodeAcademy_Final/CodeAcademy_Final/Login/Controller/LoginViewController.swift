@@ -151,38 +151,7 @@ class LoginViewController: UIViewController {
                    
                         print("loadTransactionsData called")
          
-                        // Fetch data from the server
-         
-                        
-                    serviceAPI.fetchingTransactions(url: URLBuilder.getTaskURL(withId: loggedUser.accountInfo.id), completion: { [weak self] (result) in
-                        guard let self = self else {
-                            return
-                        }
-                        DispatchQueue.main.async {
-                            switch result {
-                                 
-          
-                                case .success(let transactions):
-                                    print("\(transactions)")
-                                    
 
-                                    
-                                case .failure(let error):
-                                    print("Error processing json data: \(error)")
-                            }
-                                    
-                                }
-                            
-                            
-                            
-                        })
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     
                     
                     self.navigationController?.setViewControllers([self.taskBarNav], animated: true)

@@ -344,31 +344,3 @@ class HomeViewController: UIViewController {
         self.present(alertController, animated: true)
     }
 }
-
-//extension HomeViewController: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//
-////        return 5
-//
-//
-////        let lastFiveTransactions = transactions.suffix(5)
-////        return min(lastFiveTransactions.count, 5)
-//        return transactions.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier) ?? UITableViewCell()
-//
-//
-//         let lastFiveTransactions = Array(transactions.suffix(5))
-//         if indexPath.row < lastFiveTransactions.count {
-//             let transaction = lastFiveTransactions[lastFiveTransactions.count - 1 - indexPath.row]
-//             cell.textLabel?.text = transaction.receiverPhoneNumber
-//         }
-//         return cell
-//     }
-//
-//
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 40    }
-//}
