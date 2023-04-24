@@ -1,29 +1,39 @@
 //
-//  TransactionsViewModel.swift
-//  FinalProject-CodaAcademy
+//  HomeViewModel.swift
+//  CodeAcademy_Final
 //
-//  Created by Egidijus Vaitkevičius on 2023-04-22.
+//  Created by Egidijus Vaitkevičius on 2023-04-23.
 //
 
 import Foundation
 import CoreData
 import UIKit
 
-protocol UpdateTableViewDelegate: NSObjectProtocol {
-    func reloadData(sender: TransactionsViewModel)
+
+protocol CoreDataTableViewModel: AnyObject {
+    associatedtype FetchedObjectType: NSFetchRequestResult
+    
+    var fetchedResultsController: NSFetchedResultsController<FetchedObjectType>? { get set }
+    var delegate: UpdateTableViewDelegate? { get set }
+    
+    func retrieveDataFromCoreData()
 }
 
-private var displayedTransactions = [TransactionEntity]()
-class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
-    
-    var isDataLoaded = false
-    private let container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
-    
-    var fetchedResultsController: NSFetchedResultsController<TransactionEntity>?
-    
-    weak var delegate: UpdateTableViewDelegate?
+class HomeViewModel: NSObject, NSFetchedResultsControllerDelegate, CoreDataTableViewModel, StoringTransactions {
+    var displayedTransactions = [TransactionEntity]()
     
 
+    var isDataLoaded = false
+    private let container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    var fetchedResultsController: NSFetchedResultsController<TransactionEntity>?
+    weak var delegate: UpdateTableViewDelegate?
+    
+    
+    
+    override init() {
+        super.init()
+        retrieveDataFromCoreData()
+    }
     
     //MARK: - Fetched Results Controller - Retrieve data from Core Data
     func retrieveDataFromCoreData() {
@@ -45,8 +55,10 @@ class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
            }
        }
     
-//    override init() {
-//    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fetchedResultsController?.sections?[section].numberOfObjects ?? 0
+    }
+
 
 
     // MARK: - NSFetchedResultsControllerDelegate
@@ -56,12 +68,12 @@ class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
 
     }
     
-    //MARK: - TableView DataSource functions
-    func numberOfRowsInSection (section: Int) -> Int {
-        return fetchedResultsController?.sections?[section].numberOfObjects ?? 0
+}
+
+extension HomeViewModel: UpdateTableViewDelegate {
+    func reloadData(sender: Any) {
+//        tableView.reloadData()
     }
     
-    func object (indexPath: IndexPath) -> TransactionEntity? {
-        return fetchedResultsController?.object(at: indexPath)
-    }
+    typealias Sender = HomeViewModel
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, TransactionsFetching {
+class HomeViewController: UIViewController {
     
 
     var tableView = UITableView()
@@ -48,30 +48,30 @@ class HomeViewController: UIViewController, TransactionsFetching {
     
     //MARK: - Action
     // do not forget to call it viewdidload
-    func fetchTransactions() {
-        guard let currentAccountId = loggedInUser?.accountInfo.id else  {
-            return
-        }
-        serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: currentAccountId), completion: { [weak self] (result) in
-            
-            
-            guard let self = self else {
-                return
-            }
-            
-            switch result {
-                
-                case .success(let transactions):
-                    self.transactions = transactions
-                case .failure(let error):
-                    print("Error processing json data: \(error)")
-            }
-            
-           
-
-            tableView.reloadData()
-        })
-    }
+//    func fetchTransactions() {
+//        guard let currentAccountId = loggedInUser?.accountInfo.id else  {
+//            return
+//        }
+//        serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: currentAccountId), completion: { [weak self] (result) in
+//
+//
+//            guard let self = self else {
+//                return
+//            }
+//
+//            switch result {
+//
+//                case .success(let transactions):
+//                    self.transactions = transactions
+//                case .failure(let error):
+//                    print("Error processing json data: \(error)")
+//            }
+//
+//
+//
+//            tableView.reloadData()
+//        })
+//    }
 
     private func setupShowHideButton() {
         showHideButton = UIButton(type: .system)

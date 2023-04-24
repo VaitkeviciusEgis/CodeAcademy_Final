@@ -33,7 +33,7 @@ class LoginViewController: UIViewController {
     let taskBarNav = TabBarViewController()
     let currencies = ["EUR", "USD"]
     var selectedCurrency: Currency = .EUR
-    
+    var transactions: [TransactionInfo] = []
     enum Currency {
           case EUR
           case USD
@@ -133,6 +133,8 @@ class LoginViewController: UIViewController {
         }
     }
     
+    
+    
     func login() {
         serviceAPI.loginUser(phoneNumber: "0963", password: "q") { [weak self] result in
             guard let self else { return }
@@ -145,6 +147,41 @@ class LoginViewController: UIViewController {
 //                    
                     
                     taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+                    
+                   
+                        print("loadTransactionsData called")
+         
+                        // Fetch data from the server
+         
+                        
+                    serviceAPI.fetchingTransactions(url: URLBuilder.getTaskURL(withId: loggedUser.accountInfo.id), completion: { [weak self] (result) in
+
+                        DispatchQueue.main.async {
+                            switch result {
+                                 
+          
+                                case .success(let transactions):
+                                    print("\(transactions)")
+                                    
+
+                                    
+                                case .failure(let error):
+                                    print("Error processing json data: \(error)")
+                            }
+                                    
+                                }
+                            
+                            
+                            
+                        })
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     
                     self.navigationController?.setViewControllers([self.taskBarNav], animated: true)
                 case .failure(let error):

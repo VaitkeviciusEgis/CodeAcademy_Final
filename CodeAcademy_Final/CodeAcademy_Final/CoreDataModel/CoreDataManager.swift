@@ -17,7 +17,7 @@ class CoreDataManager {
     
  
     
-    
+   
 
      let container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     
@@ -27,15 +27,15 @@ class CoreDataManager {
         
         // Updates CoreData with the new data from the server - Off the main thread
         self.container?.performBackgroundTask{ [weak self] (context) in
-//            self?.deleteObjectsfromCoreData(context: context)
+            self?.deleteObjectsfromCoreData(context: context)
             self?.saveDataToCoreData(transactions: transactions, context: context)
-            print("Saved data ? \(transactions)")
+
         }
     }
     
     
     // MARK: - Delete Core Data objects before saving new data
-    private func deleteObjectsfromCoreData(context: NSManagedObjectContext) {
+    func deleteObjectsfromCoreData(context: NSManagedObjectContext) {
         do {
             // Fetch Data
             let objects = try context.fetch(fetchRequest)
@@ -52,6 +52,7 @@ class CoreDataManager {
     
     // MARK: - Save new data from the server to Core Data
     private func saveDataToCoreData(transactions:[TransactionInfo], context: NSManagedObjectContext) {
+      
         // perform - Make sure that this code of block will be executed on the proper Queue
         // In this case this code should be perform off the main Queue
         context.perform {
