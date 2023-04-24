@@ -21,7 +21,9 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     var viewModel: TransactionsViewModel?
-    
+    let sendMoneyButton = UIButton(type: .system)
+    let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+     let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
@@ -29,10 +31,19 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         setupUI()
         setupSendButton()
         // Set delegates
+        
+        recipientPhoneNumberTextField.backgroundColor = normalColor
+            senderCurrencyTextField.backgroundColor = selectedColor
+            commentTextField.backgroundColor = normalColor
+            enterSumTextField.backgroundColor = normalColor
+
+        
         recipientPhoneNumberTextField.delegate = self
         senderCurrencyTextField.delegate = self
         commentTextField.delegate = self
         enterSumTextField.delegate = self
+          senderCurrencyTextField.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+        
 
     }
     
@@ -54,10 +65,11 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .systemGray6
         
         // Set up text fields
-        recipientPhoneNumberTextField.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-        senderCurrencyTextField.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-        commentTextField.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-        enterSumTextField.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        recipientPhoneNumberTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        senderCurrencyTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        commentTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        enterSumTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        // selected UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
         
         recipientPhoneNumberTextField.placeholder = "Recipient phone number"
         recipientPhoneNumberTextField.textAlignment = .center
@@ -138,13 +150,13 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     
     func setupSendButton() {
         // create a button and add it to the view
-        let sendMoneyButton = UIButton(type: .system)
+
         sendMoneyButton.setTitle("Send Money", for: .normal)
         sendMoneyButton.addTarget(self, action: #selector(sendMoneyTapped), for: .touchUpInside)
         sendMoneyButton.translatesAutoresizingMaskIntoConstraints = false
         sendMoneyButton.setTitleColor(.white, for: .normal)
         sendMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        sendMoneyButton.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+//        sendMoneyButton.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         sendMoneyButton.layer.borderWidth = 1
         sendMoneyButton.layer.borderColor = UIColor.white.cgColor
         sendMoneyButton.layer.cornerRadius = 8
@@ -253,5 +265,16 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == senderCurrencyTextField || textField == sendMoneyButton {
+            textField.backgroundColor = selectedColor
+        } else {
+            textField.backgroundColor = UIColor.white
+        }
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.backgroundColor = normalColor
+    }
 }
 
