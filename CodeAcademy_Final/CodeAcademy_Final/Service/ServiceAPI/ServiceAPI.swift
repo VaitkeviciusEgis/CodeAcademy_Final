@@ -60,9 +60,9 @@ class ServiceAPI: Registering, Logging {
         networkService.postRequest(url: url, body: data) { result in
             switch result {
             case .success(let data):
-                    if let jsonString = String(data: data, encoding: .utf8) {
-//                        print("Raw JSON Data: \(jsonString)")
-                    }
+//                    if let jsonString = String(data: data, encoding: .utf8) {
+////                        print("Raw JSON Data: \(jsonString)")
+//                    }
 //                    print("NEW DATA \(data)")
                     guard let userResponse = try? JSONDecoder().decode(UserAuthenticationResponse.self, from: data) else {
                     completion(.failure(.init(statusCode: -1, errorType: .decodingFailed)))

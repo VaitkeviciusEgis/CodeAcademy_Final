@@ -44,10 +44,6 @@ class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
                }
            }
        }
-    
-//    override init() {
-//    }
-
 
     // MARK: - NSFetchedResultsControllerDelegate
 

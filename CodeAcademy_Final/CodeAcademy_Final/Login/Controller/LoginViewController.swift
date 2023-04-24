@@ -155,7 +155,9 @@ class LoginViewController: UIViewController {
          
                         
                     serviceAPI.fetchingTransactions(url: URLBuilder.getTaskURL(withId: loggedUser.accountInfo.id), completion: { [weak self] (result) in
-
+                        guard let self = self else {
+                            return
+                        }
                         DispatchQueue.main.async {
                             switch result {
                                  

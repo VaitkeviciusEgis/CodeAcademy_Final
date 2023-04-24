@@ -176,8 +176,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                      loggedInUser?.accountInfo.balance = newBalance // update loggedInUser with the new balance
                      let userInfo = ["currentBalance": newBalance]
                      NotificationCenter.default.post(name: NSNotification.Name(rawValue: "didTransferMoneySuccessfully"), object: nil, userInfo: userInfo)
-                   
-                    viewModel?.retrieveDataFromCoreData()
+                    
                 
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
