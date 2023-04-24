@@ -40,7 +40,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             super.viewWillDisappear(animated)
             
             // Remove observer for didTransferMoneySuccessfully notification
-            NotificationCenter.default.removeObserver(self, name: Notification.Name("didTransferMoneySuccessfully"), object: nil)
+//            NotificationCenter.default.removeObserver(self, name: Notification.Name("didTransferMoneySuccessfully"), object: nil)
         }
 
 
@@ -175,7 +175,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                      currentBalance = newBalance // update currentBalance with the new balance
                      loggedInUser?.accountInfo.balance = newBalance // update loggedInUser with the new balance
                      let userInfo = ["currentBalance": newBalance]
-                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "didTransferMoneySuccessfully"), object: nil, userInfo: userInfo)
+//                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "didTransferMoneySuccessfully"), object: nil, userInfo: userInfo)
                     
                 
                 case .failure(let error):
