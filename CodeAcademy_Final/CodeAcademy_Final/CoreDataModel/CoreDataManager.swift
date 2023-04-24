@@ -59,23 +59,7 @@ class CoreDataManager {
                }
            }
        }
-    func saveAccountData(userId: UserRegisterResponse) {
-        
-        self.container?.performBackgroundTask{ [weak self] (context) in
-            guard let self = self else {
-                return
-            }
-            
-            let accountEntity = AccountEntity(context: context)
-            accountEntity.id = Int64(userId.userId)
-            
-            do {
-                try container?.viewContext.save()
-            } catch {
-                print("Failed to save account data: \(error.localizedDescription)")
-            }
-        }
-    }
+
     
     
 //    func saveAccountData(accountEntity: AccountEntity) {
@@ -103,6 +87,25 @@ class CoreDataManager {
     }
     
     // MARK: - Save new data from the server to Core Data
+    
+    func saveAccountData(userId: UserRegisterResponse, context: NSManagedObjectContext) {
+        
+        context.perform { [weak self] in
+            guard let self = self else {
+                return
+            }
+            
+            let accountEntity = AccountEntity(context: context)
+            accountEntity.id = Int64(userId.userId)
+            
+            do {
+                try container?.viewContext.save()
+            } catch {
+                print("Failed to save account data: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     private func saveDataToCoreData(transactions:[TransactionInfo], context: NSManagedObjectContext) {
       
         // perform - Make sure that this code of block will be executed on the proper Queue
