@@ -72,6 +72,7 @@ class TabBarViewController: UITabBarController {
         settingsVC.title = "Settings"
         sendMoneyVC.title = "Transfer"
         transactionsVC.title = "Transactions"
+        transactionsVC.transactionsViewControllerNavigation = transactionsViewControllerNavigation
         
     }
 
@@ -82,6 +83,7 @@ class TabBarViewController: UITabBarController {
         transactionsVC.loggedInUser = loggedInUser
         settingsVC.loggedInUser = loggedInUser
         sendMoneyVC.loggedInUser = loggedInUser
+        
 
         self.serviceAPI = serviceAPI
 
@@ -131,7 +133,7 @@ class TabBarViewController: UITabBarController {
         transactionsVC.viewModel = viewModel
         homeVC.viewModel = viewModel
         transferVC.viewModel = viewModel
-
+        
     }
 
 }
