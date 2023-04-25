@@ -72,7 +72,7 @@ extension TransactionsListViewController: UITableViewDataSource {
 }
 
 class TransactionsListViewController: UIViewController, UpdateTableViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate {
-    var transactionsViewControllerNavigation: UINavigationController?
+    
     
     
    

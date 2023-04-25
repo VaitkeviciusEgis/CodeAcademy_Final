@@ -72,8 +72,7 @@ class TabBarViewController: UITabBarController {
         settingsVC.title = "Settings"
         sendMoneyVC.title = "Transfer"
         transactionsVC.title = "Transactions"
-        transactionsVC.transactionsViewControllerNavigation = transactionsViewControllerNavigation
-        
+      
     }
 
     func setUser(_ loggedInUser: UserAuthenticationResponse, serviceAPI: ServiceAPI?) {
