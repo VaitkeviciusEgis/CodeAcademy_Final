@@ -35,7 +35,6 @@
 		EDF0F08229F4B83B00DD41F5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F07F29F4B83B00DD41F5 /* SettingsViewController.swift */; };
 		EDF0F08A29F4B86000DD41F5 /* TransactionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F08529F4B86000DD41F5 /* TransactionsListViewController.swift */; };
 		EDF0F08B29F4B86000DD41F5 /* TransactionsListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDF0F08829F4B86000DD41F5 /* TransactionsListView.xib */; };
-		EDF0F09029F4B87400DD41F5 /* TransactionsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F08E29F4B87400DD41F5 /* TransactionsListTableViewCell.swift */; };
 		EDF0F09129F4B87400DD41F5 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F08F29F4B87400DD41F5 /* ListCell.swift */; };
 		EDF0F09329F4B87E00DD41F5 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F09229F4B87E00DD41F5 /* CoreDataManager.swift */; };
 		EDF0F09629F4B89400DD41F5 /* TransactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F09529F4B89300DD41F5 /* TransactionsViewModel.swift */; };
@@ -77,7 +76,6 @@
 		EDF0F07F29F4B83B00DD41F5 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EDF0F08529F4B86000DD41F5 /* TransactionsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsListViewController.swift; sourceTree = "<group>"; };
 		EDF0F08829F4B86000DD41F5 /* TransactionsListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransactionsListView.xib; sourceTree = "<group>"; };
-		EDF0F08E29F4B87400DD41F5 /* TransactionsListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsListTableViewCell.swift; sourceTree = "<group>"; };
 		EDF0F08F29F4B87400DD41F5 /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		EDF0F09229F4B87E00DD41F5 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		EDF0F09529F4B89300DD41F5 /* TransactionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsViewModel.swift; sourceTree = "<group>"; };
@@ -342,7 +340,6 @@
 		EDF0F08D29F4B87400DD41F5 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				EDF0F08E29F4B87400DD41F5 /* TransactionsListTableViewCell.swift */,
 				EDF0F08F29F4B87400DD41F5 /* ListCell.swift */,
 			);
 			path = Cells;
@@ -450,7 +447,6 @@
 				EDF0F12429F7552C00DD41F5 /* TransactionEntity+CoreDataClass.swift in Sources */,
 				EDF0F06729F4B7CF00DD41F5 /* UpdateUserResponse.swift in Sources */,
 				EDF0F07929F4B82800DD41F5 /* HomeViewController.swift in Sources */,
-				EDF0F09029F4B87400DD41F5 /* TransactionsListTableViewCell.swift in Sources */,
 				EDF0F07029F4B7CF00DD41F5 /* Transfer.swift in Sources */,
 				EDF0F12529F7552C00DD41F5 /* TransactionEntity+CoreDataProperties.swift in Sources */,
 				EDF0F06429F4B7CF00DD41F5 /* UserInfo.swift in Sources */,

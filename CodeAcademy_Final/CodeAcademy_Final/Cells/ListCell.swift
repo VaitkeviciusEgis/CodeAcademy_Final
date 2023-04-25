@@ -7,15 +7,12 @@
 
 import UIKit
 
-//class ListCell: UITableViewCell {
-//
-//static let identifier = "listCell"
-//}
-//
 
 class ListCell: UITableViewCell {
     
 
+    //MARK: - Properties
+    
     static let identifier = "listCell"
     let phoneNumberLabel: UILabel = {
         let label = UILabel()
@@ -29,6 +26,8 @@ class ListCell: UITableViewCell {
         return label
     }()
 
+    //MARK: - Initialisation
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -50,15 +49,17 @@ class ListCell: UITableViewCell {
         ])
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Action
+    
     func configure(with transaction: TransactionEntity) {
        
             phoneNumberLabel.text = transaction.receiverPhoneNumber
             amountLabel.text = "\(transaction.amount)"
         
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
 }

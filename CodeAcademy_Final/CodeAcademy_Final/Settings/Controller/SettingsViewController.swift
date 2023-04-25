@@ -9,6 +9,8 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITextFieldDelegate {
     
+    //MARK: - Properties
+    
     let phoneTextField = UITextField()
     let passwordTextField = UITextField()
     let titleLabel = UILabel()
@@ -18,86 +20,94 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     var serviceAPI: ServiceAPI?
     var homeVC: HomeViewController?
     let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-     let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+    let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+    
+    //MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        phoneTextField.delegate = self
-        passwordTextField.delegate = self
         setupUI()
-        setupLogoutButton()
+        setupPhoneTextField()
+        setupPasswordTextField()
         setupSubmitButton()
+        setupLogoutButton()
     }
     
+    //MARK: - Setup UI
+    
     func setupUI() {
-        
         view.backgroundColor = .systemGray6
         // Add tap gesture recognizer to dismiss keyboard
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
         
         // Set up title label
-            titleLabel.text = "Change Settings"
-            titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(titleLabel)
-            
-            // Add constraints for title label
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
-            
-            // Set up phone text field
-            phoneTextField.placeholder = "Phone number"
-            phoneTextField.borderStyle = .roundedRect
-            phoneTextField.keyboardType = .phonePad
+        titleLabel.text = "Change Settings"
+        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(titleLabel)
+        
+        // Add constraints for title label
+        titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
+    }
+    
+    func setupPhoneTextField() {
+        // Add constraints for phoneTextField
+        phoneTextField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            phoneTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            phoneTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            phoneTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
+            phoneTextField.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        // Set up phone text field
+        phoneTextField.placeholder = "Phone number"
+        phoneTextField.borderStyle = .roundedRect
+        phoneTextField.keyboardType = .phonePad
         phoneTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         passwordTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-            view.addSubview(phoneTextField)
-            
-            // Set up password text field
-            passwordTextField.placeholder = "Password"
-            passwordTextField.borderStyle = .roundedRect
-            passwordTextField.isSecureTextEntry = true
-            view.addSubview(passwordTextField)
-            
-            // Add constraints for phoneTextField
-            phoneTextField.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                phoneTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                phoneTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-                phoneTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
-                phoneTextField.heightAnchor.constraint(equalToConstant: 40)
-            ])
-            
-            // Add constraints for passwordTextField
-            passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-                passwordTextField.topAnchor.constraint(equalTo: phoneTextField.bottomAnchor, constant: 20),
-                passwordTextField.heightAnchor.constraint(equalToConstant: 40)
-            ])
+        view.addSubview(phoneTextField)
+        phoneTextField.delegate = self
+    }
+    
+    func setupPasswordTextField() {
+        // Add constraints for passwordTextField
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            passwordTextField.topAnchor.constraint(equalTo: phoneTextField.bottomAnchor, constant: 20),
+            passwordTextField.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        // Set up password text field
+        passwordTextField.placeholder = "Password"
+        passwordTextField.borderStyle = .roundedRect
+        passwordTextField.isSecureTextEntry = true
+        view.addSubview(passwordTextField)
+        passwordTextField.delegate = self
     }
     
     func setupLogoutButton() {
         logoutButton.setTitle("Logout", for: .normal)
-            logoutButton.setTitleColor(.white, for: .normal)
-            logoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-            logoutButton.backgroundColor = .systemRed
-            logoutButton.layer.cornerRadius = 8
-            logoutButton.layer.borderWidth = 1
-            logoutButton.layer.borderColor = UIColor.white.cgColor
-            logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
-            view.addSubview(logoutButton)
-            
-            logoutButton.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                logoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                logoutButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 120),
-                logoutButton.widthAnchor.constraint(equalToConstant: 120),
-                logoutButton.heightAnchor.constraint(equalToConstant: 40)
-            ])
+        logoutButton.setTitleColor(.white, for: .normal)
+        logoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        logoutButton.backgroundColor = .systemRed
+        logoutButton.layer.cornerRadius = 8
+        logoutButton.layer.borderWidth = 1
+        logoutButton.layer.borderColor = UIColor.white.cgColor
+        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+        view.addSubview(logoutButton)
+        
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            logoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoutButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 120),
+            logoutButton.widthAnchor.constraint(equalToConstant: 120),
+            logoutButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
     }
-    
     
     func setupSubmitButton() {
         
@@ -128,6 +138,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
     
+    //MARK: - Action
+    
     @objc func submitButtonTapped() {
         print("Submit tapped!")
         guard let currentPhoneNumber = loggedInUser?.accountInfo.ownerPhoneNumber, let currentToken = loggedInUser?.accessToken else {
@@ -137,7 +149,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         
         let newPhoneNumber = phoneTextField.text
         let newPassword = passwordTextField.text
-
+        
         
         guard let newPhoneNumber = newPhoneNumber, let newPassword = newPassword, !newPhoneNumber.isEmpty || !newPassword.isEmpty else {
             print("Field is empty in update user")
@@ -149,15 +161,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             
-            
-            
             switch result {
                 case .success(let updated):
                     UIAlertController.showErrorAlert(title: "Success!",
                                                      message: "Your task was updated",
                                                      controller: self)
                     let updatedLoggedInUser = UserAuthenticationResponse(userId: updated.userId, validUntil: updated.validUntil, accessToken: updated.accessToken, accountInfo: updated.accountInfo)
-
+                    
                     homeVC?.loggedInUser = updatedLoggedInUser
                     
                     phoneTextField.text = ""
@@ -170,33 +180,20 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         })
         dismissKeyboard()
     }
-
+    
     @objc func logoutButtonTapped() {
         // Perform logout action
         print("Logout button tapped!")
         self.navigationController?.setViewControllers([LoginViewController()], animated: true)
     }
-
-//    // Called when editing ends for the textfield
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        // Hide the keyboard
-//        textField.resignFirstResponder()
-//    }
-//
-//    // Called when the return key is pressed
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        // Hide the keyboard
-//        textField.resignFirstResponder()
-//        return true
-//    }
+    
     
     // MARK: - Text Field Delegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == phoneTextField {
-           passwordTextField.becomeFirstResponder()
+            passwordTextField.becomeFirstResponder()
         }
-        
         return true
     }
     
@@ -216,7 +213,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             textField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         }
     }
-
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.backgroundColor = normalColor
     }
