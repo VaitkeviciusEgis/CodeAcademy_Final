@@ -41,11 +41,8 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let balance = loggedInUser?.accountInfo.balance ?? 0
-        balanceLabel.text = formatter.string(from: NSNumber(value: balance))
+        displayNewBalance()
         setupCardHolderLabel()
-//        NotificationCenter.default.addObserver(self, selector: #selector(didTransferMoneySuccessfully(_:)), name: NSNotification.Name(rawValue: "didTransferMoneySuccessfully"), object: nil)
-       
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -55,8 +52,6 @@ class HomeViewController: UIViewController {
 
     }
     
-    
-    
     //MARK: - Action
     private func loadData() {
         guard let viewModel = self.viewModel else {
@@ -65,13 +60,16 @@ class HomeViewController: UIViewController {
         }
         viewModel.retrieveDataFromCoreData()
     }
+    
+    func displayNewBalance() {
+        let balance = loggedInUser?.accountInfo.balance ?? 0
+        balanceLabel.text = formatter.string(from: NSNumber(value: balance))
+    }
 
     private func setupShowHideButton() {
         showHideButton = UIButton(type: .system)
         showHideButton.translatesAutoresizingMaskIntoConstraints = false
         showHideButton.setTitle("Hide Last Transactions", for: .normal)
-//        showHideButton.titleLabel?.textColor = .white
-//        showHideButton.tintColor = UIColor(red: 64/255, green: 200/255, blue: 224/255, alpha: 1)
         showHideButton.tintColorDidChange()
         showHideButton.addTarget(self, action: #selector(toggleTableView), for: .touchUpInside)
         view.addSubview(showHideButton)
@@ -79,11 +77,6 @@ class HomeViewController: UIViewController {
         NSLayoutConstraint.activate([
             showHideButton.centerXAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -100),
             showHideButton.topAnchor.constraint(equalTo:  cardView.topAnchor, constant: 16)
-//            showHideButton.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -12),
-//            showHideButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
-//            showHideButton.widthAnchor.constraint(equalToConstant: 100),
-//            showHideButton.heightAnchor.constraint(equalToConstant: 20)
-            
         ])
     }
     
@@ -133,25 +126,9 @@ class HomeViewController: UIViewController {
         let cardholder = "Cardholder: "
 
         cardholderLabel.text = "\(cardholder) \(String(describing: phoneNumber))"
-//        cardholderLabel.textColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        cardholderLabel.textColor = UIColor(ciColor: .gray)
+        
     }
-    
-//    @objc func didTransferMoneySuccessfully(_ notification: Notification) {
-//        DispatchQueue.main.async {
-//            // Update balance with updated balance from notification userInfo dictionary
-//            if let userInfo = notification.userInfo,
-//               let updatedBalance = userInfo["currentBalance"] as? Double {
-//                // Update the balance of loggedInUser
-//                self.loggedInUser?.accountInfo.balance = updatedBalance
-//
-//                // Update the balance label text
-//                self.balanceLabel.text = self.formatter.string(from: NSNumber(value: updatedBalance))
-//
-//
-//            }
-//        }
-//    }
-
     
     func setupCardView() {
         
@@ -186,7 +163,7 @@ class HomeViewController: UIViewController {
 //        cardView.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         cardView.backgroundColor = .black
         cardView.layer.cornerRadius = 10
-        cardView.layer.borderColor = CGColor(red: 83/255, green: 63/255, blue: 35/255, alpha: 1)
+        cardView.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         cardView.layer.borderWidth = 1
         //        view.addSubview(cardView)
         cardView.translatesAutoresizingMaskIntoConstraints = false
@@ -233,11 +210,12 @@ class HomeViewController: UIViewController {
         let addMoneyButton = UIButton(type: .system)
 //        addMoneyButton.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         addMoneyButton.setTitle("Add Money", for: .normal)
-        addMoneyButton.setTitleColor(.white, for: .normal)
+        addMoneyButton.setTitleColor(.systemGray4, for: .normal)
         addMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        addMoneyButton.titleLabel?.textColor = .systemGray6
         addMoneyButton.layer.cornerRadius = 8
         addMoneyButton.layer.borderWidth = 1
-        addMoneyButton.layer.borderColor = UIColor.white.cgColor
+        addMoneyButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         addMoneyButton.addTarget(self, action: #selector(addMoneyButtonTapped), for: .touchUpInside)
         
         view.addSubview(addMoneyButton)
@@ -256,6 +234,7 @@ class HomeViewController: UIViewController {
         
         alertController.addTextField { textField in
             textField.placeholder = "Enter amount"
+            textField.keyboardType = .decimalPad
         }
         
         let submitAction = UIAlertAction(title: "Submit", style: .default) { action in
@@ -280,12 +259,8 @@ class HomeViewController: UIViewController {
                             let balance = response.balance
                             self.balanceLabel.text = self.formatter.string(from: NSNumber(value: balance))
                             self.loggedInUser?.accountInfo.balance = response.balance
-
-   
-
                         }
-                        
-                        
+                            
                     case .failure(let error):
                         UIAlertController.showErrorAlert(title: "Error with status code: \(error.statusCode)",
                                                          message: error.localizedDescription,

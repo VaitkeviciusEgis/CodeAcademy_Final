@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Outlets
     
@@ -17,17 +17,17 @@ class LoginViewController: UIViewController {
     @IBOutlet private weak var confirmPasswordTextField: UITextField!
     @IBOutlet private weak var questionLabel: UILabel!
     @IBOutlet private weak var actionButtonOutlet: UIButton!
-    @IBOutlet weak var phoneNumberTextField: UITextField!
+    @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet weak var currencyPickerView: UIPickerView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         currencyPickerView.delegate = self
         currencyPickerView.dataSource = self
         currencyPickerView.isHidden = true
+        setupUI()
+
     }
     
     //MARK: - Properties
@@ -37,6 +37,7 @@ class LoginViewController: UIViewController {
     let currencies = ["EUR", "USD"]
     var selectedCurrency: Currency = .EUR
     var transactions: [TransactionInfo] = []
+    let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
     var managedContext: NSManagedObjectContext!
     {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -91,18 +92,34 @@ class LoginViewController: UIViewController {
     
     
     func setupUI() {
+        passwordTextField.delegate = self
+        phoneTextField.delegate = self
+        confirmPasswordTextField.delegate = self
         passwordTextField.isSecureTextEntry = true
+//        passwordTextField.backgroundColor = normalColor
+        passwordTextField.borderStyle = .roundedRect
+//        phoneTextField.backgroundColor = normalColor
+        phoneTextField.borderStyle = .roundedRect
+        phoneTextField.keyboardType = .phonePad
+//        confirmPasswordTextField.backgroundColor = normalColor
+        confirmPasswordTextField.borderStyle = .roundedRect
         confirmPasswordTextField.isSecureTextEntry = true
         signButtonOutlet.layer.masksToBounds = true
         signButtonOutlet.layer.cornerRadius = 8
-        phoneNumberTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        phoneTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGestureRecognizer)
     }
     
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
     @objc func textFieldDidChange(_ textField: UITextField) {
         // Remove all non-numeric characters from the text field's text
         let modifiedPhoneNumber = String(textField.text?.filter { "0123456789+".contains($0) } ?? "")
         // Update the text field's text to only include numeric characters
-        phoneNumberTextField.text = modifiedPhoneNumber
+        phoneTextField.text = modifiedPhoneNumber
     }
     
     @IBAction func actionButtonTapped(_ sender: Any) {
@@ -115,7 +132,7 @@ class LoginViewController: UIViewController {
     }
     
     func register() {
-        serviceAPI.registerUser(phoneNumber: phoneNumberTextField.text!,
+        serviceAPI.registerUser(phoneNumber: phoneTextField.text!,
                                 password: passwordTextField.text!, currency: selectedCurrency.description) { [weak self] result in
             guard let self else { return }
             switch result {
@@ -148,7 +165,35 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // MARK: - Text Field Delegate
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == phoneTextField {
+            passwordTextField.becomeFirstResponder()
+        }
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == phoneTextField {
+            let allowedCharacterSet = CharacterSet(charactersIn: "0123456789+")
+            let replacementStringCharacterSet = CharacterSet(charactersIn: string)
+            return allowedCharacterSet.isSuperset(of: replacementStringCharacterSet)
+        }
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == phoneTextField || textField == passwordTextField || textField == confirmPasswordTextField {
+            textField.backgroundColor = selectedColor
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.backgroundColor = .systemGray6
+    }
 }
+
 
 // MARK: - UIPickerView
 
@@ -170,3 +215,5 @@ extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
 }
+
+

@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TransactionsListViewController" customModule="CodeAcademy_Final" customModuleProvider="target">
             <connections>
                 <outlet property="inAndOutTransactions" destination="2a1-d9-wfg" id="gBx-ta-qEf"/>
+                <outlet property="searchBar" destination="2gY-Pi-eJg" id="JMG-ZS-Rzj"/>
                 <outlet property="tableView" destination="C88-sd-zqQ" id="rpj-NC-65M"/>
                 <outlet property="view" destination="iN0-l3-epB" id="1Ts-3g-Iyq"/>
             </connections>
@@ -20,39 +21,60 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="C88-sd-zqQ">
+                    <rect key="frame" x="0.0" y="127" width="393" height="596"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="separatorColor" systemColor="secondarySystemBackgroundColor"/>
+                </tableView>
+                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="2gY-Pi-eJg">
+                    <rect key="frame" x="0.0" y="71" width="393" height="56"/>
+                    <color key="backgroundColor" systemColor="systemGray6Color"/>
+                    <color key="tintColor" red="0.070588235289999995" green="0.30980392159999998" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="barTintColor" systemColor="systemGray6Color"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="ygN-Dq-QQm"/>
+                    </connections>
+                </searchBar>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2a1-d9-wfg">
-                    <rect key="frame" x="24" y="59" width="345" height="32"/>
+                    <rect key="frame" x="24" y="763" width="345" height="32"/>
+                    <color key="backgroundColor" red="0.070588235289999995" green="0.30980392159999998" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <segments>
                         <segment title="First"/>
                         <segment title="Second"/>
                         <segment title="All"/>
                     </segments>
                 </segmentedControl>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="C88-sd-zqQ">
-                    <rect key="frame" x="0.0" y="114" width="393" height="704"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                </tableView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBrownColor"/>
             <constraints>
                 <constraint firstItem="C88-sd-zqQ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="2A1-Q4-WYG"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2a1-d9-wfg" secondAttribute="trailing" constant="24" id="4IX-Ib-rbC"/>
-                <constraint firstItem="C88-sd-zqQ" firstAttribute="top" secondItem="2a1-d9-wfg" secondAttribute="bottom" constant="24" id="CPD-kC-yap"/>
-                <constraint firstItem="2a1-d9-wfg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="ZKh-MU-J9Y"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="C88-sd-zqQ" secondAttribute="bottom" id="gwh-qb-7CG"/>
-                <constraint firstItem="2a1-d9-wfg" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="l8z-aW-wZq"/>
+                <constraint firstItem="2gY-Pi-eJg" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12" id="7kl-ay-PxF"/>
+                <constraint firstItem="2gY-Pi-eJg" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="80X-FE-yrT"/>
+                <constraint firstItem="2a1-d9-wfg" firstAttribute="top" secondItem="C88-sd-zqQ" secondAttribute="bottom" constant="40" id="T3F-hU-E12"/>
+                <constraint firstItem="2gY-Pi-eJg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="WnC-Ou-Hu4"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2a1-d9-wfg" secondAttribute="trailing" constant="24" id="fhW-uB-J1O"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="2a1-d9-wfg" secondAttribute="bottom" constant="24" id="ogQ-P5-QKg"/>
+                <constraint firstItem="C88-sd-zqQ" firstAttribute="top" secondItem="2gY-Pi-eJg" secondAttribute="bottom" id="qrm-1H-hY9"/>
+                <constraint firstItem="2a1-d9-wfg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="tlP-tW-Ych"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="C88-sd-zqQ" secondAttribute="trailing" id="wI4-se-kaN"/>
             </constraints>
-            <point key="canvasLocation" x="-327" y="-10"/>
+            <point key="canvasLocation" x="-42" y="-7"/>
         </view>
     </objects>
     <resources>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBrownColor">
             <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

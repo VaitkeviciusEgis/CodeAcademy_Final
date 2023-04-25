@@ -11,26 +11,32 @@ import CoreData
 
 class TabBarViewController: UITabBarController {
 
-    let homeVC = HomeViewController()
-    let transactionsVC = TransactionsListViewController()
-    let settingsVC = SettingsViewController()
-    let sendMoneyVC = TransferViewController()
-    let viewModel = TransactionsViewModel()
-    let transferVC = TransferViewController()
-//    var loggedInUser: UserAuthenticationResponse?
-    var serviceAPI: ServiceAPI? // Perduodu is loginVC
-    var loggedInAccount: AccountEntity?
-    var managedContext: NSManagedObjectContext!
-    {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        return appDelegate?.persistentContainer.viewContext
-    }
-
+    // MARK: - Properties
+       
+       private let homeVC = HomeViewController()
+       private let transactionsVC = TransactionsListViewController()
+       private let settingsVC = SettingsViewController()
+       private let transferVC = TransferViewController()
+       private let viewModel = TransactionsViewModel()
+       private var serviceAPI: ServiceAPI?
+       private var loggedInAccount: AccountEntity?
+       
+       lazy var managedContext: NSManagedObjectContext = {
+           guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+               fatalError("Unable to get the shared app delegate.")
+           }
+           return appDelegate.persistentContainer.viewContext
+       }()
+    
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBarUI()
         fetchTransactions()
     }
+    
+    // MARK: - Private methods
     
     func fetchTransactions() {
 //        serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: loggedInUser?.accountInfo.id ?? 0), completion: { [weak self] (result) in
@@ -49,39 +55,35 @@ class TabBarViewController: UITabBarController {
 //            })
     }
 
-    func setupTabBarUI() {
+    private func setupTabBarUI() {
         let transactionsViewControllerNavigation = UINavigationController(rootViewController: transactionsVC)
-        self.setViewControllers([homeVC, transactionsViewControllerNavigation, sendMoneyVC, settingsVC], animated: true)
-        guard let items = self.tabBar.items else { return }
+        setViewControllers([homeVC, transactionsViewControllerNavigation, transferVC, settingsVC], animated: true)
+        guard let items = tabBar.items else { return }
         let images = ["house.fill", "arrow.left.arrow.right","list.bullet.clipboard.fill", "gearshape.fill"]
-
         let color = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        let titleColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
 
-//        let color = UIColor(red: 48/255, green: 176/255, blue: 199/255, alpha: 1.0)
+        
         for image in 0...3 {
             let origImage = UIImage(systemName: images[image])
             let tintedImage = origImage?.withTintColor(color, renderingMode: .alwaysOriginal)
             items[image].image = tintedImage
         }
-
-//        self.tabBar.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-        let titleColor = UIColor(red: 64/255, green: 200/255, blue: 224/255, alpha: 1)
-        UITabBar.appearance().tintColor = titleColor
-
+        
+        tabBar.tintColor = titleColor
+        
         homeVC.title = "Home"
         settingsVC.title = "Settings"
-        sendMoneyVC.title = "Transfer"
+        transferVC.title = "Transfer"
         transactionsVC.title = "Transactions"
-      
     }
 
+
     func setUser(_ loggedInUser: UserAuthenticationResponse, serviceAPI: ServiceAPI?) {
-//        loggedInAccount = loggedInUser.accountInfo
 
         homeVC.loggedInUser = loggedInUser
-//        transactionsVC.loggedInUser = loggedInUser
         settingsVC.loggedInUser = loggedInUser
-        sendMoneyVC.loggedInUser = loggedInUser
+        transferVC.loggedInUser = loggedInUser
         
 
         self.serviceAPI = serviceAPI
@@ -129,7 +131,7 @@ class TabBarViewController: UITabBarController {
         homeVC.serviceAPI = serviceAPI
         settingsVC.serviceAPI = serviceAPI
         settingsVC.homeVC = homeVC
-        sendMoneyVC.serviceAPI = serviceAPI
+        transferVC.serviceAPI = serviceAPI
 //        transactionsVC.serviceAPI = serviceAPI
         transactionsVC.viewModel = viewModel
         homeVC.viewModel = viewModel

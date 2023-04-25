@@ -50,6 +50,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         // Add constraints for title label
         titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
+        
+        phoneTextField.attributedPlaceholder = NSAttributedString(string: "Phone Number", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
+
     }
     
     func setupPhoneTextField() {
@@ -78,7 +82,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.isSecureTextEntry = true
         view.addSubview(passwordTextField)
         passwordTextField.delegate = self
-        passwordTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        passwordTextField.backgroundColor = normalColor
         // Add constraints for passwordTextField
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -118,7 +122,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         submitButton.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         submitButton.layer.cornerRadius = 8
         submitButton.layer.borderWidth = 1
-        submitButton.layer.borderColor = UIColor.white.cgColor
+        submitButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
         view.addSubview(submitButton)
         
@@ -136,6 +140,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
+
     
     //MARK: - Action
     
@@ -209,7 +214,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         if textField == phoneTextField || textField == submitButton || textField == passwordTextField {
             textField.backgroundColor = selectedColor
         } else {
-            textField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+            textField.backgroundColor = normalColor
         }
     }
     

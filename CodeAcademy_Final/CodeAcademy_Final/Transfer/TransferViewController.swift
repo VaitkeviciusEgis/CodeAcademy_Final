@@ -23,7 +23,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     var viewModel: TransactionsViewModel?
     let sendMoneyButton = UIButton(type: .system)
     let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-     let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+    let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
@@ -31,30 +31,17 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         setupUI()
         setupSendButton()
         // Set delegates
-        
-        recipientPhoneNumberTextField.backgroundColor = normalColor
-            senderCurrencyTextField.backgroundColor = selectedColor
-            commentTextField.backgroundColor = normalColor
-            enterSumTextField.backgroundColor = normalColor
-
-        
-        recipientPhoneNumberTextField.delegate = self
-        senderCurrencyTextField.delegate = self
-        commentTextField.delegate = self
-        enterSumTextField.delegate = self
-          senderCurrencyTextField.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
-        
 
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-            super.viewWillDisappear(animated)
-            
-            // Remove observer for didTransferMoneySuccessfully notification
-//            NotificationCenter.default.removeObserver(self, name: Notification.Name("didTransferMoneySuccessfully"), object: nil)
-        }
+        super.viewWillDisappear(animated)
+        
+        // Remove observer for didTransferMoneySuccessfully notification
+        //            NotificationCenter.default.removeObserver(self, name: Notification.Name("didTransferMoneySuccessfully"), object: nil)
+    }
     let didTransferMoneyNotification = Notification.Name("didTransferMoneyNotification")
-
+    
     // MARK: - UI Setup
     
     private func setupUI() {
@@ -90,14 +77,30 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         enterSumTextField.keyboardType = .decimalPad
         recipientPhoneNumberTextField.keyboardType = .phonePad
         
+        recipientPhoneNumberTextField.attributedPlaceholder = NSAttributedString(string: "Recipient Phone Number", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
+        senderCurrencyTextField.attributedPlaceholder = NSAttributedString(string: "Sender Currency", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
+        commentTextField.attributedPlaceholder = NSAttributedString(string: "Comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
+        enterSumTextField.attributedPlaceholder = NSAttributedString(string: "Enter Sum", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
+ 
+        
         recipientPhoneNumberTextField.layer.cornerRadius = 8
         senderCurrencyTextField.layer.cornerRadius = 8
         commentTextField.layer.cornerRadius = 8
         enterSumTextField.layer.cornerRadius = 8
         
+        recipientPhoneNumberTextField.backgroundColor = normalColor
+        senderCurrencyTextField.backgroundColor = selectedColor
+        commentTextField.backgroundColor = normalColor
+        enterSumTextField.backgroundColor = normalColor
+        
         // Set delegate for text fields
         recipientPhoneNumberTextField.delegate = self
+        senderCurrencyTextField.delegate = self
+        commentTextField.delegate = self
         enterSumTextField.delegate = self
+        
+        senderCurrencyTextField.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+        
         
         // Add subviews
         view.addSubview(recipientPhoneNumberTextField)
@@ -133,7 +136,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             enterSumTextField.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.05),
         ])
     }
-
+    
     func didTransferMoneySuccessfully() {
         // Transfer money code here...
         serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: loggedInUser?.accountInfo.id ?? 0), completion: { [weak self] (result) in
@@ -143,29 +146,29 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             DispatchQueue.main.async {
                 switch result {
                     case .success(_): break
-//                        print("\(transactions)")
+                        //                        print("\(transactions)")
                         
                     case .failure(let error):
                         print("Error processing json data: \(error)")
                 }
-                    }
+            }
             
-            })
+        })
         // Post a notification
         NotificationCenter.default.post(name: didTransferMoneyNotification, object: nil)
     }
     
     func setupSendButton() {
         // create a button and add it to the view
-
+        
         sendMoneyButton.setTitle("Send Money", for: .normal)
         sendMoneyButton.addTarget(self, action: #selector(sendMoneyTapped), for: .touchUpInside)
         sendMoneyButton.translatesAutoresizingMaskIntoConstraints = false
         sendMoneyButton.setTitleColor(.white, for: .normal)
         sendMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-//        sendMoneyButton.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        //        sendMoneyButton.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         sendMoneyButton.layer.borderWidth = 1
-        sendMoneyButton.layer.borderColor = UIColor.white.cgColor
+        sendMoneyButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         sendMoneyButton.layer.cornerRadius = 8
         view.addSubview(sendMoneyButton)
         
@@ -203,38 +206,25 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                     
                 case .success(_):
                     let formattedAmount = String(format: "%.2f", amount)
-                     let message = "Transferred amount: \(formattedAmount) Receiver: \(receiverPhoneNumber)"
-                     UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
-                     
-                     recipientPhoneNumberTextField.text = ""
-                     senderCurrencyTextField.text = loggedInUser?.accountInfo.currency
-                     senderCurrencyTextField.isUserInteractionEnabled = false
-                     commentTextField.text = ""
-                     enterSumTextField.text = ""
-                     var currentBalance = loggedInUser?.accountInfo.balance
-                     let newBalance = (currentBalance ?? 0) - amount
-                     currentBalance = newBalance // update currentBalance with the new balance
-                     loggedInUser?.accountInfo.balance = newBalance // update loggedInUser with the new balance
-
+                    let message = "Transferred amount: \(formattedAmount) Receiver: \(receiverPhoneNumber)"
+                    UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
+                    
+                    recipientPhoneNumberTextField.text = ""
+                    senderCurrencyTextField.text = loggedInUser?.accountInfo.currency
+                    senderCurrencyTextField.isUserInteractionEnabled = false
+                    commentTextField.text = ""
+                    enterSumTextField.text = ""
+                    var currentBalance = loggedInUser?.accountInfo.balance
+                    let newBalance = (currentBalance ?? 0) - amount
+                    currentBalance = newBalance // update currentBalance with the new balance
+                    loggedInUser?.accountInfo.balance = newBalance // update loggedInUser with the new balance
+                    
                     
                     didTransferMoneySuccessfully()
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
                                                      message: "Error with status code: \(error.statusCode)",
                                                      controller: self)
-                    // for testing purpose
-//                    let url = URL(string: "http://134.122.94.77:7000/api/User/")!
-//                    serviceAPI?.fetchingUsers(url: url) { [weak self] user in
-//                        guard let self = self else {
-//                            return
-//                        }
-//                        var usersArray = [Transaction]()
-//                        usersArray = user
-//                        for user in usersArray {
-//                            print("id: \(user.id), phone: \(user.phoneNumber)")
-//                            // Replace "username" and "email" with the actual properties of your User type
-//                        }
-//                    }
             }
         }
     }
@@ -250,13 +240,9 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == recipientPhoneNumberTextField {
-            senderCurrencyTextField.becomeFirstResponder()
-        } else if textField == senderCurrencyTextField {
             commentTextField.becomeFirstResponder()
         } else if textField == commentTextField {
             enterSumTextField.becomeFirstResponder()
-        } else {
-            enterSumTextField.resignFirstResponder()
         }
         
         return true
@@ -272,13 +258,13 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == senderCurrencyTextField || textField == sendMoneyButton {
+        if textField == recipientPhoneNumberTextField || textField == commentTextField || textField == enterSumTextField {
             textField.backgroundColor = selectedColor
         } else {
-            textField.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+            textField.backgroundColor = normalColor
         }
     }
-
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.backgroundColor = normalColor
     }
