@@ -216,8 +216,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                      let newBalance = (currentBalance ?? 0) - amount
                      currentBalance = newBalance // update currentBalance with the new balance
                      loggedInUser?.accountInfo.balance = newBalance // update loggedInUser with the new balance
-                     let userInfo = ["currentBalance": newBalance]
-//                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "didTransferMoneySuccessfully"), object: nil, userInfo: userInfo)
+
                     
                     didTransferMoneySuccessfully()
                 case .failure(let error):

@@ -11,17 +11,15 @@ import CoreData
 
 class CoreDataManager {
     
+    //MARK: - Properties
+    
     let persistentContainerName = "CodeAcademy_Final"
     static let sharedInstance = CoreDataManager()
-
-    
- 
-    
-   
-
-     let container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
-    
+    let container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     private let fetchRequest = NSFetchRequest<TransactionEntity>(entityName: "TransactionEntity")
+    
+    
+    //MARK: Action
     
     func saveDataOf(transactions:[TransactionInfo]) {
         
@@ -29,46 +27,35 @@ class CoreDataManager {
         self.container?.performBackgroundTask{ [weak self] (context) in
             self?.deleteObjectsfromCoreData(context: context)
             self?.saveDataToCoreData(transactions: transactions, context: context)
-
+            
         }
     }
     
     // MARK: - Save transfer to Core Data
-       func saveTransferToCoreData(transfer: TransactionInfo) {
-           
-           // Updates CoreData with the new data from the server - Off the main thread
-           self.container?.performBackgroundTask{ [weak self] (context) in
-               guard let self = self else {
-                   return
-               }
-               let transactionEntity = TransactionEntity(context: context)
-               transactionEntity.senderPhoneNumber = transfer.senderPhoneNumber
-               transactionEntity.receiverPhoneNumber = transfer.receiverPhoneNumber
-               transactionEntity.sendingAccountId = transfer.sendingAccountId
-               transactionEntity.receivingAccountId = transfer.receivingAccountId
-               transactionEntity.transactionTime = transfer.transactionTime
-               transactionEntity.amount = transfer.amount
-               transactionEntity.comment = transfer.comment
-               
-               // Save Data
-               do {
-                   try context.save()
-                
-               } catch {
-                   fatalError("Failure to save context: \(error)")
-               }
-           }
-       }
+    func saveTransferToCoreData(transfer: TransactionInfo) {
+        
+        // Updates CoreData with the new data from the server - Off the main thread
+        self.container?.performBackgroundTask{ (context) in
 
+            let transactionEntity = TransactionEntity(context: context)
+            transactionEntity.senderPhoneNumber = transfer.senderPhoneNumber
+            transactionEntity.receiverPhoneNumber = transfer.receiverPhoneNumber
+            transactionEntity.sendingAccountId = transfer.sendingAccountId
+            transactionEntity.receivingAccountId = transfer.receivingAccountId
+            transactionEntity.transactionTime = transfer.transactionTime
+            transactionEntity.amount = transfer.amount
+            transactionEntity.comment = transfer.comment
+            
+            // Save Data
+            do {
+                try context.save()
+                
+            } catch {
+                fatalError("Failure to save context: \(error)")
+            }
+        }
+    }
     
-    
-//    func saveAccountData(accountEntity: AccountEntity) {
-//        do {
-//            try container?.viewContext.save()
-//        } catch {
-//            print("Failed to save account data: \(error.localizedDescription)")
-//        }
-//    }
     
     // MARK: - Delete Core Data objects before saving new data
     func deleteObjectsfromCoreData(context: NSManagedObjectContext) {
@@ -86,7 +73,7 @@ class CoreDataManager {
         }
     }
     
-    // MARK: - Save new data from the server to Core Data
+    // MARK: - Save new account from the server to Core Data
     
     func saveAccountToCoreData(accountEntity: AccountEntity) {
         // Create a new AccountEntity instance
@@ -97,8 +84,10 @@ class CoreDataManager {
         }
     }
     
+    // MARK: - Save new data from the server to Core Data
+    
     private func saveDataToCoreData(transactions:[TransactionInfo], context: NSManagedObjectContext) {
-      
+        
         // perform - Make sure that this code of block will be executed on the proper Queue
         // In this case this code should be perform off the main Queue
         context.perform {
@@ -123,6 +112,5 @@ class CoreDataManager {
         }
     }
     
-
 }
- 
+

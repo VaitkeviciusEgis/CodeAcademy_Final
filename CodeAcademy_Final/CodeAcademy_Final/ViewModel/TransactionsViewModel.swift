@@ -13,44 +13,39 @@ protocol UpdateTableViewDelegate: NSObjectProtocol {
     func reloadData(sender: TransactionsViewModel)
 }
 
-private var displayedTransactions = [TransactionEntity]()
+
 class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
     
-//    var isDataLoaded = false
+    //MARK: - Properties
+    
+    private var displayedTransactions = [TransactionEntity]()
     private let container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
-    
     var fetchedResultsController: NSFetchedResultsController<TransactionEntity>?
-    
     weak var delegate: UpdateTableViewDelegate?
-    
-
     
     //MARK: - Fetched Results Controller - Retrieve data from Core Data
     func retrieveDataFromCoreData() {
-           if let context = container?.viewContext {
-               let fetchRequest: NSFetchRequest<TransactionEntity> = TransactionEntity.fetchRequest()
-               fetchRequest.sortDescriptors = [NSSortDescriptor(key: "transactionTime", ascending: false)]
-               fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-               fetchedResultsController?.delegate = self
-
-               do {
-                   try fetchedResultsController?.performFetch()
-                   if let transactions = fetchedResultsController?.fetchedObjects {
-                                      displayedTransactions = transactions
-                                  }
-
-               } catch {
-                   print("Failed to initialize FetchedResultsController: \(error)")
-               }
-           }
-       }
-
-
+        if let context = container?.viewContext {
+            let fetchRequest: NSFetchRequest<TransactionEntity> = TransactionEntity.fetchRequest()
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "transactionTime", ascending: false)]
+            fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchedResultsController?.delegate = self
+            
+            do {
+                try fetchedResultsController?.performFetch()
+                if let transactions = fetchedResultsController?.fetchedObjects {
+                    displayedTransactions = transactions
+                }
+            } catch {
+                print("Failed to initialize FetchedResultsController: \(error)")
+            }
+        }
+    }
+    
     // MARK: - NSFetchedResultsControllerDelegate
-
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.delegate?.reloadData(sender: self)
-
+        
     }
     
     //MARK: - TableView DataSource functions

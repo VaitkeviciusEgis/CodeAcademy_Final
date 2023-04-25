@@ -79,7 +79,7 @@ class TabBarViewController: UITabBarController {
 //        loggedInAccount = loggedInUser.accountInfo
 
         homeVC.loggedInUser = loggedInUser
-        transactionsVC.loggedInUser = loggedInUser
+//        transactionsVC.loggedInUser = loggedInUser
         settingsVC.loggedInUser = loggedInUser
         sendMoneyVC.loggedInUser = loggedInUser
         
@@ -128,7 +128,7 @@ class TabBarViewController: UITabBarController {
         settingsVC.serviceAPI = serviceAPI
         settingsVC.homeVC = homeVC
         sendMoneyVC.serviceAPI = serviceAPI
-        transactionsVC.serviceAPI = serviceAPI
+//        transactionsVC.serviceAPI = serviceAPI
         transactionsVC.viewModel = viewModel
         homeVC.viewModel = viewModel
         transferVC.viewModel = viewModel
