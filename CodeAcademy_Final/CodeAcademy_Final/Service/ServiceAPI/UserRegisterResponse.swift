@@ -8,5 +8,5 @@
 import Foundation
 
 struct UserRegisterResponse: Decodable {
-    let userId: Int
+    let userId: Int32
 }

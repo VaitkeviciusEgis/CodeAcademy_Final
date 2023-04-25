@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class LoginViewController: UIViewController {
     
@@ -19,7 +20,11 @@ class LoginViewController: UIViewController {
     @IBOutlet private weak var passwordTextField: UITextField!
 //    @IBOutlet private weak var maxMinCharactersLabel: UILabel!
     @IBOutlet weak var currencyPickerView: UIPickerView!
-    
+    var managedContext: NSManagedObjectContext!
+    {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        return appDelegate?.persistentContainer.viewContext
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -103,7 +108,7 @@ class LoginViewController: UIViewController {
         phoneNumberTextField.text = modifiedPhoneNumber
         
         // Print the numeric characters as a string
-        print(modifiedPhoneNumber)
+//        print(modifiedPhoneNumber)
     }
     
     @IBAction func actionButtonTapped(_ sender: Any) {
@@ -120,7 +125,8 @@ class LoginViewController: UIViewController {
                                 password: passwordTextField.text!, currency: selectedCurrency.description) { [weak self] result in
             guard let self else { return }
             switch result {
-                case .success(_):
+                case .success(let userId):
+                   
                     signButtonTapped(self)
                     // make user to login after registration !!
                     currentState = .login
@@ -148,8 +154,9 @@ class LoginViewController: UIViewController {
                     
                     taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
                     
+                    
                    
-                        print("loadTransactionsData called")
+//                        print("loadTransactionsData called")
                     
                     
                     self.navigationController?.setViewControllers([self.taskBarNav], animated: true)
@@ -180,7 +187,7 @@ extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
            selectedCurrency = row == 0 ? .EUR : .USD
-           print("Selected currency: \(selectedCurrency.description)")
+//           print("Selected currency: \(selectedCurrency.description)")
        }
     
 }

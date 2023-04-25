@@ -88,21 +88,12 @@ class CoreDataManager {
     
     // MARK: - Save new data from the server to Core Data
     
-    func saveAccountData(userId: UserRegisterResponse, context: NSManagedObjectContext) {
-        
-        context.perform { [weak self] in
-            guard let self = self else {
-                return
-            }
-            
-            let accountEntity = AccountEntity(context: context)
-            accountEntity.id = Int64(userId.userId)
-            
-            do {
-                try container?.viewContext.save()
-            } catch {
-                print("Failed to save account data: \(error.localizedDescription)")
-            }
+    func saveAccountToCoreData(accountEntity: AccountEntity) {
+        // Create a new AccountEntity instance
+        do {
+            try container?.viewContext.save()
+        } catch {
+            print("Failed to save account to Core Data: \(error)")
         }
     }
     

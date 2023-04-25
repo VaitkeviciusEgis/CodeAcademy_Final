@@ -96,7 +96,7 @@ class ServiceAPI: Registering, Logging {
                         return
                     }
                     
-                    print("Update balance data \(String(data: data, encoding: .utf8) ?? "")")
+//                    print("Update balance data \(String(data: data, encoding: .utf8) ?? "")")
                 
                     let newUpdatedBalance = UpdateBalanceResponse(id: requestResponse.id, currency: requestResponse.currency, balance: requestResponse.balance, ownerPhoneNumber: requestResponse.ownerPhoneNumber)
                     completion(.success(newUpdatedBalance))
@@ -111,8 +111,8 @@ class ServiceAPI: Registering, Logging {
     func updateUser(currentPhoneNumber: String, newPhoneNumber: String, newPassword: String, accessToken: String, completion: @escaping (Result<UpdateUserResponse, NetworkError>) -> Void) {
         let url = URL(string: "http://134.122.94.77:7000/api/User")!
         let updateUserRequest = UpdateUserRequest(currentPhoneNumber: currentPhoneNumber, newPhoneNumber: newPhoneNumber, newPassword: newPassword, token: accessToken)
-        print(updateUserRequest)
-        print("Request")
+//        print(updateUserRequest)
+//        print("Request")
         let data = try! JSONEncoder().encode(updateUserRequest)
         networkService.putRequest(url: url, body: data) { result in
             switch result {
@@ -121,12 +121,12 @@ class ServiceAPI: Registering, Logging {
                         completion(.failure(.init(statusCode: -1, errorType: .decodingFailed)))
                         return
                     }
-                    print("Update User data \(String(data: data, encoding: .utf8) ?? "")")
+//                    print("Update User data \(String(data: data, encoding: .utf8) ?? "")")
                     
                     let newUpdatedUser =
                     UpdateUserResponse(userId: requestResponse.userId, validUntil: requestResponse.validUntil, accessToken: requestResponse.accessToken, accountInfo: requestResponse.accountInfo)
-                    print(newUpdatedUser)
-                    print(newUpdatedUser.accountInfo)
+//                    print(newUpdatedUser)
+//                    print(newUpdatedUser.accountInfo)
                     completion(.success(newUpdatedUser))
                 case .failure(let error):
                     print("error updating task: \(error.localizedDescription) Error ServiceAPI UpdateUser() -> networkService.putRequest()")
@@ -139,7 +139,7 @@ class ServiceAPI: Registering, Logging {
         let transferRequest = Transfer(senderPhoneNumber: senderPhoneNumber, token: token, receiverPhoneNumber: receiverPhoneNumber, senderAccountId: senderAccountId, amount: amount, comment: comment)
 
         let data = try! JSONEncoder().encode(transferRequest)
-        print("TRANSFER REQUEST Encoded \(String(data: data, encoding: .utf8) ?? "")")
+//        print("TRANSFER REQUEST Encoded \(String(data: data, encoding: .utf8) ?? "")")
         networkService.postRequest(url: url, body: data) { [weak self] result in
             switch result {
                 case .success(let data):
@@ -161,7 +161,7 @@ class ServiceAPI: Registering, Logging {
                 case .failure(let error):
                     completion(.failure(error))
                             print("ERROR TRANSFERMoney Failure on Post Request \(error.localizedDescription)")
-                    print("TRANSFER REQUEST Encoded \(String(data: data, encoding: .utf8) ?? "")")
+//                    print("TRANSFER REQUEST Encoded \(String(data: data, encoding: .utf8) ?? "")")
             }
         }
     }

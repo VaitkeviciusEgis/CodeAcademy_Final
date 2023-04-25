@@ -19,9 +19,17 @@ extension TransactionsListViewController: UITableViewDataSource {
             print("ViewModel != ViewModel")
             return 0
         }
- 
-        print("count \( viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0)")
-        return viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0
+        
+        let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
+        
+        switch filterType {
+        case "Ingoing":
+                return transactions.filter { $0.receivingAccountId == currentLoggedInAccount.id }.count
+        case "Outgoing":
+            return transactions.filter { $0.sendingAccountId == currentLoggedInAccount.id  }.count
+        default:
+            return transactions.filter { $0.receivingAccountId == currentLoggedInAccount.id  || $0.sendingAccountId == currentLoggedInAccount.id  }.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -31,12 +39,28 @@ extension TransactionsListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
-        guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath) else {
-            return UITableViewCell()
-        }
-        cell.configure(with: transaction)
         
-        cell.backgroundColor = .systemGray6
+        let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
+        let filteredTransactions: [TransactionEntity]
+        
+        switch filterType {
+        case "Ingoing":
+            filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount.id }
+        case "Outgoing":
+            filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount.id }
+        default:
+            filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount.id || $0.receivingAccountId == currentLoggedInAccount.id }
+        }
+        
+        if indexPath.row < filteredTransactions.count {
+            let transaction = filteredTransactions[indexPath.row]
+            cell.configure(with: transaction)
+            
+            cell.backgroundColor = .systemGray6
+        } else {
+            cell.textLabel?.text = "No data"
+        }
+        
         return cell
     }
     
@@ -55,7 +79,7 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
     var viewModel: TransactionsViewModel?
     
     var currentLoggedInAccount: AccountEntity!
-  
+    var filterType = "Ingoing"
 //    private var viewModel = TransactionsViewModel()
     
     private func loadData() {
@@ -116,12 +140,31 @@ class TransactionsListViewController: UIViewController, UpdateTableViewDelegate,
 
 
     func segmentSetup() {
+        
         inAndOutTransactions.setTitle("Ingoing", forSegmentAt: 0)
-        inAndOutTransactions.setTitle("Outgoing", forSegmentAt: 1)
+           inAndOutTransactions.setTitle("Outgoing", forSegmentAt: 1)
+           inAndOutTransactions.selectedSegmentIndex = 0 // Set the initial value
+           
+           inAndOutTransactions.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged) // Add the segment change action
+
+        
+        
     }
     
 
-    
+    @objc func segmentValueChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            filterType = "Ingoing"
+        case 1:
+            filterType = "Outgoing"
+        default:
+            break
+        }
+        
+        // Reload the table view with the filtered transactions
+        tableView.reloadData()
+    }
     
     @objc func handleTransferMoneyNotification() {
         // Reload data here...

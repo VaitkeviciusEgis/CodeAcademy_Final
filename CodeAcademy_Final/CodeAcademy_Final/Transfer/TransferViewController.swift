@@ -143,9 +143,9 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             }
             DispatchQueue.main.async {
                 switch result {
-                    case .success(let transactions):
-                        print("\(transactions)")
-    
+                    case .success(_): break
+//                        print("\(transactions)")
+                        
                     case .failure(let error):
                         print("Error processing json data: \(error)")
                 }
