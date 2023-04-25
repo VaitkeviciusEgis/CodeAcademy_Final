@@ -13,7 +13,6 @@ protocol UpdateTableViewDelegate: NSObjectProtocol {
     func reloadData(sender: TransactionsViewModel)
 }
 
-
 class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
     
     //MARK: - Properties

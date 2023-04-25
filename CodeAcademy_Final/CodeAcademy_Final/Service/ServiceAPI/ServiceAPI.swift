@@ -175,6 +175,7 @@ class ServiceAPI: Registering, Logging {
                 do {
                     let transactions = try JSONDecoder().decode([TransactionInfo].self, from: data)
                     completion(.success(transactions))
+                    
                     CoreDataManager.sharedInstance.saveDataOf(transactions: transactions)
                     
                 } catch let error {

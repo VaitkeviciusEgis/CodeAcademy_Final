@@ -26,9 +26,9 @@ class TransactionsListViewController: UIViewController, UISearchBarDelegate {
     // MARK: Properties
     
     let searchBar = UISearchBar()
-    private let didReceiveTransferMoneyNotification = Notification.Name("didReceiveTransferMoneyNotification")
     var viewModel: TransactionsViewModel?
     var currentLoggedInAccount: AccountEntity!
+    private let didReceiveTransferMoneyNotification = Notification.Name("didReceiveTransferMoneyNotification")
     private var filterType = "Ingoing"
     
     // MARK: Lifecycle Methods
@@ -111,8 +111,6 @@ class TransactionsListViewController: UIViewController, UISearchBarDelegate {
             searchController.searchBar.searchTextField.layer.masksToBounds = true
             searchController.searchBar.tintColor = .label
             searchController.searchBar.barTintColor = .systemGray6
-//            searchController.searchBar.standardAppearance = searchBarAppearance
-//            searchController.searchBar.scrollEdgeAppearance = searchBarAppearance
         }
     }
 
@@ -149,8 +147,6 @@ class TransactionsListViewController: UIViewController, UISearchBarDelegate {
         inAndOutTransactions.selectedSegmentIndex = 0 // Set the initial valu
         inAndOutTransactions.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged) // Add the segment change action
     }
-    
-    
     
     // MARK: Public Methods
     

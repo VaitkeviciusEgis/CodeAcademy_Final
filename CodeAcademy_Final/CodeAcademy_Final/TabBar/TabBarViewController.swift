@@ -95,6 +95,8 @@ class TabBarViewController: UITabBarController {
         guard let container = CoreDataManager.sharedInstance.container?.viewContext else {
             return
         }
+        
+        CoreDataManager.sharedInstance.container?.viewContext
         let loggedInAccount = AccountEntity(context: container)
 
         // Set the properties of the AccountEntity instance
