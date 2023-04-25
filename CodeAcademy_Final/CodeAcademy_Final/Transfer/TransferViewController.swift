@@ -6,8 +6,7 @@
 //
 
 import UIKit
-//var loggedInUser: UserAuthenticationResponse?
-//view.backgroundColor = .blue
+
 
 
 class TransferViewController: UIViewController, UITextFieldDelegate {

@@ -53,26 +53,32 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     func setupPhoneTextField() {
-        // Add constraints for phoneTextField
+        // Set up phone text field
+        phoneTextField.placeholder = "Phone number"
+        phoneTextField.borderStyle = .roundedRect
+        phoneTextField.keyboardType = .phonePad
+        phoneTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         phoneTextField.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(phoneTextField)
+        phoneTextField.delegate = self
+        
+        // Add constraints for phoneTextField
         NSLayoutConstraint.activate([
             phoneTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             phoneTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             phoneTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
             phoneTextField.heightAnchor.constraint(equalToConstant: 40)
         ])
-        
-        // Set up phone text field
-        phoneTextField.placeholder = "Phone number"
-        phoneTextField.borderStyle = .roundedRect
-        phoneTextField.keyboardType = .phonePad
-        phoneTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-        passwordTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-        view.addSubview(phoneTextField)
-        phoneTextField.delegate = self
     }
     
     func setupPasswordTextField() {
+        // Set up password text field
+        passwordTextField.placeholder = "Password"
+        passwordTextField.borderStyle = .roundedRect
+        passwordTextField.isSecureTextEntry = true
+        view.addSubview(passwordTextField)
+        passwordTextField.delegate = self
+        
         // Add constraints for passwordTextField
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -81,12 +87,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             passwordTextField.topAnchor.constraint(equalTo: phoneTextField.bottomAnchor, constant: 20),
             passwordTextField.heightAnchor.constraint(equalToConstant: 40)
         ])
-        // Set up password text field
-        passwordTextField.placeholder = "Password"
-        passwordTextField.borderStyle = .roundedRect
-        passwordTextField.isSecureTextEntry = true
-        view.addSubview(passwordTextField)
-        passwordTextField.delegate = self
     }
     
     func setupLogoutButton() {
@@ -110,7 +110,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     func setupSubmitButton() {
-        
         // Set up Submit button
         let submitButton = UIButton(type: .system)
         submitButton.setTitle("Submit Changes", for: .normal)
