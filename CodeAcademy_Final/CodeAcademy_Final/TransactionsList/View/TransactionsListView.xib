@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="C88-sd-zqQ">
-                    <rect key="frame" x="0.0" y="127" width="393" height="596"/>
+                    <rect key="frame" x="0.0" y="127" width="393" height="588"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <color key="separatorColor" systemColor="secondarySystemBackgroundColor"/>
                 </tableView>
@@ -52,7 +52,7 @@
                 <constraint firstItem="C88-sd-zqQ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="2A1-Q4-WYG"/>
                 <constraint firstItem="2gY-Pi-eJg" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12" id="7kl-ay-PxF"/>
                 <constraint firstItem="2gY-Pi-eJg" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="80X-FE-yrT"/>
-                <constraint firstItem="2a1-d9-wfg" firstAttribute="top" secondItem="C88-sd-zqQ" secondAttribute="bottom" constant="40" id="T3F-hU-E12"/>
+                <constraint firstItem="2a1-d9-wfg" firstAttribute="top" secondItem="C88-sd-zqQ" secondAttribute="bottom" constant="48" id="T3F-hU-E12"/>
                 <constraint firstItem="2gY-Pi-eJg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="WnC-Ou-Hu4"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2a1-d9-wfg" secondAttribute="trailing" constant="24" id="fhW-uB-J1O"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="2a1-d9-wfg" secondAttribute="bottom" constant="24" id="ogQ-P5-QKg"/>

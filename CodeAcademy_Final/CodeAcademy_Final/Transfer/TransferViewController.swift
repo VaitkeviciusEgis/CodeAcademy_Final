@@ -195,6 +195,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         else {
             return
         }
+   
         // TODO: implement code to send money
         serviceAPI?.transferMoney(senderPhoneNumber: senderPhoneNumber,
                                   token: token, senderAccountId: senderAccountId,
@@ -238,22 +239,29 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Text Field Delegate
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == recipientPhoneNumberTextField {
-            commentTextField.becomeFirstResponder()
-        } else if textField == commentTextField {
-            enterSumTextField.becomeFirstResponder()
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+      
+        if textField == enterSumTextField || textField == recipientPhoneNumberTextField  {
+            
+            let newLength = text.count + string.count - range.length
+            let limit = 9
+            
+            let allowedCharacterSet = CharacterSet(charactersIn: "0123456789")
+            let replacementStringCharacterSet = CharacterSet(charactersIn: string)
+            
+            // Only allow up to 9 characters
+            if newLength > limit {
+                return false
+            }
+            
+            // Only allow digits
+            if !allowedCharacterSet.isSuperset(of: replacementStringCharacterSet) {
+                return false
+            }
+            
         }
         
-        return true
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == recipientPhoneNumberTextField {
-            let allowedCharacterSet = CharacterSet(charactersIn: "0123456789+")
-            let replacementStringCharacterSet = CharacterSet(charactersIn: string)
-            return allowedCharacterSet.isSuperset(of: replacementStringCharacterSet)
-        }
         return true
     }
     

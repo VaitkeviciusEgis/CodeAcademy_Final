@@ -53,7 +53,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         
         phoneTextField.attributedPlaceholder = NSAttributedString(string: "Phone Number", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
-
+        
     }
     
     func setupPhoneTextField() {
@@ -140,7 +140,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
     
     //MARK: - Action
     
@@ -200,8 +200,18 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         }
         return true
     }
-    
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        if textField == passwordTextField || textField == phoneTextField {
+            let newLength = text.count + string.count - range.length
+            let limit = 10
+            
+            if newLength > limit {
+                return false
+            }
+        }
+        
         if textField == phoneTextField {
             let allowedCharacterSet = CharacterSet(charactersIn: "0123456789+")
             let replacementStringCharacterSet = CharacterSet(charactersIn: string)

@@ -233,6 +233,8 @@ class HomeViewController: UIViewController {
         let alertController = UIAlertController(title: "Card Pay", message: "Please enter the amount:", preferredStyle: .alert)
         
         alertController.addTextField { textField in
+            
+            
             textField.placeholder = "Enter amount"
             textField.keyboardType = .decimalPad
         }
@@ -319,3 +321,5 @@ extension HomeViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+
+

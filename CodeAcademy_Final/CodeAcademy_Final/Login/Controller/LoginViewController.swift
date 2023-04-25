@@ -175,6 +175,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        if textField == passwordTextField || textField == phoneTextField {
+            let newLength = text.count + string.count - range.length
+            let limit = 10
+            
+            if newLength > limit {
+                return false
+            }
+        }
+        
         if textField == phoneTextField {
             let allowedCharacterSet = CharacterSet(charactersIn: "0123456789+")
             let replacementStringCharacterSet = CharacterSet(charactersIn: string)
@@ -213,6 +223,8 @@ extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedCurrency = row == 0 ? .EUR : .USD
     }
+    
+    
     
 }
 
