@@ -134,7 +134,7 @@ class LoginViewController: UIViewController {
     }
     
     func login() {
-        serviceAPI.loginUser(phoneNumber: "09633", password: "q") { [weak self] result in
+        serviceAPI.loginUser(phoneNumber: "0963", password: "q") { [weak self] result in
             guard let self else { return }
             switch result {
                 case .success(let loggedUser):

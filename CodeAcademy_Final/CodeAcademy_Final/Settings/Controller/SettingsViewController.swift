@@ -78,7 +78,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.isSecureTextEntry = true
         view.addSubview(passwordTextField)
         passwordTextField.delegate = self
-        
+        passwordTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         // Add constraints for passwordTextField
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
