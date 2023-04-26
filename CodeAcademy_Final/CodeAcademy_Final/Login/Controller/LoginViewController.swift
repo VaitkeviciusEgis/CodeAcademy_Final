@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import KeychainSwift
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -178,12 +179,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     let defaults = UserDefaults.standard
                     defaults.set(password, forKey: "password")
                     defaults.set(phone, forKey: "phoneNumber")
+
+         
+                    let keychain = KeychainSwift()
+                    keychain.set(loggedUser.accessToken, forKey: "accessToken")
+
                     taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+              
                     self.navigationController?.setViewControllers([taskBarNav], animated: true)
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
-                                                     message: "Error with status code: \(error.statusCode)",
-                                                     controller: self)
+                                                         message: "Error with status code: \(error.statusCode)",
+                                                         controller: self)
             }
         }
     }

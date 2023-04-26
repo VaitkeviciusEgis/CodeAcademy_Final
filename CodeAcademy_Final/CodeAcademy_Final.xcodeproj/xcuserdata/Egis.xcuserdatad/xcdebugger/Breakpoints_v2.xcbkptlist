@@ -20,5 +20,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7C68F910-C3EE-4F89-B7A9-339B6F002F54"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CodeAcademy_Final/Login/Controller/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
+            landmarkName = "login()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7C68F910-C3EE-4F89-B7A9-339B6F002F54 - bc108796f367f9f7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;CodeAcademy_Final.UserAuthenticationResponse, CodeAcademy_Final.NetworkError&gt;) -&gt; () in CodeAcademy_Final.LoginViewController.login() -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/Login/Controller/LoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "185"
+                  endingLineNumber = "185"
+                  offsetFromSymbolStart = "1521">
+               </Location>
+               <Location
+                  uuid = "7C68F910-C3EE-4F89-B7A9-339B6F002F54 - bc108796f367f9f7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;CodeAcademy_Final.UserAuthenticationResponse, CodeAcademy_Final.NetworkError&gt;) -&gt; () in CodeAcademy_Final.LoginViewController.login() -&gt; ()"
+                  moduleName = "CodeAcademy_Final"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/Login/Controller/LoginViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "185"
+                  endingLineNumber = "185"
+                  offsetFromSymbolStart = "885">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
