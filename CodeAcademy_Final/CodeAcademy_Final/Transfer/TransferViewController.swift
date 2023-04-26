@@ -14,6 +14,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Properties
     
     let titleLabel = UILabel()
+    let subLabel = UILabel()
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     var viewModel: TransactionsViewModel?
@@ -44,12 +45,15 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - UI Setup
     private func setupUI() {
-        
+
         // Add tap gesture recognizer to dismiss keyboard
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
         view.backgroundColor = .systemGray6
         titleLabel.text = "Make Transaction"
+        subLabel.text = "All fields are required"
+        subLabel.font = UIFont.systemFont(ofSize: 12)
+        subLabel.textColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         // Set up text fields
         recipientPhoneNumberTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         senderCurrencyTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
@@ -59,10 +63,15 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         view.addSubview(titleLabel)
-        
+        view.addSubview(subLabel)
+        subLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        subLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12).isActive = true
+        subLabel.translatesAutoresizingMaskIntoConstraints = false
         // Add constraints for title label
         titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
+
+
         
         recipientPhoneNumberTextField.placeholder = "Recipient phone number"
         recipientPhoneNumberTextField.textAlignment = .center
@@ -79,7 +88,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         recipientPhoneNumberTextField.attributedPlaceholder = NSAttributedString(string: "Recipient Phone Number", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
         senderCurrencyTextField.attributedPlaceholder = NSAttributedString(string: "Sender Currency", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
         commentTextField.attributedPlaceholder = NSAttributedString(string: "Comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
-        enterSumTextField.attributedPlaceholder = NSAttributedString(string: "Enter Sum", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
+        enterSumTextField.attributedPlaceholder = NSAttributedString(string: "Amount", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
  
         
         recipientPhoneNumberTextField.layer.cornerRadius = 8
@@ -145,7 +154,6 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             DispatchQueue.main.async {
                 switch result {
                     case .success(_): break
-                        //                        print("\(transactions)")
                         
                     case .failure(let error):
                         print("Error processing json data: \(error)")
@@ -163,7 +171,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         sendMoneyButton.setTitle("Send Money", for: .normal)
         sendMoneyButton.addTarget(self, action: #selector(sendMoneyTapped), for: .touchUpInside)
         sendMoneyButton.translatesAutoresizingMaskIntoConstraints = false
-        sendMoneyButton.setTitleColor(.white, for: .normal)
+        sendMoneyButton.setTitleColor(.opaqueSeparator, for: .normal)
         sendMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         //        sendMoneyButton.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         sendMoneyButton.layer.borderWidth = 1
@@ -173,7 +181,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         
         // set constraints for the button
         NSLayoutConstraint.activate([
-            sendMoneyButton.topAnchor.constraint(equalTo: enterSumTextField.bottomAnchor, constant: 60),
+            sendMoneyButton.topAnchor.constraint(equalTo: enterSumTextField.bottomAnchor, constant: 24),
             sendMoneyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             sendMoneyButton.widthAnchor.constraint(equalToConstant: 120),
             sendMoneyButton.heightAnchor.constraint(equalToConstant: 44)
@@ -183,17 +191,21 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     
     // called when user taps the send money buttontableView.separatorStyle = .nonec
     @objc func sendMoneyTapped() {
+        
         let senderPhoneNumber = loggedInUser?.accountInfo.ownerPhoneNumber
         let token = loggedInUser?.accessToken
         let senderAccountId = Int(loggedInUser?.accountInfo.id ?? -1)
         let receiverPhoneNumber = recipientPhoneNumberTextField.text
         let amount = Double(enterSumTextField.text ?? "")
         let comment = commentTextField.text
-        
+   
         guard let senderPhoneNumber = senderPhoneNumber, let token = token, let receiverPhoneNumber = receiverPhoneNumber, let amount = amount, let comment = comment
         else {
+            
             return
         }
+        
+
    
         // TODO: implement code to send money
         serviceAPI?.transferMoney(senderPhoneNumber: senderPhoneNumber,
@@ -202,21 +214,14 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                                   amount: amount,
                                   comment: comment) { [weak self] result in
             guard let self = self else { return }
+            
+ 
+            
+            
             switch result {
                 case .success(_):
-                    
-                
-                    let eurSymbol = "\u{20AC}"
-                    formatter.currencySymbol = eurSymbol
-                    var text = String(amount)
-                
-                    let formattedAmount = formatter.string(from: NSNumber(value: amount)) ?? ""
-                    formatter.numberStyle = .currency
-                    formatter.currencySymbol = eurSymbol
 
-
-
-                    let message = "Transferred amount: \(String(describing: formatter.string(from: NSNumber(value: amount)))) Receiver: \(receiverPhoneNumber)"
+                    let message = "Transaction completed"
                     UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
              
                     recipientPhoneNumberTextField.text = ""

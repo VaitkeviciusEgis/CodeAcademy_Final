@@ -47,10 +47,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(titleLabel)
         
-        // Add constraints for title label
+        // Add constraints for Title label
         titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
         
+        // Add constraints for phoneTextField
         phoneTextField.attributedPlaceholder = NSAttributedString(string: "Phone Number", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
         
@@ -95,12 +96,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     func setupLogoutButton() {
         logoutButton.setTitle("Logout", for: .normal)
-        logoutButton.setTitleColor(.white, for: .normal)
+        logoutButton.setTitleColor(.opaqueSeparator, for: .normal)
         logoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        logoutButton.backgroundColor = .systemRed
+        logoutButton.layer.borderColor = CGColor(red: 255/255, green: 69/255, blue: 58/255, alpha: 1)
         logoutButton.layer.cornerRadius = 8
         logoutButton.layer.borderWidth = 1
-        logoutButton.layer.borderColor = UIColor.white.cgColor
         logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         view.addSubview(logoutButton)
         
@@ -117,7 +117,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         // Set up Submit button
         let submitButton = UIButton(type: .system)
         submitButton.setTitle("Submit Changes", for: .normal)
-        submitButton.setTitleColor(.white, for: .normal)
+        submitButton.setTitleColor(.opaqueSeparator, for: .normal)
         submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         submitButton.layer.cornerRadius = 8
         submitButton.layer.borderWidth = 1
@@ -143,9 +143,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     //MARK: - Action
     
     @objc func submitButtonTapped() {
-        print("Submit tapped!")
         guard let currentPhoneNumber = loggedInUser?.accountInfo.ownerPhoneNumber, let currentToken = loggedInUser?.accessToken else {
-            print("nil in current token or phone number")
             return
         }
         
@@ -153,9 +151,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         let newPassword = passwordTextField.text
         
         
-        guard let newPhoneNumber = newPhoneNumber, let newPassword = newPassword, !newPhoneNumber.isEmpty || !newPassword.isEmpty else {
-            print("Field is empty in update user")
+        guard let newPhoneNumber = newPhoneNumber, let newPassword = newPassword, !newPhoneNumber.isEmpty && !newPassword.isEmpty else {
+            UIAlertController.showErrorAlert(title: "Fields are Empty", message: "", controller: self)
             return
+        }
+        
+        if newPhoneNumber == phoneTextField.text && newPassword == passwordTextField.text {
+            UIAlertController.showErrorAlert(title: "This is your current credentials", message: "Try Again", controller: self)
         }
         
         serviceAPI?.updateUser(currentPhoneNumber: currentPhoneNumber, newPhoneNumber: newPhoneNumber, newPassword: newPassword, accessToken: currentToken, completion: { [weak self] result in
@@ -184,8 +186,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func logoutButtonTapped() {
-        // Perform logout action
-        print("Logout button tapped!")
         self.navigationController?.setViewControllers([LoginViewController()], animated: true)
     }
     

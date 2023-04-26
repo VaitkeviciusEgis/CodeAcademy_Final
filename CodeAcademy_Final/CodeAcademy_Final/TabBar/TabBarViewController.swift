@@ -64,7 +64,6 @@ class TabBarViewController: UITabBarController {
         self.serviceAPI = serviceAPI
         
         guard let serviceAPI = serviceAPI else {
-            print("Reference of serviceAPI was not transferred")
             return
         }
         // Create a new AccountEntity instance

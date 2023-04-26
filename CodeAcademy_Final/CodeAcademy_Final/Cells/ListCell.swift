@@ -40,12 +40,12 @@ class ListCell: UITableViewCell {
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            phoneNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            phoneNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: 48),
+            phoneNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
             phoneNumberLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            phoneNumberLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30)
         ])
         amountLabel.lineBreakMode = .byTruncatingTail
         amountLabel.numberOfLines = 1
@@ -77,9 +77,9 @@ class ListCell: UITableViewCell {
         formatter.currencySymbol = eurSymbol
         
         phoneNumberLabel.text = "+370 \(String(describing: transaction.receiverPhoneNumber ?? ""))"
-        phoneNumberLabel.font = .monospacedDigitSystemFont(ofSize: 16, weight: .light)
+        phoneNumberLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .light)
         amountLabel.text = formatter.string(from: NSNumber(value: amount))
-        amountLabel.font = .boldSystemFont(ofSize: 16)
+        amountLabel.font = .boldSystemFont(ofSize: 13)
     }
     
 }

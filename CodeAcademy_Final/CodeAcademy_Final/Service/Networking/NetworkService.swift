@@ -118,13 +118,10 @@ class NetworkService: NetworkRequesting {
                     case 200:
                         completion(.success(data))
                     case 400:
-                        // ERROR BAD REQUEST
                         completion(.failure(.init(message: dataString, statusCode: statusCode, errorType: .badRequest)))
                     case 401:
-                        print("provided token is nov valid")
                         completion(.failure(.init(message: dataString, statusCode: statusCode, errorType: .notFound)))
                     case 409:
-                        print("If the new phone number is changed and is already taken")
                         completion(.failure(.init(message: dataString, statusCode: statusCode, errorType: .notFound)))
                     default:
                         break

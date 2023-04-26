@@ -25,7 +25,7 @@ class HomeViewController: UIViewController {
     private var isTableViewHidden = false
     var viewModel: TransactionsViewModel?
     var transactions: [TransactionInfo] = []
-    
+    let addMoneyButton = UIButton(type: .system)
     
     //MARK: Lifecycle
     
@@ -55,7 +55,6 @@ class HomeViewController: UIViewController {
     
     private func loadData() {
         guard let viewModel = self.viewModel else {
-            print("ViewModel != ViewModel")
             return
         }
         viewModel.retrieveDataFromCoreData()
@@ -78,11 +77,11 @@ class HomeViewController: UIViewController {
         // Add constraints to position the table view 0 points from the top safe area
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+//            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            tableView.heightAnchor.constraint(equalToConstant: 400)
-            
+            tableView.heightAnchor.constraint(equalToConstant: 300),
+//            tableView.topAnchor.constraint(equalTo: addMoneyButton.bottomAnchor, constant: 60)
         ])
         // Register any necessary cells or headers/footers
         tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
@@ -148,6 +147,7 @@ class HomeViewController: UIViewController {
             cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 16),
             cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -16),
             cardView.heightAnchor.constraint(equalToConstant: 200)
+            
         ])
         
         // Set up the cardholder label
@@ -180,9 +180,8 @@ class HomeViewController: UIViewController {
     func setupAddMoneyButton() {
         
         view.backgroundColor = .systemGray6
-        let addMoneyButton = UIButton(type: .system)
         addMoneyButton.setTitle("Add Money", for: .normal)
-        addMoneyButton.setTitleColor(.white, for: .normal) 
+        addMoneyButton.setTitleColor(.opaqueSeparator, for: .normal)
         addMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         addMoneyButton.titleLabel?.textColor = .systemGray6
         addMoneyButton.layer.cornerRadius = 8
@@ -195,7 +194,9 @@ class HomeViewController: UIViewController {
             addMoneyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             addMoneyButton.topAnchor.constraint(equalTo: cardView.bottomAnchor, constant: 24),
             addMoneyButton.widthAnchor.constraint(equalToConstant: 120),
-            addMoneyButton.heightAnchor.constraint(equalToConstant: 40)
+            addMoneyButton.heightAnchor.constraint(equalToConstant: 40),
+            addMoneyButton.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -8),
+
         ])
     }
     
@@ -205,13 +206,17 @@ class HomeViewController: UIViewController {
         alertController.addTextField { textField in
             textField.placeholder = "Enter amount"
             textField.keyboardType = .decimalPad
+            
+            
         }
         
         let submitAction = UIAlertAction(title: "Submit", style: .default) { action in
-            guard let amountText = alertController.textFields?.first?.text, let amount = Double(amountText), let userId = self.loggedInUser?.accountInfo.id else {
-                // Invalid input
+            
+            guard let amountText = alertController.textFields?.first?.text, !amountText.isEmpty, let amount = Double(amountText), let userId = self.loggedInUser?.accountInfo.id else {
+                self.present(alertController, animated: true)
                 return
             }
+            
             self.serviceAPI?.addMoney(accountId: userId, amountToAdd: amount) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
@@ -260,7 +265,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func toggleTableView() {
-        UIView.animate(withDuration: 1) { // Change the duration as needed
+        UIView.animate(withDuration: 0.1) { // Change the duration as needed
             self.tableView.alpha = self.tableView.alpha == 0 ? 1 : 0
         }
         isTableViewHidden = !isTableViewHidden
@@ -274,25 +279,22 @@ extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = self.viewModel else {
-            print("ViewModel != ViewModel")
             return 0
         }
         
-        print("count \( viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0)")
         let lastFiveTransactions = viewModel.fetchedResultsController?.fetchedObjects?.suffix(5)
         return min(lastFiveTransactions?.count ?? 0, 5)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("cellForRowAt() called for indexPath: \(indexPath)")
         guard let viewModel = self.viewModel else {
-            print("ViewModel != ViewModel")
             return UITableViewCell()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
         guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath) else {
             return UITableViewCell()
         }
+        cell.selectionStyle = .none
         cell.configure(with: transaction)
         cell.backgroundColor = .systemGray6
         
@@ -301,15 +303,18 @@ extension HomeViewController: UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 48
         
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false for the cells that you want to be non-editable
+        return false
     }
 }
 
 extension HomeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
+
 }
 
 

@@ -141,7 +141,6 @@ class TransactionsListViewController: UIViewController {
     
     private func loadData() {
         guard let viewModel = self.viewModel else {
-            print("ViewModel != ViewModel")
             return
         }
         viewModel.retrieveDataFromCoreData()
@@ -171,7 +170,6 @@ extension TransactionsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = self.viewModel else {
-            print("ViewModel != ViewModel")
             return 0
         }
         
@@ -189,9 +187,8 @@ extension TransactionsListViewController: UITableViewDataSource {
     }
     
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            print("cellForRowAt() called for indexPath: \(indexPath)")
+
             guard let viewModel = self.viewModel else {
-                print("ViewModel != ViewModel")
                 return UITableViewCell()
             }
             let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
@@ -225,7 +222,7 @@ extension TransactionsListViewController: UITableViewDataSource {
         }
     
         func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 72
+            return 64
     
         }
 }

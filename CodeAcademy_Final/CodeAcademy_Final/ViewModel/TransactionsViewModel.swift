@@ -36,7 +36,6 @@ class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
                     displayedTransactions = transactions
                 }
             } catch {
-                print("Failed to initialize FetchedResultsController: \(error)")
             }
         }
     }

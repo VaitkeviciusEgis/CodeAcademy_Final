@@ -59,7 +59,6 @@ class ServiceAPI: Registering, Logging {
         let url = URL(string: "http://134.122.94.77:7000/api/User/login")!
         let loginRequest = UserAuthorizationRequest(phoneNumber: phoneNumber, password: password)
         let data = try! JSONEncoder().encode(loginRequest)
-        print("DATA \(data)")
         networkService.postRequest(url: url, body: data) { result in
             switch result {
                 case .success(let data):
@@ -71,8 +70,6 @@ class ServiceAPI: Registering, Logging {
                     completion(.success(loggedUser))
                 case .failure(let error):
                     completion(.failure(error))
-                    print("ERROR \(error.localizedDescription)")
-                    
             }
         }
     }
@@ -93,7 +90,6 @@ class ServiceAPI: Registering, Logging {
                     completion(.success(newUpdatedBalance))
                 case .failure(let error):
                     completion(.failure(error))
-                    print("error updating task: \(error.localizedDescription) Error ServiceAPI AddMoney() -> networkService.putRequest()")
             }
         }
         

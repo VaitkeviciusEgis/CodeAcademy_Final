@@ -130,7 +130,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func confirmPassword(password: String, confirmation: String, phoneNumber: String, currency: String) {
         if password != confirmation {
-            UIAlertController.showErrorAlert(title: "Try again!", message: "Make sure password match", controller: self)
+            UIAlertController.showErrorAlert(title: "Try again!", message: "This time make sure that passwords do match!", controller: self)
 
         } else {
             register(phoneNumber: phoneNumber, password: password, currency: currency)
