@@ -47,8 +47,11 @@ final class CoreDataManager {
     }
     
     func saveAccountToCoreData(accountEntity: AccountEntity) {
-        container?.viewContext.insert(accountEntity)
-        saveContext(container!.viewContext)
+        guard let container = container else {
+            return
+        }
+        container.viewContext.insert(accountEntity)
+        saveContext(container.viewContext)
     }
     
     //MARK: - Private Methods

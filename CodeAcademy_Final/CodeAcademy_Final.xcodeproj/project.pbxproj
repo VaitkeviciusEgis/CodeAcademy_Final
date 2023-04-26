@@ -17,7 +17,6 @@
 		EDF0F04F29F4B7C500DD41F5 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F04E29F4B7C500DD41F5 /* TabBarViewController.swift */; };
 		EDF0F06229F4B7CF00DD41F5 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05229F4B7CF00DD41F5 /* NetworkService.swift */; };
 		EDF0F06329F4B7CF00DD41F5 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05329F4B7CF00DD41F5 /* NetworkError.swift */; };
-		EDF0F06429F4B7CF00DD41F5 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05529F4B7CF00DD41F5 /* UserInfo.swift */; };
 		EDF0F06529F4B7CF00DD41F5 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05629F4B7CF00DD41F5 /* ServiceAPI.swift */; };
 		EDF0F06629F4B7CF00DD41F5 /* TransactionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05729F4B7CF00DD41F5 /* TransactionInfo.swift */; };
 		EDF0F06729F4B7CF00DD41F5 /* UpdateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F05829F4B7CF00DD41F5 /* UpdateUserResponse.swift */; };
@@ -58,7 +57,6 @@
 		EDF0F04E29F4B7C500DD41F5 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		EDF0F05229F4B7CF00DD41F5 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		EDF0F05329F4B7CF00DD41F5 /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		EDF0F05529F4B7CF00DD41F5 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		EDF0F05629F4B7CF00DD41F5 /* ServiceAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		EDF0F05729F4B7CF00DD41F5 /* TransactionInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionInfo.swift; sourceTree = "<group>"; };
 		EDF0F05829F4B7CF00DD41F5 /* UpdateUserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateUserResponse.swift; sourceTree = "<group>"; };
@@ -97,6 +95,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ED1773A929F8E11700269392 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				EDF0F06129F4B7CF00DD41F5 /* Transfer.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		ED1773AA29F8E16F00269392 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				EDF0F05F29F4B7CF00DD41F5 /* UpdateBalanceRequest.swift */,
+				EDF0F05729F4B7CF00DD41F5 /* TransactionInfo.swift */,
+				EDF0F10229F6711100DD41F5 /* UpdateBalanceResponse.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		ED1773AB29F8E1A000269392 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				EDF0F05D29F4B7CF00DD41F5 /* UserRegisterResponse.swift */,
+				EDF0F05B29F4B7CF00DD41F5 /* UserRegisterRequest.swift */,
+				EDF0F05929F4B7CF00DD41F5 /* UserAuthenticationResponse.swift */,
+				EDF0F05E29F4B7CF00DD41F5 /* UserAuthorizationRequest.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		ED1773AC29F8E1C900269392 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				EDF0F06029F4B7CF00DD41F5 /* AccountInfo.swift */,
+				EDF0F05A29F4B7CF00DD41F5 /* UpdateUserRequest.swift */,
+				EDF0F05829F4B7CF00DD41F5 /* UpdateUserResponse.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		ED1773AD29F8E20600269392 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EDF0F05129F4B7CF00DD41F5 /* Networking */,
+				EDF0F05429F4B7CF00DD41F5 /* ServiceAPI */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		ED1773B129F8E29D00269392 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				EDF0F07229F4B82300DD41F5 /* AlertControllerExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		EDF0F01F29F4B6F300DD41F5 = {
 			isa = PBXGroup;
 			children = (
@@ -116,14 +170,14 @@
 		EDF0F02A29F4B6F300DD41F5 /* CodeAcademy_Final */ = {
 			isa = PBXGroup;
 			children = (
+				ED1773B129F8E29D00269392 /* Extension */,
 				EDF0F08D29F4B87400DD41F5 /* Cells */,
 				EDF0F03429F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld */,
 				EDF0F09D29F4B93200DD41F5 /* CoreDataModel */,
-				EDF0F07129F4B82300DD41F5 /* Extensions */,
 				EDF0F07429F4B82800DD41F5 /* Home */,
 				EDF0F03C29F4B6F600DD41F5 /* Info.plist */,
 				EDF0F04229F4B77A00DD41F5 /* Login */,
-				EDF0F05029F4B7CF00DD41F5 /* Service */,
+				ED1773AD29F8E20600269392 /* Model */,
 				EDF0F07D29F4B83B00DD41F5 /* Settings */,
 				EDF0F04A29F4B79600DD41F5 /* Supporting */,
 				EDF0F04D29F4B7B200DD41F5 /* TabBar */,
@@ -137,8 +191,8 @@
 		EDF0F04229F4B77A00DD41F5 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				ED1773AB29F8E1A000269392 /* Module */,
 				EDF0F04329F4B77A00DD41F5 /* Controller */,
-				EDF0F04529F4B77A00DD41F5 /* Model */,
 				EDF0F04629F4B77A00DD41F5 /* View */,
 			);
 			path = Login;
@@ -150,13 +204,6 @@
 				EDF0F04429F4B77A00DD41F5 /* LoginViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		EDF0F04529F4B77A00DD41F5 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		EDF0F04629F4B77A00DD41F5 /* View */ = {
@@ -186,15 +233,6 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
-		EDF0F05029F4B7CF00DD41F5 /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				EDF0F05129F4B7CF00DD41F5 /* Networking */,
-				EDF0F05429F4B7CF00DD41F5 /* ServiceAPI */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
 		EDF0F05129F4B7CF00DD41F5 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,37 +245,16 @@
 		EDF0F05429F4B7CF00DD41F5 /* ServiceAPI */ = {
 			isa = PBXGroup;
 			children = (
-				EDF0F05529F4B7CF00DD41F5 /* UserInfo.swift */,
 				EDF0F05629F4B7CF00DD41F5 /* ServiceAPI.swift */,
-				EDF0F05729F4B7CF00DD41F5 /* TransactionInfo.swift */,
-				EDF0F05829F4B7CF00DD41F5 /* UpdateUserResponse.swift */,
-				EDF0F05929F4B7CF00DD41F5 /* UserAuthenticationResponse.swift */,
-				EDF0F05A29F4B7CF00DD41F5 /* UpdateUserRequest.swift */,
-				EDF0F05B29F4B7CF00DD41F5 /* UserRegisterRequest.swift */,
-				EDF0F05D29F4B7CF00DD41F5 /* UserRegisterResponse.swift */,
-				EDF0F05E29F4B7CF00DD41F5 /* UserAuthorizationRequest.swift */,
-				EDF0F05F29F4B7CF00DD41F5 /* UpdateBalanceRequest.swift */,
-				EDF0F06029F4B7CF00DD41F5 /* AccountInfo.swift */,
-				EDF0F06129F4B7CF00DD41F5 /* Transfer.swift */,
-				EDF0F10229F6711100DD41F5 /* UpdateBalanceResponse.swift */,
 			);
 			path = ServiceAPI;
-			sourceTree = "<group>";
-		};
-		EDF0F07129F4B82300DD41F5 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				EDF0F07229F4B82300DD41F5 /* AlertControllerExtension.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		EDF0F07429F4B82800DD41F5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				ED1773AA29F8E16F00269392 /* Module */,
 				EDF0F07529F4B82800DD41F5 /* Controller */,
-				EDF0F07729F4B82800DD41F5 /* Model */,
-				EDF0F07829F4B82800DD41F5 /* View */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -248,20 +265,6 @@
 				EDF0F07629F4B82800DD41F5 /* HomeViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		EDF0F07729F4B82800DD41F5 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		EDF0F07829F4B82800DD41F5 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		EDF0F07A29F4B83000DD41F5 /* Transfer */ = {
@@ -275,9 +278,8 @@
 		EDF0F07D29F4B83B00DD41F5 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				ED1773AC29F8E1C900269392 /* Module */,
 				EDF0F07E29F4B83B00DD41F5 /* Controller */,
-				EDF0F08029F4B83B00DD41F5 /* Model */,
-				EDF0F08129F4B83B00DD41F5 /* View */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -290,25 +292,11 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		EDF0F08029F4B83B00DD41F5 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		EDF0F08129F4B83B00DD41F5 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		EDF0F08329F4B86000DD41F5 /* TransactionsList */ = {
 			isa = PBXGroup;
 			children = (
+				ED1773A929F8E11700269392 /* Module */,
 				EDF0F08429F4B86000DD41F5 /* Controller */,
-				EDF0F08629F4B86000DD41F5 /* Model */,
 				EDF0F08729F4B86000DD41F5 /* View */,
 			);
 			path = TransactionsList;
@@ -320,13 +308,6 @@
 				EDF0F08529F4B86000DD41F5 /* TransactionsListViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		EDF0F08629F4B86000DD41F5 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		EDF0F08729F4B86000DD41F5 /* View */ = {
@@ -449,7 +430,6 @@
 				EDF0F07929F4B82800DD41F5 /* HomeViewController.swift in Sources */,
 				EDF0F07029F4B7CF00DD41F5 /* Transfer.swift in Sources */,
 				EDF0F12529F7552C00DD41F5 /* TransactionEntity+CoreDataProperties.swift in Sources */,
-				EDF0F06429F4B7CF00DD41F5 /* UserInfo.swift in Sources */,
 				EDF0F07C29F4B83000DD41F5 /* TransferViewController.swift in Sources */,
 				EDF0F04F29F4B7C500DD41F5 /* TabBarViewController.swift in Sources */,
 				EDF0F10329F6711100DD41F5 /* UpdateBalanceResponse.swift in Sources */,

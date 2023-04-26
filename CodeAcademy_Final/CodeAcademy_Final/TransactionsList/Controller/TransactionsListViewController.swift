@@ -21,13 +21,13 @@ class TransactionsListViewController: UIViewController {
     // MARK: Outlets
     
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView?
     @IBOutlet private weak var inAndOutTransactions: UISegmentedControl!
     
     // MARK: Properties
     
     var viewModel: TransactionsViewModel?
-    var currentLoggedInAccount: AccountEntity!
+    var currentLoggedInAccount: AccountEntity?
     private let didReceiveTransferMoneyNotification = Notification.Name("didReceiveTransferMoneyNotification")
     private var filterType = "Ingoing"
     
@@ -60,6 +60,9 @@ class TransactionsListViewController: UIViewController {
     }
     
     private func setupTableView() {
+        guard let tableView = tableView else {
+            return
+        }
         tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
@@ -144,7 +147,7 @@ class TransactionsListViewController: UIViewController {
             return
         }
         viewModel.retrieveDataFromCoreData()
-        tableView.reloadData()
+        tableView?.reloadData()
     }
     
     
@@ -160,7 +163,7 @@ class TransactionsListViewController: UIViewController {
     // MARK: Public Methods
     
     func updateTableView() {
-        tableView.reloadData()
+        tableView?.reloadData()
     }
 }
 
@@ -174,15 +177,15 @@ extension TransactionsListViewController: UITableViewDataSource {
         }
         
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
-        
+ 
         switch filterType {
                 
             case "Ingoing":
-                return transactions.filter { $0.receivingAccountId == currentLoggedInAccount.id }.count
+                return transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }.count
             case "Outgoing":
-                return transactions.filter { $0.sendingAccountId == currentLoggedInAccount.id  }.count
+                return transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }.count
             default:
-                return transactions.filter { $0.receivingAccountId == currentLoggedInAccount.id  || $0.sendingAccountId == currentLoggedInAccount.id  }.count
+                return transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 || $0.sendingAccountId == currentLoggedInAccount?.id  ?? -1}.count
         }
     }
     
@@ -191,16 +194,18 @@ extension TransactionsListViewController: UITableViewDataSource {
             guard let viewModel = self.viewModel else {
                 return UITableViewCell()
             }
-            let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
-    
+            let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell
+            guard let cell = cell else {
+                return UITableViewCell()
+            }
             let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
             let filteredTransactions: [TransactionEntity]
     
             switch filterType {
             case "Ingoing":
-                filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount.id }
+                    filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
             case "Outgoing":
-                filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount.id }
+                    filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1}
             case "All":
                  filteredTransactions = transactions
                
@@ -211,6 +216,7 @@ extension TransactionsListViewController: UITableViewDataSource {
     
             if indexPath.row < filteredTransactions.count {
                 let transaction = filteredTransactions[indexPath.row]
+                
                 cell.configure(with: transaction)
     
                 cell.backgroundColor = .systemGray6

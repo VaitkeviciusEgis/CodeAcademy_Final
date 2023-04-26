@@ -139,14 +139,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func register(phoneNumber: String, password: String, currency: String) {
-        serviceAPI.registerUser(phoneNumber: phoneTextField.text!,
-                                password: passwordTextField.text!, currency: selectedCurrency.description) { [weak self] result in
+        guard let password = passwordTextField.text, let phone = phoneTextField.text else {
+            return
+        }
+        serviceAPI.registerUser(phoneNumber: phone,
+                                password: password, currency: selectedCurrency.description) { [weak self] result in
             guard let self else { return }
             switch result {
                 case .success(let userId):
-                    
+                    // to save user id and pw in user defaults
                     signButtonTapped(self)
-                    // make user to login after registration !!
                     currentState = .login
                 case .failure(let error):
                     
@@ -158,12 +160,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func login() {
-        serviceAPI.loginUser(phoneNumber: "0963", password: "q") { [weak self] result in
+        guard let password = passwordTextField.text, let phone = phoneTextField.text else {
+            return
+        }
+        serviceAPI.loginUser(phoneNumber: phone, password: password) { [weak self] result in
             guard let self else { return }
             switch result {
                 case .success(let loggedUser):
                     taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
                     self.navigationController?.setViewControllers([self.taskBarNav], animated: true)
+                    // to save token in keychain
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
                                                      message: "Error with status code: \(error.statusCode)",

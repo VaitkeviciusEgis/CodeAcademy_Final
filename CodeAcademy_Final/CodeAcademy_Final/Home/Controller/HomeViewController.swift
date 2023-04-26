@@ -290,8 +290,8 @@ extension HomeViewController: UITableViewDataSource {
         guard let viewModel = self.viewModel else {
             return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as! ListCell
-        guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath) else {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell
+        guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath), let cell = cell else {
             return UITableViewCell()
         }
         cell.selectionStyle = .none

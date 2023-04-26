@@ -34,7 +34,7 @@ class ServiceAPI: Registering, Logging {
     func registerUser(phoneNumber: String, password: String, currency: String, completion: @escaping (Result<UserRegisterResponse, NetworkError>) -> Void) {
         let url = URL(string: "http://134.122.94.77:7000/api/User/register")!
         let registerRequest = UserRegisterRequest(phoneNumber: phoneNumber, password: password, currency: currency)
-        let data = try! JSONEncoder().encode(registerRequest)
+        let data = try? JSONEncoder().encode(registerRequest)
         
         networkService.postRequest(url: url, body: data) { result in
             switch result {
@@ -58,7 +58,7 @@ class ServiceAPI: Registering, Logging {
     func loginUser(phoneNumber: String, password: String, completion: @escaping (Result<UserAuthenticationResponse, NetworkError>) -> Void) {
         let url = URL(string: "http://134.122.94.77:7000/api/User/login")!
         let loginRequest = UserAuthorizationRequest(phoneNumber: phoneNumber, password: password)
-        let data = try! JSONEncoder().encode(loginRequest)
+        let data = try? JSONEncoder().encode(loginRequest)
         networkService.postRequest(url: url, body: data) { result in
             switch result {
                 case .success(let data):
@@ -77,7 +77,7 @@ class ServiceAPI: Registering, Logging {
     func addMoney(accountId: Int, amountToAdd: Double, completion: @escaping (Result<UpdateBalanceResponse, NetworkError>) -> Void) {
         let url = URL(string: "http://134.122.94.77:7000/api/Accounts")!
         let updateBalanceRequest = UpdateBalanceRequest(accountId: accountId, amountToAdd: amountToAdd)
-        let data = try! JSONEncoder().encode(updateBalanceRequest)
+        let data = try? JSONEncoder().encode(updateBalanceRequest)
         
         networkService.putRequest(url: url, body: data) { result in
             switch result {
@@ -96,9 +96,12 @@ class ServiceAPI: Registering, Logging {
     }
     
     func updateUser(currentPhoneNumber: String, newPhoneNumber: String, newPassword: String, accessToken: String, completion: @escaping (Result<UpdateUserResponse, NetworkError>) -> Void) {
-        let url = URL(string: "http://134.122.94.77:7000/api/User")!
+        let url = URL(string: "http://134.122.94.77:7000/api/User") ?? URL(string: "")
         let updateUserRequest = UpdateUserRequest(currentPhoneNumber: currentPhoneNumber, newPhoneNumber: newPhoneNumber, newPassword: newPassword, token: accessToken)
-        let data = try! JSONEncoder().encode(updateUserRequest)
+        let data = try? JSONEncoder().encode(updateUserRequest)
+        guard let url = url else {
+            return
+        }
         networkService.putRequest(url: url, body: data) { result in
             switch result {
                 case .success(let data):
@@ -116,10 +119,12 @@ class ServiceAPI: Registering, Logging {
     }
     
     func transferMoney(senderPhoneNumber: String, token: String, senderAccountId: Int, receiverPhoneNumber: String, amount: Double, comment: String, completion: @escaping (Result<Void, NetworkError>) -> Void)  {
-        let url = URL(string: "http://134.122.94.77:7000/api/Transactions")!
+        let url = URL(string: "http://134.122.94.77:7000/api/User") ?? URL(string: "")
         let transferRequest = Transfer(senderPhoneNumber: senderPhoneNumber, token: token, receiverPhoneNumber: receiverPhoneNumber, senderAccountId: senderAccountId, amount: amount, comment: comment)
-        
-        let data = try! JSONEncoder().encode(transferRequest)
+        let data = try? JSONEncoder().encode(transferRequest)
+        guard let url = url else {
+            return
+        }
         networkService.postRequest(url: url, body: data) { result in
             switch result {
                 case .success(_):
