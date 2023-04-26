@@ -119,20 +119,27 @@ class ServiceAPI: Registering, Logging {
     }
     
     func transferMoney(senderPhoneNumber: String, token: String, senderAccountId: Int, receiverPhoneNumber: String, amount: Double, comment: String, completion: @escaping (Result<Void, NetworkError>) -> Void)  {
-        let url = URL(string: "http://134.122.94.77:7000/api/User") ?? URL(string: "")
+        let url = URL(string: "http://134.122.94.77:7000/api/Transactions")!
         let transferRequest = Transfer(senderPhoneNumber: senderPhoneNumber, token: token, receiverPhoneNumber: receiverPhoneNumber, senderAccountId: senderAccountId, amount: amount, comment: comment)
-        let data = try? JSONEncoder().encode(transferRequest)
-        guard let url = url else {
-            return
-        }
-        networkService.postRequest(url: url, body: data) { result in
+
+        let data = try! JSONEncoder().encode(transferRequest)
+//        print("TRANSFER REQUEST Encoded \(String(data: data, encoding: .utf8) ?? "")")
+        networkService.postRequest(url: url, body: data) { [weak self] result in
+            guard let self = self else {
+                return }
             switch result {
-                case .success(_):
+                case .success(let data):
+                    if let jsonString = String(data: data, encoding: .utf8) {
+//                        print("Raw JSON Data in TRANSFERMoney: \(jsonString)")
+                    }
+
+
                     completion(.success(()))
+                    
+                    
                 case .failure(let error):
                     completion(.failure(error))
-                    print("ERROR TRANSFERMoney Failure on Post Request \(error.localizedDescription)")
-                    
+                            print("ERROR TRANSFERMoney Failure on Post Request \(error.localizedDescription)")
             }
         }
     }
