@@ -111,6 +111,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             logoutButton.widthAnchor.constraint(equalToConstant: 120),
             logoutButton.heightAnchor.constraint(equalToConstant: 40)
         ])
+        
     }
     
     func setupSubmitButton() {
@@ -155,11 +156,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             UIAlertController.showErrorAlert(title: "Fields are Empty", message: "", controller: self)
             return
         }
-        
-        if newPhoneNumber == phoneTextField.text && newPassword == passwordTextField.text {
-            UIAlertController.showErrorAlert(title: "This is your current credentials", message: "Try Again", controller: self)
-        }
-        
+
         serviceAPI?.updateUser(currentPhoneNumber: currentPhoneNumber, newPhoneNumber: newPhoneNumber, newPassword: newPassword, accessToken: currentToken, completion: { [weak self] result in
             guard let self = self else {
                 return
@@ -173,9 +170,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
                     let updatedLoggedInUser = UserAuthenticationResponse(userId: updated.userId, validUntil: updated.validUntil, accessToken: updated.accessToken, accountInfo: updated.accountInfo)
                     
                     homeVC?.loggedInUser = updatedLoggedInUser
+                    let defaults = UserDefaults.standard
+                    defaults.set(newPhoneNumber, forKey: "phoneNumber")
+                    defaults.set(newPassword, forKey: "password")
                     
-                    phoneTextField.text = ""
-                    passwordTextField.text = ""
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: "Error with status code: \(error.statusCode)",
                                                      message: error.localizedDescription,
