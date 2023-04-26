@@ -217,7 +217,6 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             
  
             
-            
             switch result {
                 case .success(_):
 

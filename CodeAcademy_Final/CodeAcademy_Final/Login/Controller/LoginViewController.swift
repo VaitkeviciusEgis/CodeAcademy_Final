@@ -20,15 +20,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet weak var currencyPickerView: UIPickerView!
-    
+   
+
     override func viewDidLoad() {
         super.viewDidLoad()
         currencyPickerView.delegate = self
         currencyPickerView.dataSource = self
         currencyPickerView.isHidden = true
         setupUI()
+        // Retrieving the user's phone number and password from UserDefaults
+        let defaults = UserDefaults.standard
+        let storedPhoneNumber = defaults.string(forKey: "phoneNumber")
+        let storedPassword = defaults.string(forKey: "password")
 
     }
+    
     
     //MARK: - Properties
     
@@ -147,7 +153,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             guard let self else { return }
             switch result {
                 case .success(let userId):
-                    // to save user id and pw in user defaults
                     signButtonTapped(self)
                     currentState = .login
                 case .failure(let error):
@@ -160,21 +165,32 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func login() {
+        
+        // Retrieving the user's phone number and password from UserDefaults
+         let defaults = UserDefaults.standard
+         let storedPhoneNumber = defaults.string(forKey: "phoneNumber")
+         let storedPassword = defaults.string(forKey: "password")
+
+         // Checking if the user is already logged in
+         if let phoneNumber = storedPhoneNumber, let password = storedPassword {
+             // User is already logged in, proceed to home screen
+             serviceAPI.loginUser(phoneNumber: phoneNumber, password: password) { [weak self] result in
+                 guard let self = self else { return }
+                 switch result {
+                 case .success(let loggedUser):
+                     taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+                     self.navigationController?.setViewControllers([taskBarNav], animated: false)
+                 case .failure(let error):
+                     // Handle login error
+                     print(error)
+                 }
+             }
+         } else {
+             // User needs to login
+             print("Please enter your credentials to login")
+         }
         guard let password = passwordTextField.text, let phone = phoneTextField.text else {
             return
-        }
-        serviceAPI.loginUser(phoneNumber: phone, password: password) { [weak self] result in
-            guard let self else { return }
-            switch result {
-                case .success(let loggedUser):
-                    taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
-                    self.navigationController?.setViewControllers([self.taskBarNav], animated: true)
-                    // to save token in keychain
-                case .failure(let error):
-                    UIAlertController.showErrorAlert(title: error.message ?? "",
-                                                     message: "Error with status code: \(error.statusCode)",
-                                                     controller: self)
-            }
         }
     }
     
