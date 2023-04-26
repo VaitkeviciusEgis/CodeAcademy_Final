@@ -225,7 +225,7 @@ extension TransactionsListViewController: UITableViewDataSource {
         }
     
         func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 64
+            return 72
     
         }
 }
@@ -252,21 +252,21 @@ extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDe
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        print("\(searchText)")
-        if !searchText.isEmpty {
-            var predicate: NSPredicate = NSPredicate()
-            predicate = NSPredicate(format: "name contains[c] '\(searchText)'")
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            let managedObjectContext = appDelegate.persistentContainer.viewContext
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:"Contact")
-            fetchRequest.predicate = predicate
-            do {
-//                contacts = try managedObjectContext.fetch(fetchRequest) as! [NSManagedObject]
-            } catch let error as NSError {
-                print("Could not fetch. \(error)")
-            }
-        }
-        tableView.reloadData()
+        //        print("\(searchText)")
+        //        if !searchText.isEmpty {
+        //            var predicate: NSPredicate = NSPredicate()
+        //            predicate = NSPredicate(format: "name contains[c] '\(searchText)'")
+        //            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        //            let managedObjectContext = appDelegate.persistentContainer.viewContext
+        //            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:"Contact")
+        //            fetchRequest.predicate = predicate
+        //            do {
+        ////                contacts = try managedObjectContext.fetch(fetchRequest) as! [NSManagedObject]
+        //            } catch let error as NSError {
+        //                print("Could not fetch. \(error)")
+        //            }
+        //        }
+        //        tableView.reloadData()
+        //    }
     }
-
 }

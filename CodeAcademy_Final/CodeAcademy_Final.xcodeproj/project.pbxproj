@@ -116,20 +116,20 @@
 		EDF0F02A29F4B6F300DD41F5 /* CodeAcademy_Final */ = {
 			isa = PBXGroup;
 			children = (
-				EDF0F08329F4B86000DD41F5 /* TransactionsList */,
-				EDF0F09D29F4B93200DD41F5 /* CoreDataModel */,
-				EDF0F09429F4B89300DD41F5 /* ViewModel */,
 				EDF0F08D29F4B87400DD41F5 /* Cells */,
-				EDF0F07D29F4B83B00DD41F5 /* Settings */,
-				EDF0F07A29F4B83000DD41F5 /* Transfer */,
-				EDF0F07429F4B82800DD41F5 /* Home */,
-				EDF0F07129F4B82300DD41F5 /* Extensions */,
-				EDF0F05029F4B7CF00DD41F5 /* Service */,
-				EDF0F04D29F4B7B200DD41F5 /* TabBar */,
-				EDF0F04A29F4B79600DD41F5 /* Supporting */,
-				EDF0F04229F4B77A00DD41F5 /* Login */,
-				EDF0F03C29F4B6F600DD41F5 /* Info.plist */,
 				EDF0F03429F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld */,
+				EDF0F09D29F4B93200DD41F5 /* CoreDataModel */,
+				EDF0F07129F4B82300DD41F5 /* Extensions */,
+				EDF0F07429F4B82800DD41F5 /* Home */,
+				EDF0F03C29F4B6F600DD41F5 /* Info.plist */,
+				EDF0F04229F4B77A00DD41F5 /* Login */,
+				EDF0F05029F4B7CF00DD41F5 /* Service */,
+				EDF0F07D29F4B83B00DD41F5 /* Settings */,
+				EDF0F04A29F4B79600DD41F5 /* Supporting */,
+				EDF0F04D29F4B7B200DD41F5 /* TabBar */,
+				EDF0F08329F4B86000DD41F5 /* TransactionsList */,
+				EDF0F07A29F4B83000DD41F5 /* Transfer */,
+				EDF0F09429F4B89300DD41F5 /* ViewModel */,
 			);
 			path = CodeAcademy_Final;
 			sourceTree = "<group>";

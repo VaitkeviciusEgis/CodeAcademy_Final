@@ -10,7 +10,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-//MARK: Properties
+    //MARK: Properties
     
     var tableView = UITableView()
     let cardView = UIView()
@@ -19,14 +19,13 @@ class HomeViewController: UIViewController {
     let companyLabel = UILabel()
     let eurSymbol = "\u{20AC}"
     var loggedInUser: UserAuthenticationResponse?
-//    var updatedLoggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     let formatter = NumberFormatter()
     private var showHideButton: UIButton!
     private var isTableViewHidden = false
     var viewModel: TransactionsViewModel?
     var transactions: [TransactionInfo] = []
-
+    
     
     //MARK: Lifecycle
     
@@ -35,8 +34,8 @@ class HomeViewController: UIViewController {
         setupTableView()
         setupCardView()
         setupShowHideButton()
-        setupUI()
-
+        setupAddMoneyButton()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,10 +48,11 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(true)
         loadData()
         tableView.reloadData()
-
+        
     }
     
     //MARK: - Action
+    
     private func loadData() {
         guard let viewModel = self.viewModel else {
             print("ViewModel != ViewModel")
@@ -64,30 +64,6 @@ class HomeViewController: UIViewController {
     func displayNewBalance() {
         let balance = loggedInUser?.accountInfo.balance ?? 0
         balanceLabel.text = formatter.string(from: NSNumber(value: balance))
-    }
-
-    private func setupShowHideButton() {
-        showHideButton = UIButton(type: .system)
-        showHideButton.translatesAutoresizingMaskIntoConstraints = false
-        showHideButton.setTitle("Hide Last Transactions", for: .normal)
-        showHideButton.tintColorDidChange()
-        showHideButton.addTarget(self, action: #selector(toggleTableView), for: .touchUpInside)
-        view.addSubview(showHideButton)
-        
-        NSLayoutConstraint.activate([
-            showHideButton.centerXAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -100),
-            showHideButton.topAnchor.constraint(equalTo:  cardView.topAnchor, constant: 16)
-        ])
-    }
-    
-    @objc private func toggleTableView() {
-        UIView.animate(withDuration: 1) { // Change the duration as needed
-            self.tableView.alpha = self.tableView.alpha == 0 ? 1 : 0
-        }
-        isTableViewHidden = !isTableViewHidden
-        let title = isTableViewHidden ? "Show Last Transactions" : "Hide Last Transactions"
-        showHideButton.setTitle(title, for: .normal)
-        tableView.isHidden = isTableViewHidden
     }
     
     func setupTableView() {
@@ -124,7 +100,7 @@ class HomeViewController: UIViewController {
             return
         }
         let cardholder = "Cardholder: "
-
+        
         cardholderLabel.text = "\(cardholder) \(String(describing: phoneNumber))"
         cardholderLabel.textColor = UIColor(ciColor: .gray)
         
@@ -133,10 +109,10 @@ class HomeViewController: UIViewController {
     func setupCardView() {
         
         //Set up NumberFormatter
+        
         formatter.numberStyle = .currency
         formatter.currencySymbol = eurSymbol
         
-
         // Set up the balance label
         balanceLabel.adjustsFontSizeToFitWidth = true
         balanceLabel.minimumScaleFactor = 0.5
@@ -145,11 +121,10 @@ class HomeViewController: UIViewController {
         if loggedInUser?.accountInfo.balance ?? 0 > 0 {
             balanceLabel.textColor = UIColor(red: 31/255, green: 223/255, blue: 100/255, alpha: 1)
         }
-           else {
-               balanceLabel.textColor = .white
+        else {
+            balanceLabel.textColor = .white
         }
         balanceLabel.textAlignment = .center
-        
         
         cardView.addSubview(balanceLabel)
         balanceLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -160,7 +135,7 @@ class HomeViewController: UIViewController {
             balanceLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16)
         ])
         // Set up the card view
-//        cardView.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        
         cardView.backgroundColor = .black
         cardView.layer.cornerRadius = 10
         cardView.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
@@ -202,22 +177,18 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    func setupUI() {
+    func setupAddMoneyButton() {
         
-//        view.backgroundColor = .systemTeal
         view.backgroundColor = .systemGray6
-        // Set up the Add Money button
         let addMoneyButton = UIButton(type: .system)
-//        addMoneyButton.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         addMoneyButton.setTitle("Add Money", for: .normal)
-        addMoneyButton.setTitleColor(.systemGray4, for: .normal)
+        addMoneyButton.setTitleColor(.white, for: .normal) 
         addMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         addMoneyButton.titleLabel?.textColor = .systemGray6
         addMoneyButton.layer.cornerRadius = 8
         addMoneyButton.layer.borderWidth = 1
         addMoneyButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         addMoneyButton.addTarget(self, action: #selector(addMoneyButtonTapped), for: .touchUpInside)
-        
         view.addSubview(addMoneyButton)
         addMoneyButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -228,13 +199,10 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    
     @objc func addMoneyButtonTapped() {
         let alertController = UIAlertController(title: "Card Pay", message: "Please enter the amount:", preferredStyle: .alert)
         
         alertController.addTextField { textField in
-            
-            
             textField.placeholder = "Enter amount"
             textField.keyboardType = .decimalPad
         }
@@ -244,14 +212,10 @@ class HomeViewController: UIViewController {
                 // Invalid input
                 return
             }
-            
-            // Do something with the amount value, such as sending it to a server or storing it locally
-            print("Amount entered: \(amount)")
             self.serviceAPI?.addMoney(accountId: userId, amountToAdd: amount) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                     case .success(let response):
-                        
                         UIAlertController.showErrorAlert(title: "Success!",
                                                          message: "Your deposit was successful!",
                                                          controller: self)
@@ -262,7 +226,7 @@ class HomeViewController: UIViewController {
                             self.balanceLabel.text = self.formatter.string(from: NSNumber(value: balance))
                             self.loggedInUser?.accountInfo.balance = response.balance
                         }
-                            
+                        
                     case .failure(let error):
                         UIAlertController.showErrorAlert(title: "Error with status code: \(error.statusCode)",
                                                          message: error.localizedDescription,
@@ -278,16 +242,42 @@ class HomeViewController: UIViewController {
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true)
     }
+    
+    //MARK: - Private method
+    
+    private func setupShowHideButton() {
+        showHideButton = UIButton(type: .system)
+        showHideButton.translatesAutoresizingMaskIntoConstraints = false
+        showHideButton.setTitle("Hide Last Transactions", for: .normal)
+        showHideButton.tintColorDidChange()
+        showHideButton.addTarget(self, action: #selector(toggleTableView), for: .touchUpInside)
+        view.addSubview(showHideButton)
+        
+        NSLayoutConstraint.activate([
+            showHideButton.centerXAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -100),
+            showHideButton.topAnchor.constraint(equalTo:  cardView.topAnchor, constant: 16)
+        ])
+    }
+    
+    @objc private func toggleTableView() {
+        UIView.animate(withDuration: 1) { // Change the duration as needed
+            self.tableView.alpha = self.tableView.alpha == 0 ? 1 : 0
+        }
+        isTableViewHidden = !isTableViewHidden
+        let title = isTableViewHidden ? "Show Last Transactions" : "Hide Last Transactions"
+        showHideButton.setTitle(title, for: .normal)
+        tableView.isHidden = isTableViewHidden
+    }
 }
 
 extension HomeViewController: UITableViewDataSource {
-  
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = self.viewModel else {
             print("ViewModel != ViewModel")
             return 0
         }
- 
+        
         print("count \( viewModel.fetchedResultsController?.fetchedObjects?.count ?? 0)")
         let lastFiveTransactions = viewModel.fetchedResultsController?.fetchedObjects?.suffix(5)
         return min(lastFiveTransactions?.count ?? 0, 5)

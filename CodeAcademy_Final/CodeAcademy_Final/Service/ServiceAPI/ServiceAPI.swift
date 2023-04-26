@@ -31,7 +31,6 @@ class ServiceAPI: Registering, Logging {
     
     //MARK: Action
     
-    
     func registerUser(phoneNumber: String, password: String, currency: String, completion: @escaping (Result<UserRegisterResponse, NetworkError>) -> Void) {
         let url = URL(string: "http://134.122.94.77:7000/api/User/register")!
         let registerRequest = UserRegisterRequest(phoneNumber: phoneNumber, password: password, currency: currency)
@@ -136,24 +135,7 @@ class ServiceAPI: Registering, Logging {
             }
         }
     }
-    
-    //    func fetchingUsers(url: URL, completion: @escaping ([Transaction]) -> Void) {
-    //        let session = URLSession.shared
-    //                let dataTask = session.dataTask(with: url) { data, response, error in
-    //                    DispatchQueue.main.async {
-    //                        guard let data = data else { return }
-    //                        do {
-    //                            let parsingData = try JSONDecoder().decode([Transaction].self, from: data)
-    //                            completion(parsingData)
-    //                            print("Update balance data \(String(data: data, encoding: .utf8) ?? "")")
-    //                        } catch {
-    //
-    //                        }
-    //                    }
-    //                }
-    //        dataTask.resume()
-    //    }
-    
+
     func fetchingTransactions(url: URL, completion: @escaping (Result<[TransactionInfo],Error>) -> Void) {
         let session = URLSession.shared
         

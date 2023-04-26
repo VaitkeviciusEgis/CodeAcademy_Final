@@ -13,10 +13,6 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Properties
     
-    private let recipientPhoneNumberTextField = UITextField()
-    private let senderCurrencyTextField = UITextField()
-    private let commentTextField = UITextField()
-    private let enterSumTextField = UITextField()
     let titleLabel = UILabel()
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
@@ -24,14 +20,18 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     let sendMoneyButton = UIButton(type: .system)
     let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
     let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+    let didTransferMoneyNotification = Notification.Name("didTransferMoneyNotification")
+    private let recipientPhoneNumberTextField = UITextField()
+    private let senderCurrencyTextField = UITextField()
+    private let commentTextField = UITextField()
+    private let enterSumTextField = UITextField()
+    let formatter = NumberFormatter()
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupSendButton()
-        // Set delegates
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -40,10 +40,9 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         // Remove observer for didTransferMoneySuccessfully notification
         //            NotificationCenter.default.removeObserver(self, name: Notification.Name("didTransferMoneySuccessfully"), object: nil)
     }
-    let didTransferMoneyNotification = Notification.Name("didTransferMoneyNotification")
+
     
     // MARK: - UI Setup
-    
     private func setupUI() {
         
         // Add tap gesture recognizer to dismiss keyboard
@@ -204,12 +203,22 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                                   comment: comment) { [weak self] result in
             guard let self = self else { return }
             switch result {
-                    
                 case .success(_):
-                    let formattedAmount = String(format: "%.2f", amount)
-                    let message = "Transferred amount: \(formattedAmount) Receiver: \(receiverPhoneNumber)"
-                    UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
                     
+                
+                    let eurSymbol = "\u{20AC}"
+                    formatter.currencySymbol = eurSymbol
+                    var text = String(amount)
+                
+                    let formattedAmount = formatter.string(from: NSNumber(value: amount)) ?? ""
+                    formatter.numberStyle = .currency
+                    formatter.currencySymbol = eurSymbol
+
+
+
+                    let message = "Transferred amount: \(String(describing: formatter.string(from: NSNumber(value: amount)))) Receiver: \(receiverPhoneNumber)"
+                    UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
+             
                     recipientPhoneNumberTextField.text = ""
                     senderCurrencyTextField.text = loggedInUser?.accountInfo.currency
                     senderCurrencyTextField.isUserInteractionEnabled = false

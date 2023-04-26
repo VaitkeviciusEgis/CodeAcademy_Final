@@ -119,7 +119,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         submitButton.setTitle("Submit Changes", for: .normal)
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        submitButton.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         submitButton.layer.cornerRadius = 8
         submitButton.layer.borderWidth = 1
         submitButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
@@ -140,8 +139,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    
+
     //MARK: - Action
     
     @objc func submitButtonTapped() {

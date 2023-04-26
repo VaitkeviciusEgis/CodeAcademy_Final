@@ -96,12 +96,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         phoneTextField.delegate = self
         confirmPasswordTextField.delegate = self
         passwordTextField.isSecureTextEntry = true
-//        passwordTextField.backgroundColor = normalColor
         passwordTextField.borderStyle = .roundedRect
-//        phoneTextField.backgroundColor = normalColor
         phoneTextField.borderStyle = .roundedRect
         phoneTextField.keyboardType = .phonePad
-//        confirmPasswordTextField.backgroundColor = normalColor
         confirmPasswordTextField.borderStyle = .roundedRect
         confirmPasswordTextField.isSecureTextEntry = true
         signButtonOutlet.layer.masksToBounds = true
@@ -125,13 +122,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func actionButtonTapped(_ sender: Any) {
         switch currentState {
             case .register:
-                register()
+                confirmPassword(password: passwordTextField.text ?? "", confirmation: confirmPasswordTextField.text ?? "", phoneNumber: phoneTextField.text ?? "", currency: selectedCurrency.description)
             case .login:
                 login()
         }
     }
     
-    func register() {
+    func confirmPassword(password: String, confirmation: String, phoneNumber: String, currency: String) {
+        if password != confirmation {
+            UIAlertController.showErrorAlert(title: "Try again!", message: "Make sure password match", controller: self)
+
+        } else {
+            register(phoneNumber: phoneNumber, password: password, currency: currency)
+      
+        }
+    }
+    
+    func register(phoneNumber: String, password: String, currency: String) {
         serviceAPI.registerUser(phoneNumber: phoneTextField.text!,
                                 password: passwordTextField.text!, currency: selectedCurrency.description) { [weak self] result in
             guard let self else { return }
@@ -223,8 +230,6 @@ extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedCurrency = row == 0 ? .EUR : .USD
     }
-    
-    
     
 }
 
