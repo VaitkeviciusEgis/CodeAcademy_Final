@@ -28,14 +28,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         currencyPickerView.dataSource = self
         currencyPickerView.isHidden = true
         setupUI()
-        // Retrieving the user's phone number and password from UserDefaults
-        let defaults = UserDefaults.standard
-        let storedPhoneNumber = defaults.string(forKey: "phoneNumber")
-        let storedPassword = defaults.string(forKey: "password")
-
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        attemptAutoLogin()
+    }
+
     //MARK: - Properties
     
     let serviceAPI = ServiceAPI(networkService: NetworkService())
@@ -163,37 +162,50 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
+
     
     func login() {
-        
-        // Retrieving the user's phone number and password from UserDefaults
-         let defaults = UserDefaults.standard
-         let storedPhoneNumber = defaults.string(forKey: "phoneNumber")
-         let storedPassword = defaults.string(forKey: "password")
-
-         // Checking if the user is already logged in
-         if let phoneNumber = storedPhoneNumber, let password = storedPassword {
-             // User is already logged in, proceed to home screen
-             serviceAPI.loginUser(phoneNumber: phoneNumber, password: password) { [weak self] result in
-                 guard let self = self else { return }
-                 switch result {
-                 case .success(let loggedUser):
-                     taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
-                     self.navigationController?.setViewControllers([taskBarNav], animated: false)
-                 case .failure(let error):
-                     // Handle login error
-                     print(error)
-                 }
-             }
-         } else {
-             // User needs to login
-             print("Please enter your credentials to login")
-         }
         guard let password = passwordTextField.text, let phone = phoneTextField.text else {
             return
         }
+        // Set the password and phone keys based on the text field values
+
+
+        serviceAPI.loginUser(phoneNumber: phone, password: password) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let loggedUser):
+                    let defaults = UserDefaults.standard
+                    defaults.set(password, forKey: "password")
+                    defaults.set(phone, forKey: "phoneNumber")
+                    taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+                    self.navigationController?.setViewControllers([taskBarNav], animated: true)
+                case .failure(let error):
+                    UIAlertController.showErrorAlert(title: error.message ?? "",
+                                                     message: "Error with status code: \(error.statusCode)",
+                                                     controller: self)
+            }
+        }
     }
-    
+
+    func attemptAutoLogin() {
+        let defaults = UserDefaults.standard
+        guard let phoneNumber = defaults.string(forKey: "phoneNumber"), let password = defaults.string(forKey: "password") else {
+            return
+        }
+        serviceAPI.loginUser(phoneNumber: phoneNumber, password: password) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let loggedUser):
+                taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+                self.navigationController?.setViewControllers([taskBarNav], animated: false)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
+
     // MARK: - Text Field Delegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
