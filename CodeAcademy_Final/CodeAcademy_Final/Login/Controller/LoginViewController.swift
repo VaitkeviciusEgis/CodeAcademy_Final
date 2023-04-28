@@ -44,7 +44,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     let serviceAPI = ServiceAPI(networkService: NetworkService())
     let tabBarNav = TabBarViewController()
-    let currencies = ["EUR", "USD"]
+//    let currencies = ["EUR", "USD"]
     var selectedCurrency: Currency = .EUR
     var transactions: [TransactionInfo] = []
     let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
@@ -54,17 +54,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return appDelegate?.persistentContainer.viewContext
     }
     
-    enum Currency {
+    enum Currency: CaseIterable {
         case EUR
         case USD
         
         var description: String {
             switch self {
-                case .EUR:
-                    return "EUR"
-                case .USD:
-                    return "USD"
+            case .EUR:
+                return "EUR"
+            case .USD:
+                return "USD"
             }
+        }
+        
+        static var allCases: [Currency] {
+            return [.EUR, .USD]
         }
     }
     
@@ -109,6 +113,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.borderStyle = .roundedRect
         phoneTextField.borderStyle = .roundedRect
         phoneTextField.keyboardType = .phonePad
+        passwordTextField.keyboardType = .namePhonePad
+        confirmPasswordTextField.keyboardType = .namePhonePad
         confirmPasswordTextField.borderStyle = .roundedRect
         confirmPasswordTextField.isSecureTextEntry = true
         signButtonOutlet.layer.masksToBounds = true
@@ -156,7 +162,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                 password: password, currency: selectedCurrency.description) { [weak self] result in
             guard let self else { return }
             switch result {
-                case .success(let userId):
+                case .success(_):
                     signButtonTapped(self)
                     currentState = .login
                 case .failure(let error):
@@ -222,8 +228,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Text Field Delegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
         if textField == phoneTextField {
             passwordTextField.becomeFirstResponder()
+        } else if textField == passwordTextField {
+            confirmPasswordTextField.becomeFirstResponder()
+        } else if textField == confirmPasswordTextField {
+            actionButtonTapped(self)
         }
         return true
     }
@@ -267,17 +278,18 @@ extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return currencies.count
+        return Currency.allCases.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return currencies[row]
+        let currency = Currency.allCases[row]
+        return currency.description
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedCurrency = row == 0 ? .EUR : .USD
+        _ = Currency.allCases[row]
+        // Do something with the selected currency
     }
-    
 }
 
 

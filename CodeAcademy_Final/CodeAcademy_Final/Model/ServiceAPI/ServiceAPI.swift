@@ -126,11 +126,11 @@ class ServiceAPI: Registering, Logging {
         let data = try! JSONEncoder().encode(transferRequest)
 //        print("TRANSFER REQUEST Encoded \(String(data: data, encoding: .utf8) ?? "")")
         networkService.postRequest(url: url, body: data) { [weak self] result in
-            guard let self = self else {
+            guard self != nil else {
                 return }
             switch result {
                 case .success(let data):
-                    if let jsonString = String(data: data, encoding: .utf8) {
+                    if String(data: data, encoding: .utf8) != nil {
 //                        print("Raw JSON Data in TRANSFERMoney: \(jsonString)")
                     }
 
@@ -157,7 +157,7 @@ class ServiceAPI: Registering, Logging {
                 return
             }
             
-            guard let response = response as? HTTPURLResponse else {
+            guard response is HTTPURLResponse else {
                 return
             }
             

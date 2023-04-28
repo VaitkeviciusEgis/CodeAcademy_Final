@@ -15,7 +15,6 @@ class ListCell: UITableViewCell {
     
     static let identifier = "listCell"
     let formatter = NumberFormatter()
-    let eurSymbol = "\u{20AC}"
     let phoneNumberLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)

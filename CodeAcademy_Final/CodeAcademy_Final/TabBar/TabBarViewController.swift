@@ -78,7 +78,7 @@ class TabBarViewController: UITabBarController {
         
         // Save the changes to Core Data
         CoreDataManager.sharedInstance.saveAccountToCoreData(accountEntity: loggedInAccount)
-        serviceAPI.fetchingTransactions(url: URLBuilder.getTransactionURL(withId: loggedInUser.accountInfo.id), completion: { [weak self] (result) in
+        serviceAPI.fetchingTransactions(url: URLBuilder.getTransactionURL(withId: loggedInUser.accountInfo.id), completion: { (result) in
             
             DispatchQueue.main.async {
                 switch result {

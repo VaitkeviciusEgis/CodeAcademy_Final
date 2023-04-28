@@ -17,7 +17,6 @@ class HomeViewController: UIViewController {
     let balanceLabel = UILabel()
     let cardholderLabel = UILabel()
     let companyLabel = UILabel()
-    let eurSymbol = "\u{20AC}"
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     let formatter = NumberFormatter()
@@ -226,7 +225,7 @@ class HomeViewController: UIViewController {
                                                          controller: self)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             self.formatter.numberStyle = .currency
-                            self.formatter.currencySymbol = self.eurSymbol
+                            self.formatter.currencySymbol = eurSymbol
                             let balance = response.balance
                             self.balanceLabel.text = self.formatter.string(from: NSNumber(value: balance))
                             self.loggedInUser?.accountInfo.balance = response.balance

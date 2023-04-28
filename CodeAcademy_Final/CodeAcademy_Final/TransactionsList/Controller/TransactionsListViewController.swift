@@ -86,7 +86,7 @@ class TransactionsListViewController: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
  
-        if let searchController = searchBar.inputViewController {
+
             // Setup clear button for search bar
             
             let clearButton = UIButton(type: .custom)
@@ -106,7 +106,7 @@ class TransactionsListViewController: UIViewController {
             searchBar.tintColor = .label
             searchBar.barTintColor = .systemGray6
             searchBar.backgroundColor = .systemGray6
-        }
+        
     }
     
     // MARK: Actions

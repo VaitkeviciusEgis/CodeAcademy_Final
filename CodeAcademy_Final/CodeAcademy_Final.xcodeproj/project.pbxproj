@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		ED1773B429F902AD00269392 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ED1773B329F902AD00269392 /* KeychainSwift */; };
+		ED1773B729FBA98100269392 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1773B629FBA98000269392 /* Constants.swift */; };
 		EDF0F02C29F4B6F300DD41F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */; };
 		EDF0F02E29F4B6F300DD41F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */; };
 		EDF0F03629F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F03429F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld */; };
@@ -46,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ED1773B629FBA98000269392 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EDF0F02829F4B6F300DD41F5 /* CodeAcademy_Final.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeAcademy_Final.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -153,6 +155,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		ED1773B529FBA96C00269392 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				ED1773B629FBA98000269392 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		EDF0F01F29F4B6F300DD41F5 = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +182,7 @@
 		EDF0F02A29F4B6F300DD41F5 /* CodeAcademy_Final */ = {
 			isa = PBXGroup;
 			children = (
+				ED1773B529FBA96C00269392 /* Constants */,
 				ED1773B129F8E29D00269392 /* Extension */,
 				EDF0F08D29F4B87400DD41F5 /* Cells */,
 				EDF0F03429F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld */,
@@ -433,6 +444,7 @@
 				EDF0F06F29F4B7CF00DD41F5 /* AccountInfo.swift in Sources */,
 				EDF0F04829F4B77A00DD41F5 /* LoginViewController.swift in Sources */,
 				EDF0F09629F4B89400DD41F5 /* TransactionsViewModel.swift in Sources */,
+				ED1773B729FBA98100269392 /* Constants.swift in Sources */,
 				EDF0F12429F7552C00DD41F5 /* TransactionEntity+CoreDataClass.swift in Sources */,
 				EDF0F06729F4B7CF00DD41F5 /* UpdateUserResponse.swift in Sources */,
 				EDF0F07929F4B82800DD41F5 /* HomeViewController.swift in Sources */,
