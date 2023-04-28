@@ -1,6 +1,6 @@
 //
 //  NetworkService.swift
-//  ViperTaskAPI
+//  CodeAcademy_Final-Egidijus
 //
 //  Created by Egidijus Vaitkevičius on 2023-04-01.
 //
@@ -83,8 +83,7 @@ class NetworkService: NetworkRequesting {
     
     /// PUT method
     /// - Parameters:
-    ///   - url: "http://134.122.94.77/api/Task/"
-    ///   - body: <#body description#>
+    ///   - url: "http://134.122.94.77:7000/api/User"
     ///   - completion: Updates data in the server
     public func putRequest(url: URL,
                            body: Data?,

@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  APITask-Egidijus
+//  CodeAcademy_Final-Egidijus
 //
 //  Created by Egidijus Vaitkevičius on 2023-03-01.
 //
@@ -21,12 +21,12 @@ class TabBarViewController: UITabBarController {
     private var serviceAPI: ServiceAPI?
     private var loggedInAccount: AccountEntity?
     
-    lazy var managedContext: NSManagedObjectContext = {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            fatalError("Unable to get the shared app delegate.")
-        }
-        return appDelegate.persistentContainer.viewContext
-    }()
+//    lazy var managedContext: NSManagedObjectContext = {
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//            fatalError("Unable to get the shared app delegate.")
+//        }
+//        return appDelegate.persistentContainer.viewContext
+//    }()
     
     // MARK: - Lifecycle
     
@@ -78,7 +78,7 @@ class TabBarViewController: UITabBarController {
         
         // Save the changes to Core Data
         CoreDataManager.sharedInstance.saveAccountToCoreData(accountEntity: loggedInAccount)
-        serviceAPI.fetchingTransactions(url: URLBuilder.getTaskURL(withId: loggedInUser.accountInfo.id), completion: { [weak self] (result) in
+        serviceAPI.fetchingTransactions(url: URLBuilder.getTransactionURL(withId: loggedInUser.accountInfo.id), completion: { [weak self] (result) in
             
             DispatchQueue.main.async {
                 switch result {

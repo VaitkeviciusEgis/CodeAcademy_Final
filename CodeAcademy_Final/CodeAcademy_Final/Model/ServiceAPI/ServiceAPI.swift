@@ -1,6 +1,6 @@
 ////
 ////  ServiceAPI.swift
-////  ViperTaskAPI
+////  CodeAcademy_Final-Egidijus
 ////
 ////  Created by Egidijus Vaitkevičius on 2023-04-01.
 ////
@@ -27,6 +27,7 @@ class ServiceAPI: Registering, Logging {
     init(networkService: NetworkRequesting) {
         self.networkService = networkService
     }
+    
     let networkService: NetworkRequesting
     
     //MARK: Action
@@ -113,7 +114,7 @@ class ServiceAPI: Registering, Logging {
                     UpdateUserResponse(userId: requestResponse.userId, validUntil: requestResponse.validUntil, accessToken: requestResponse.accessToken, accountInfo: requestResponse.accountInfo)
                     completion(.success(newUpdatedUser))
                 case .failure(let error):
-                    print("error updating task: \(error.localizedDescription) Error ServiceAPI UpdateUser() -> networkService.putRequest()")
+                    print("error updating credentials: \(error.localizedDescription) Error ServiceAPI UpdateUser() -> networkService.putRequest()")
             }
         }
     }
@@ -187,11 +188,11 @@ class ServiceAPI: Registering, Logging {
 
 struct URLBuilder {
     private static let kURLStringTransaction = "http://134.122.94.77:7000/api/Transactions/"
-    static func getTaskURL() -> URL {
+    static func getTransactionsURL() -> URL {
         URL(string: kURLStringTransaction)!
     }
     
-    static func getTaskURL(withId id: Int) -> URL {
+    static func getTransactionURL(withId id: Int) -> URL {
         URL(string: kURLStringTransaction + "?accountId=\(id)")!
     }
 }

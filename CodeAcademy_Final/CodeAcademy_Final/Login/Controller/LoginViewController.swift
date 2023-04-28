@@ -29,17 +29,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         currencyPickerView.dataSource = self
         currencyPickerView.isHidden = true
         setupUI()
+//        attemptAutoLogin()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        attemptAutoLogin()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
     }
 
     //MARK: - Properties
     
     let serviceAPI = ServiceAPI(networkService: NetworkService())
-    let taskBarNav = TabBarViewController()
+    let tabBarNav = TabBarViewController()
     let currencies = ["EUR", "USD"]
     var selectedCurrency: Currency = .EUR
     var transactions: [TransactionInfo] = []
@@ -184,9 +188,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     let keychain = KeychainSwift()
                     keychain.set(loggedUser.accessToken, forKey: "accessToken")
 
-                    taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+                    tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
               
-                    self.navigationController?.setViewControllers([taskBarNav], animated: true)
+                    self.navigationController?.setViewControllers([tabBarNav], animated: true)
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
                                                          message: "Error with status code: \(error.statusCode)",
@@ -204,8 +208,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let loggedUser):
-                taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
-                self.navigationController?.setViewControllers([taskBarNav], animated: false)
+                tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+                self.navigationController?.setViewControllers([tabBarNav], animated: false)
             case .failure(let error):
                 print(error)
             }

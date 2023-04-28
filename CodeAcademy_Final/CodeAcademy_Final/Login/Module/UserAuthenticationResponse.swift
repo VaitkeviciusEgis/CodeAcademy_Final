@@ -1,6 +1,6 @@
 //
 //  LoginResponse.swift
-//  ViperTaskAPI
+//  CodeAcademy_Final-Egidijus
 //
 //  Created by Egidijus Vaitkevičius on 2023-04-08.
 //

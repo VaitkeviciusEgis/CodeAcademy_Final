@@ -147,7 +147,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     
     func didTransferMoneySuccessfully() {
         // Transfer money code here...
-        serviceAPI?.fetchingTransactions(url: URLBuilder.getTaskURL(withId: loggedInUser?.accountInfo.id ?? 0), completion: { [weak self] (result) in
+        serviceAPI?.fetchingTransactions(url: URLBuilder.getTransactionURL(withId: loggedInUser?.accountInfo.id ?? 0), completion: { [weak self] (result) in
             guard self != nil else {
                 return
             }
@@ -205,6 +205,9 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        if receiverPhoneNumber == senderPhoneNumber {
+            UIAlertController.showErrorAlert(title: "Transfer declined", message: "Can't transfer to yourself", controller: self)
+        }
 
    
         // TODO: implement code to send money

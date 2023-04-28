@@ -1,6 +1,6 @@
 //
 //  ListCell.swift
-//  APITask-Egidijus
+//  CodeAcademy_Final-Egidijus
 //
 //  Created by Egidijus Vaitkevičius on 2023-03-02.
 //

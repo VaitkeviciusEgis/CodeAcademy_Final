@@ -165,7 +165,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             switch result {
                 case .success(let updated):
                     UIAlertController.showErrorAlert(title: "Success!",
-                                                     message: "Your task was updated",
+                                                     message: "Credentials updated",
                                                      controller: self)
                     let updatedLoggedInUser = UserAuthenticationResponse(userId: updated.userId, validUntil: updated.validUntil, accessToken: updated.accessToken, accountInfo: updated.accountInfo)
                     
@@ -185,6 +185,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     @objc func logoutButtonTapped() {
         self.navigationController?.setViewControllers([LoginViewController()], animated: true)
+        
     }
     
     
