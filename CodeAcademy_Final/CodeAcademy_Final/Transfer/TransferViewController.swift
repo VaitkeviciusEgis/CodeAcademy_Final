@@ -240,7 +240,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                     didTransferMoneySuccessfully()
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
-                                                     message: "Error with status code: \(error.statusCode)",
+                                                     message: "\(errorStatusCodeMessage) \(error.statusCode)",
                                                      controller: self)
             }
         }

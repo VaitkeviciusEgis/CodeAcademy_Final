@@ -30,22 +30,7 @@ final class CoreDataManager {
             self?.saveDataToCoreData(transactions: transactions, context: context)
         }
     }
-    
-//    func saveTransferToCoreData(transfer: TransactionInfo) {
-//        container?.performBackgroundTask { context in
-//            let transactionEntity = TransactionEntity(context: context)
-//            transactionEntity.senderPhoneNumber = transfer.senderPhoneNumber
-//            transactionEntity.receiverPhoneNumber = transfer.receiverPhoneNumber
-//            transactionEntity.sendingAccountId = transfer.sendingAccountId
-//            transactionEntity.receivingAccountId = transfer.receivingAccountId
-//            transactionEntity.transactionTime = transfer.transactionTime
-//            transactionEntity.amount = transfer.amount
-//            transactionEntity.comment = transfer.comment
-//
-//            self.saveContext(context)
-//        }
-//    }
-    
+
     func saveAccountToCoreData(accountEntity: AccountEntity) {
         guard let container = container else {
             return

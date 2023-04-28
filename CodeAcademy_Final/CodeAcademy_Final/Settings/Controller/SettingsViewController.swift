@@ -175,7 +175,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
                     defaults.set(newPassword, forKey: "password")
                     
                 case .failure(let error):
-                    UIAlertController.showErrorAlert(title: "Error with status code: \(error.statusCode)",
+                    UIAlertController.showErrorAlert(title: "\(errorStatusCodeMessage) \(error.statusCode)",
                                                      message: error.localizedDescription,
                                                      controller: self)
             }

@@ -75,7 +75,7 @@ class ListCell: UITableViewCell {
         formatter.numberStyle = .currency
         formatter.currencySymbol = eurSymbol
         
-        phoneNumberLabel.text = "+370 \(String(describing: transaction.receiverPhoneNumber ?? ""))"
+        phoneNumberLabel.text = "\(String(describing: transaction.receiverPhoneNumber ?? ""))"
         phoneNumberLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .light)
         amountLabel.text = formatter.string(from: NSNumber(value: amount))
         amountLabel.font = .boldSystemFont(ofSize: 13)

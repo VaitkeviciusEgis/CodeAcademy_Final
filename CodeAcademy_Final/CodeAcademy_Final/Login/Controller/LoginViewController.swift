@@ -12,8 +12,7 @@ import KeychainSwift
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Outlets
-    
-    @IBOutlet private weak var signButtonOutlet: UIButton!
+    @IBOutlet private weak var stateButton: UIButton!
     @IBOutlet private weak var loginRegisterLabel: UILabel!
     @IBOutlet private weak var confirmPasswordTextField: UITextField!
     @IBOutlet private weak var questionLabel: UILabel!
@@ -22,13 +21,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet weak var currencyPickerView: UIPickerView!
    
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        currencyPickerView.delegate = self
-        currencyPickerView.dataSource = self
-        currencyPickerView.isHidden = true
+        
         setupUI()
+        pickerViewSetup()
 //        attemptAutoLogin()
     }
     
@@ -47,7 +44,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 //    let currencies = ["EUR", "USD"]
     var selectedCurrency: Currency = .EUR
     var transactions: [TransactionInfo] = []
-    let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+    let selectedColor = UIColor(red: 33/255, green: 127/255, blue: 145/255, alpha: 1)
+    let deSelectedColor = UIColor(red: 53/255, green: 147/255, blue: 165/255, alpha: 1)
     var managedContext: NSManagedObjectContext!
     {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -92,12 +90,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         switch currentState {
             case .login:
-                signButtonOutlet.setTitle("Sign Up", for: .normal)
+                stateButton.setTitle("Sign Up", for: .normal)
                 loginRegisterLabel.text = "Login"
                 questionLabel.text = "Don't have an account ?"
                 actionButtonOutlet.setTitle("Login", for: .normal)
             case .register:
-                signButtonOutlet.setTitle("Sign In", for: .normal)
+                stateButton.setTitle("Sign In", for: .normal)
                 loginRegisterLabel.text = "Register"
                 questionLabel.text = "Already have an account ?"
                 actionButtonOutlet.setTitle("Register", for: .normal)
@@ -109,6 +107,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         phoneTextField.delegate = self
         confirmPasswordTextField.delegate = self
+
+        passwordTextField.backgroundColor = deSelectedColor
+        confirmPasswordTextField.backgroundColor = deSelectedColor
+        phoneTextField.backgroundColor = deSelectedColor
         passwordTextField.isSecureTextEntry = true
         passwordTextField.borderStyle = .roundedRect
         phoneTextField.borderStyle = .roundedRect
@@ -117,8 +119,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         confirmPasswordTextField.keyboardType = .namePhonePad
         confirmPasswordTextField.borderStyle = .roundedRect
         confirmPasswordTextField.isSecureTextEntry = true
-        signButtonOutlet.layer.masksToBounds = true
-        signButtonOutlet.layer.cornerRadius = 8
+        stateButton.layer.masksToBounds = true
+        stateButton.layer.cornerRadius = 8
+        stateButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         phoneTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
@@ -138,7 +141,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func actionButtonTapped(_ sender: Any) {
         switch currentState {
             case .register:
-                confirmPassword(password: passwordTextField.text ?? "", confirmation: confirmPasswordTextField.text ?? "", phoneNumber: phoneTextField.text ?? "", currency: selectedCurrency.description)
+             confirmPassword(password: passwordTextField.text ?? "", confirmation: confirmPasswordTextField.text ?? "", phoneNumber: phoneTextField.text ?? "", currency: selectedCurrency.description)
+            
             case .login:
                 login()
         }
@@ -163,12 +167,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             guard let self else { return }
             switch result {
                 case .success(_):
+                    UIAlertController.showErrorAlert(title: "Registered!", message: "Please login", controller: self)
                     signButtonTapped(self)
                     currentState = .login
                 case .failure(let error):
                     
                     UIAlertController.showErrorAlert(title: error.message ?? "",
-                                                     message: "Error with status code: \(error.statusCode)",
+                                                     message: "\(errorStatusCodeMessage) \(error.statusCode)",
                                                      controller: self)
             }
         }
@@ -187,19 +192,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             switch result {
                 case .success(let loggedUser):
                     let defaults = UserDefaults.standard
-                    defaults.set(password, forKey: "password")
-                    defaults.set(phone, forKey: "phoneNumber")
+                    defaults.set(password, forKey: uDefaultsPassword)
+                    defaults.set(phone, forKey: uDefaultsPhone)
 
          
                     let keychain = KeychainSwift()
-                    keychain.set(loggedUser.accessToken, forKey: "accessToken")
+                    keychain.set(loggedUser.accessToken, forKey: keyAccessToken)
 
                     tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
               
                     self.navigationController?.setViewControllers([tabBarNav], animated: true)
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
-                                                         message: "Error with status code: \(error.statusCode)",
+                                                         message: "\(errorStatusCodeMessage) \(error.statusCode)",
                                                          controller: self)
             }
         }
@@ -222,6 +227,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func pickerViewSetup() {
+        currencyPickerView.delegate = self
+        currencyPickerView.dataSource = self
+        currencyPickerView.isHidden = true
+    }
+    
 
 
 
@@ -241,9 +252,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
+        
+        
         if textField == passwordTextField || textField == phoneTextField {
             let newLength = text.count + string.count - range.length
-            let limit = 10
+            let limit = 12
             
             if newLength > limit {
                 return false
@@ -265,8 +278,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.backgroundColor = .systemGray6
+        textField.backgroundColor = deSelectedColor
+        
     }
+
 }
 
 

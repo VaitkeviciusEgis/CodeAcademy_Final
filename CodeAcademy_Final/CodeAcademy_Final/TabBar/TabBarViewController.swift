@@ -21,13 +21,6 @@ class TabBarViewController: UITabBarController {
     private var serviceAPI: ServiceAPI?
     private var loggedInAccount: AccountEntity?
     
-//    lazy var managedContext: NSManagedObjectContext = {
-//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-//            fatalError("Unable to get the shared app delegate.")
-//        }
-//        return appDelegate.persistentContainer.viewContext
-//    }()
-    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -42,9 +35,8 @@ class TabBarViewController: UITabBarController {
         setViewControllers([homeVC, transactionsViewControllerNavigation, transferVC, settingsVC], animated: true)
         guard let items = tabBar.items else { return }
         let images = ["house.fill", "arrow.left.arrow.right","list.bullet.clipboard.fill", "gearshape.fill"]
-        let color = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-        let titleColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-        
+        let color = UIColor(red: 42/255, green: 175/255, blue: 134/255, alpha: 1)
+        let titleColor = UIColor(red: 42/255, green: 175/255, blue: 134/255, alpha: 1)
         
         for image in 0...3 {
             let origImage = UIImage(systemName: images[image])
@@ -79,7 +71,6 @@ class TabBarViewController: UITabBarController {
         // Save the changes to Core Data
         CoreDataManager.sharedInstance.saveAccountToCoreData(accountEntity: loggedInAccount)
         serviceAPI.fetchingTransactions(url: URLBuilder.getTransactionURL(withId: loggedInUser.accountInfo.id), completion: { (result) in
-            
             DispatchQueue.main.async {
                 switch result {
                     case .success(_):

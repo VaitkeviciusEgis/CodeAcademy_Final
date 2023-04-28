@@ -12,7 +12,6 @@ class HomeViewController: UIViewController {
     
     //MARK: Properties
     
-    var tableView = UITableView()
     let cardView = UIView()
     let balanceLabel = UILabel()
     let cardholderLabel = UILabel()
@@ -20,21 +19,23 @@ class HomeViewController: UIViewController {
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     let formatter = NumberFormatter()
-    private var showHideButton: UIButton!
+    private var showHideButton = UIButton(type: .system)
     private var isTableViewHidden = false
     var viewModel: TransactionsViewModel?
     var transactions: [TransactionInfo] = []
     let addMoneyButton = UIButton(type: .system)
+    let cardViewBackgroundColor = UIColor(red: 42/255, green: 175/255, blue: 134/255, alpha: 1)
+    let viewBackgroundColor = UIColor(red: 0/255, green: 59/255, blue: 60/255, alpha: 1)
     
+    let tableView = UITableView(frame: .zero, style: .plain)
+//    let tableViewHeight = 220
     //MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupCardView()
-        setupShowHideButton()
         setupAddMoneyButton()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,12 +66,10 @@ class HomeViewController: UIViewController {
     }
     
     func setupTableView() {
-        tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         view.addSubview(tableView)
         tableView.isScrollEnabled = false
-        tableView.backgroundColor = .systemGray6
         tableView.layer.cornerRadius = 1
         tableView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         // Add constraints to position the table view 0 points from the top safe area
@@ -79,7 +78,7 @@ class HomeViewController: UIViewController {
 //            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
-            tableView.heightAnchor.constraint(equalToConstant: 300),
+            tableView.heightAnchor.constraint(equalToConstant: 220),
 //            tableView.topAnchor.constraint(equalTo: addMoneyButton.bottomAnchor, constant: 60)
         ])
         // Register any necessary cells or headers/footers
@@ -87,8 +86,7 @@ class HomeViewController: UIViewController {
         
         // Set the table view's data source and delegate
         tableView.dataSource = self
-        tableView.delegate = self
-        
+
         // Add the cardView as a subview of the tableView's superview
         view.addSubview(cardView)
     }
@@ -134,7 +132,7 @@ class HomeViewController: UIViewController {
         ])
         // Set up the card view
         
-        cardView.backgroundColor = .black
+        cardView.backgroundColor = cardViewBackgroundColor
         cardView.layer.cornerRadius = 10
         cardView.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         cardView.layer.borderWidth = 1
@@ -178,7 +176,7 @@ class HomeViewController: UIViewController {
     
     func setupAddMoneyButton() {
         
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         addMoneyButton.setTitle("Add Money", for: .normal)
         addMoneyButton.setTitleColor(.opaqueSeparator, for: .normal)
         addMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
@@ -232,7 +230,7 @@ class HomeViewController: UIViewController {
                         }
                         
                     case .failure(let error):
-                        UIAlertController.showErrorAlert(title: "Error with status code: \(error.statusCode)",
+                        UIAlertController.showErrorAlert(title: "\(errorStatusCodeMessage) \(error.statusCode)",
                                                          message: error.localizedDescription,
                                                          controller: self)
                 }
@@ -247,13 +245,16 @@ class HomeViewController: UIViewController {
         self.present(alertController, animated: true)
     }
     
+    func hideButton() {
+        showHideButton.isHidden = true
+    }
+    
     //MARK: - Private method
     
     private func setupShowHideButton() {
-        showHideButton = UIButton(type: .system)
         showHideButton.translatesAutoresizingMaskIntoConstraints = false
         showHideButton.setTitle("Hide Last Transactions", for: .normal)
-        showHideButton.tintColorDidChange()
+//        showHideButton.tintColorDidChange()
         showHideButton.addTarget(self, action: #selector(toggleTableView), for: .touchUpInside)
         view.addSubview(showHideButton)
         
@@ -282,11 +283,13 @@ extension HomeViewController: UITableViewDataSource {
         }
         
         let lastFiveTransactions = viewModel.fetchedResultsController?.fetchedObjects?.suffix(5)
+
         return min(lastFiveTransactions?.count ?? 0, 5)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let viewModel = self.viewModel else {
+            hideButton()
             return UITableViewCell()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell
@@ -295,8 +298,9 @@ extension HomeViewController: UITableViewDataSource {
         }
         cell.selectionStyle = .none
         cell.configure(with: transaction)
-        cell.backgroundColor = .systemGray6
-        
+//        cell.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        cell.backgroundColor = UIColor(red: 0/255, green: 59/255, blue: 60/255, alpha: 1)
+        setupShowHideButton()
         return cell
     }
     
@@ -310,10 +314,6 @@ extension HomeViewController: UITableViewDataSource {
         // Return false for the cells that you want to be non-editable
         return false
     }
-}
-
-extension HomeViewController: UITableViewDelegate {
-
 }
 
 
