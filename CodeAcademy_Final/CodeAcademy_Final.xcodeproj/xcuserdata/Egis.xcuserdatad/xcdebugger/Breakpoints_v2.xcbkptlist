@@ -36,53 +36,5 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "84264D1A-20C0-4E42-9B75-50E914353A82"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CodeAcademy_Final/Model/ServiceAPI/ServiceAPI.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "updateUser(currentPhoneNumber:newPhoneNumber:newPassword:accessToken:completion:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "84264D1A-20C0-4E42-9B75-50E914353A82 - f2be3b94ed1907fc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CodeAcademy_Final.ServiceAPI.updateUser(currentPhoneNumber: Swift.String, newPhoneNumber: Swift.String, newPassword: Swift.String, accessToken: Swift.String, completion: (Swift.Result&lt;CodeAcademy_Final.UpdateUserResponse, CodeAcademy_Final.NetworkError&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "CodeAcademy_Final"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/Model/ServiceAPI/ServiceAPI.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "99"
-                  endingLineNumber = "99"
-                  offsetFromSymbolStart = "496">
-               </Location>
-               <Location
-                  uuid = "84264D1A-20C0-4E42-9B75-50E914353A82 - f2be3b94ed1907dd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CodeAcademy_Final.ServiceAPI.updateUser(currentPhoneNumber: Swift.String, newPhoneNumber: Swift.String, newPassword: Swift.String, accessToken: Swift.String, completion: (Swift.Result&lt;CodeAcademy_Final.UpdateUserResponse, CodeAcademy_Final.NetworkError&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "CodeAcademy_Final"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook2019/CodeAcademy_Final/CodeAcademy_Final/CodeAcademy_Final/Model/ServiceAPI/ServiceAPI.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "100"
-                  endingLineNumber = "100"
-                  offsetFromSymbolStart = "496">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
