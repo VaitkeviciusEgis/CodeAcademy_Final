@@ -7,7 +7,6 @@
 
 import UIKit
 import CoreData
-import KeychainSwift
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -26,7 +25,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         setupUI()
         pickerViewSetup()
-//        attemptAutoLogin()
+        attemptAutoLogin()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -197,9 +196,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     defaults.set(password, forKey: uDefaultsPassword)
                     defaults.set(phone, forKey: uDefaultsPhone)
 
-         
-                    let keychain = KeychainSwift()
-                    keychain.set(loggedUser.accessToken, forKey: keyAccessToken)
+//         
+//                    let keychain = KeychainSwift()
+//                    keychain.set(loggedUser.accessToken, forKey: keyAccessToken)
 
                     tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
               

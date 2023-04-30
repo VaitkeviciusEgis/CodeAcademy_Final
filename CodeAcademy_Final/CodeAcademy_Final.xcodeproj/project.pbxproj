@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ED1773B429F902AD00269392 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ED1773B329F902AD00269392 /* KeychainSwift */; };
 		ED1773B729FBA98100269392 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1773B629FBA98000269392 /* Constants.swift */; };
 		EDF0F02C29F4B6F300DD41F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */; };
 		EDF0F02E29F4B6F300DD41F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */; };
@@ -92,7 +91,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED1773B429F902AD00269392 /* KeychainSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +374,6 @@
 			);
 			name = CodeAcademy_Final;
 			packageProductDependencies = (
-				ED1773B329F902AD00269392 /* KeychainSwift */,
 			);
 			productName = CodeAcademy_Final;
 			productReference = EDF0F02829F4B6F300DD41F5 /* CodeAcademy_Final.app */;
@@ -407,7 +404,6 @@
 			);
 			mainGroup = EDF0F01F29F4B6F300DD41F5;
 			packageReferences = (
-				ED1773B229F902AD00269392 /* XCRemoteSwiftPackageReference "keychain-swift" */,
 			);
 			productRefGroup = EDF0F02929F4B6F300DD41F5 /* Products */;
 			projectDirPath = "";
@@ -674,25 +670,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		ED1773B229F902AD00269392 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/evgenyneu/keychain-swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 20.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		ED1773B329F902AD00269392 /* KeychainSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = ED1773B229F902AD00269392 /* XCRemoteSwiftPackageReference "keychain-swift" */;
-			productName = KeychainSwift;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		EDF0F03429F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld */ = {

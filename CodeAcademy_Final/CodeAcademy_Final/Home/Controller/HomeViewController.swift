@@ -206,16 +206,22 @@ class HomeViewController: UIViewController {
             
             
         }
-        
+
         let submitAction = UIAlertAction(title: "Submit", style: .default) { action in
             
-            guard let amountText = alertController.textFields?.first?.text, !amountText.isEmpty, let amount = Double(amountText), let userId = self.loggedInUser?.accountInfo.id else {
-                self.present(alertController, animated: true)
+            guard let amountText = alertController.textFields?.first?.text,
+                  let amount = Double(amountText),
+                  let userId = self.loggedInUser?.accountInfo.id else {
+            UIAlertController.showErrorAlert(title: "Declined", message: "Amount can'be empty, have negative numbers or symbols. Please try again", controller: self)
+
                 return
             }
+   
+        
             
             self.serviceAPI?.addMoney(accountId: userId, amountToAdd: amount) { [weak self] result in
                 guard let self = self else { return }
+
                 switch result {
                     case .success(let response):
                         UIAlertController.showErrorAlert(title: "Success!",
@@ -230,8 +236,9 @@ class HomeViewController: UIViewController {
                         }
                         
                     case .failure(let error):
+                        
                         UIAlertController.showErrorAlert(title: "\(errorStatusCodeMessage) \(error.statusCode)",
-                                                         message: error.localizedDescription,
+                                                         message: "Amount can't be negative or have symbols",
                                                          controller: self)
                 }
             }
