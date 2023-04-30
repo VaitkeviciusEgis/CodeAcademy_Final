@@ -13,4 +13,5 @@ let keyAccessToken = "accessToken"
 let uDefaultsPassword = "password"
 let uDefaultsPhone = "phoneNumber"
 let errorStatusCodeMessage = "Error with status code: "
-let identifier = "listCell"
+let listIdentifier = "listCell"
+let tableViewHeightForRow = CGFloat(48)
