@@ -72,15 +72,13 @@ class HomeViewController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         tableView.layer.cornerRadius = 1
         tableView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        view.addSubview(tableView)
+        view.addSubViews([tableView, cardView])
         setupTableViewConstrains()
         setupDelegates()
-        view.addSubview(cardView)
     }
     
     private func setupTableViewConstrains() {
