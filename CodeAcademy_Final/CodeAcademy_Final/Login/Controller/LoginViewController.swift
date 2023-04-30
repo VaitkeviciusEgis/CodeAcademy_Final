@@ -16,7 +16,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var loginRegisterLabel: UILabel!
     @IBOutlet private weak var confirmPasswordTextField: UITextField!
     @IBOutlet private weak var questionLabel: UILabel!
-    @IBOutlet private weak var actionButtonOutlet: UIButton!
+    @IBOutlet private weak var actionButton: UIButton!
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet weak var currencyPickerView: UIPickerView!
@@ -38,14 +38,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     //MARK: - Properties
-    
+
+//    actionButton.tintColor = UIColor(red: 86/255, green: 158/255, blue: 163/255, alpha: 1)
     let serviceAPI = ServiceAPI(networkService: NetworkService())
     let tabBarNav = TabBarViewController()
-//    let currencies = ["EUR", "USD"]
     var selectedCurrency: Currency = .EUR
     var transactions: [TransactionInfo] = []
-    let selectedColor = UIColor(red: 33/255, green: 127/255, blue: 145/255, alpha: 1)
-    let deSelectedColor = UIColor(red: 53/255, green: 147/255, blue: 165/255, alpha: 1)
+    let selectedColor = UIColor(red: 9/255, green: 86/255, blue: 93/255, alpha: 1)
+    let deSelectedColor = UIColor(red: 28/255, green: 71/255, blue: 74/255, alpha: 1)
     var managedContext: NSManagedObjectContext!
     {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -93,17 +93,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 stateButton.setTitle("Sign Up", for: .normal)
                 loginRegisterLabel.text = "Login"
                 questionLabel.text = "Don't have an account ?"
-                actionButtonOutlet.setTitle("Login", for: .normal)
+                actionButton.setTitle("Login", for: .normal)
             case .register:
                 stateButton.setTitle("Sign In", for: .normal)
                 loginRegisterLabel.text = "Register"
                 questionLabel.text = "Already have an account ?"
-                actionButtonOutlet.setTitle("Register", for: .normal)
+                actionButton.setTitle("Register", for: .normal)
         }
     }
     
     
     func setupUI() {
+        actionButton.tintColor = .white
         passwordTextField.delegate = self
         phoneTextField.delegate = self
         confirmPasswordTextField.delegate = self
