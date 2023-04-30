@@ -152,9 +152,17 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         let newPassword = passwordTextField.text
         
         
-        guard let newPhoneNumber = newPhoneNumber, let newPassword = newPassword, !newPhoneNumber.isEmpty && !newPassword.isEmpty else {
-            UIAlertController.showErrorAlert(title: "Fields are Empty", message: "", controller: self)
+        guard let newPhoneNumber = newPhoneNumber, let newPassword = newPassword else {
+        
             return
+        }
+        
+        if newPhoneNumber.isEmpty && newPassword.isEmpty {
+            UIAlertController.showErrorAlert(title: "Fields are empty", message: "Enter new credentials", controller: self)
+        } else if newPhoneNumber.isEmpty {
+            UIAlertController.showErrorAlert(title: "Empty input", message: "Enter new phone number", controller: self)
+        } else if newPassword.isEmpty {
+            UIAlertController.showErrorAlert(title: "Empty input", message: "Enter new password", controller: self)
         }
 
         serviceAPI?.updateUser(currentPhoneNumber: currentPhoneNumber, newPhoneNumber: newPhoneNumber, newPassword: newPassword, accessToken: currentToken, completion: { [weak self] result in
@@ -194,7 +202,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == phoneTextField {
             passwordTextField.becomeFirstResponder()
+        } else if textField == passwordTextField {
+            submitButtonTapped()
         }
+    
         return true
     }
 

@@ -317,5 +317,17 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.backgroundColor = normalColor
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if textField == recipientPhoneNumberTextField {
+            commentTextField.becomeFirstResponder()
+        } else if textField == commentTextField {
+            enterSumTextField.becomeFirstResponder()
+        } else if textField == enterSumTextField {
+            sendMoneyTapped()
+        }
+        return true
+    }
 }
 
