@@ -46,21 +46,21 @@ class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        loadData()
+        loadCoreData()
         tableView.reloadData()
         
     }
     
     //MARK: - Action
     
-    private func loadData() {
-        guard let viewModel = self.viewModel else {
+    private func loadCoreData() {
+        guard let viewModel else {
             return
         }
         viewModel.retrieveDataFromCoreData()
     }
     
-    func displayNewBalance() {
+    private func displayNewBalance() {
         let balance = loggedInUser?.accountInfo.balance ?? 0
         balanceLabel.text = formatter.string(from: NSNumber(value: balance))
     }
