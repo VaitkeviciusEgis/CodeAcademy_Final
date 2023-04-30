@@ -14,4 +14,4 @@ let uDefaultsPassword = "password"
 let uDefaultsPhone = "phoneNumber"
 let errorStatusCodeMessage = "Error with status code: "
 let listIdentifier = "listCell"
-let tableViewHeightForRow = CGFloat(48)
+let tableViewHeightForRow: CGFloat = 48

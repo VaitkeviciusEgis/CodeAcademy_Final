@@ -112,7 +112,7 @@ class TransactionsListViewController: UIViewController {
     // MARK: Actions
     
     
-    @objc func clearSearchBar() {
+    @objc private func clearSearchBar() {
         searchBar.text = ""
 //        viewModel?.filterTransactions(with: searchBar.text)
         updateTableView()
@@ -122,7 +122,7 @@ class TransactionsListViewController: UIViewController {
         view.endEditing(true)
     }
     
-    @objc func segmentValueChanged(_ sender: UISegmentedControl) {
+    @objc private func segmentValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
             case 0:
                 filterType = "Ingoing"

@@ -143,7 +143,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
 
     //MARK: - Action
     
-    @objc func submitButtonTapped() {
+    @objc private func submitButtonTapped() {
         guard let currentPhoneNumber = loggedInUser?.accountInfo.ownerPhoneNumber, let currentToken = loggedInUser?.accessToken else {
             return
         }
@@ -191,7 +191,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         dismissKeyboard()
     }
     
-    @objc func logoutButtonTapped() {
+    @objc private func logoutButtonTapped() {
         self.navigationController?.setViewControllers([LoginViewController()], animated: true)
         
     }

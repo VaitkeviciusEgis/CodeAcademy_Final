@@ -190,7 +190,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     }
     
     // called when user taps the send money buttontableView.separatorStyle = .nonec
-    @objc func sendMoneyTapped() {
+    @objc private func sendMoneyTapped() {
         
         let senderPhoneNumber = loggedInUser?.accountInfo.ownerPhoneNumber
         let token = loggedInUser?.accessToken
@@ -273,7 +273,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
 
-      
+  
         if textField == enterSumTextField || textField == recipientPhoneNumberTextField  {
             
             // Allow backspace

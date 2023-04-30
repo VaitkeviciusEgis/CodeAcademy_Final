@@ -47,7 +47,12 @@ class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
     
     //MARK: - TableView DataSource functions
     func numberOfRowsInSection (section: Int) -> Int {
-        return fetchedResultsController?.sections?[section].numberOfObjects ?? 0
+        
+        let lastFiveTransactions = fetchedResultsController?.fetchedObjects?.suffix(5)
+        let lastFiveTransactionsCount = min(lastFiveTransactions?.count ?? 0, 5)
+        return lastFiveTransactionsCount
+        
+  
     }
     
     func object (indexPath: IndexPath) -> TransactionEntity? {

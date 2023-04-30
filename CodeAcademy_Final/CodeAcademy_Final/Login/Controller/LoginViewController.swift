@@ -27,14 +27,6 @@ class LoginViewController: UIViewController {
         pickerViewSetup()
 //        attemptAutoLogin()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(false)
-    }
 
     //MARK: - Properties
 
@@ -45,11 +37,6 @@ class LoginViewController: UIViewController {
     let selectedColor = UIColor(red: 235/255, green: 242/255, blue: 250/255, alpha: 1)
     
     let deSelectedColor = UIColor(red: 0/255, green: 178/255, blue: 149/255, alpha: 1)
-    var managedContext: NSManagedObjectContext!
-    {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        return appDelegate?.persistentContainer.viewContext
-    }
     
     enum Currency: CaseIterable {
         case EUR
@@ -62,10 +49,6 @@ class LoginViewController: UIViewController {
             case .USD:
                 return "USD"
             }
-        }
-        
-        static var allCases: [Currency] {
-            return [.EUR, .USD]
         }
     }
     
@@ -131,7 +114,7 @@ class LoginViewController: UIViewController {
         view.endEditing(true)
     }
 
-    @objc func textFieldDidChange(_ textField: UITextField) {
+    @objc private func textFieldDidChange(_ textField: UITextField) {
         let modifiedPhoneNumber = String(textField.text?.filter { "0123456789+".contains($0) } ?? "")
         phoneTextField.text = modifiedPhoneNumber
     }

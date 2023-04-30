@@ -24,7 +24,6 @@ class HomeViewController: UIViewController {
     private let cardholderLabel = UILabel()
     private let companyLabel = UILabel()
     
-    
     //MARK: Lifecycle
     
     override func viewDidLoad() {
@@ -221,7 +220,7 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    @objc func addMoneyButtonTapped() {
+    @objc private func addMoneyButtonTapped() {
         let alertController = UIAlertController(title: "Card Pay", message: "Please enter the amount:", preferredStyle: .alert)
         
         alertController.addTextField { textField in
@@ -288,9 +287,7 @@ extension HomeViewController: UITableViewDataSource {
         guard let viewModel = self.viewModel else {
             return 0
         }
-        let lastFiveTransactions = viewModel.fetchedResultsController?.fetchedObjects?.suffix(5)
-        
-        return min(lastFiveTransactions?.count ?? 0, 5)
+        return viewModel.numberOfRowsInSection(section: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -298,6 +295,7 @@ extension HomeViewController: UITableViewDataSource {
             hideButton()
             return UITableViewCell()
         }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: listIdentifier, for: indexPath) as? ListCell
         guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath), let cell = cell else {
             return UITableViewCell()
