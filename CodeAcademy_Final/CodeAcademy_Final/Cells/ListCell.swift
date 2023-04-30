@@ -10,33 +10,38 @@ import UIKit
 
 class ListCell: UITableViewCell {
     
+    //MARK: - Initialisation
     
-    //MARK: - Properties
-    
-    static let identifier = "listCell"
-    let formatter = NumberFormatter()
-    let phoneNumberLabel: UILabel = {
+    private let phoneNumberLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         return label
     }()
     
-    let amountLabel: UILabel = {
+    private  let amountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
     
-    
-    //MARK: - Initialisation
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    private override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        let subViews: [UIView] = [phoneNumberLabel, amountLabel]
+        addSubViews(subViews)
         
-        addSubview(phoneNumberLabel)
-        addSubview(amountLabel)
-        phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = false
-        amountLabel.translatesAutoresizingMaskIntoConstraints = false
+        setupCellConstraints()
+        setupTextFields()
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    //MARK: - Action
+    
+    private  func setupCellConstraints() {
         
         NSLayoutConstraint.activate([
             phoneNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
@@ -46,39 +51,26 @@ class ListCell: UITableViewCell {
             amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30)
         ])
+        
+    }
+    
+    private func setupTextFields() {
         amountLabel.lineBreakMode = .byTruncatingTail
         amountLabel.numberOfLines = 1
+        amountLabel.font = .boldSystemFont(ofSize: 13)
+        
         phoneNumberLabel.lineBreakMode = .byTruncatingHead
         phoneNumberLabel.numberOfLines = 1
+        phoneNumberLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .light)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    //MARK: - Action
-    
-    func configure(with transaction: TransactionEntity) {
-        
-//        self.formatter.numberStyle = .currency
-//        self.formatter.currencySymbol = self.eurSymbol
-//        let balance = response.balance
-//        self.balanceLabel.text = self.formatter.string(from: NSNumber(value: balance))
-//        self.loggedInUser?.accountInfo.balance = response.balance
-//        balanceLabel.text = formatter.string(from: NSNumber(value: balance))
-
-//    }
-        
+    func configureCell(with transaction: TransactionEntity) {
         
         let amount = transaction.amount
-        amountLabel.text = formatter.string(from: NSNumber(value: amount))
-        formatter.numberStyle = .currency
-        formatter.currencySymbol = eurSymbol
+        let formatter = currencyFormatter()
         
-        phoneNumberLabel.text = "\(String(describing: transaction.receiverPhoneNumber ?? ""))"
-        phoneNumberLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .light)
         amountLabel.text = formatter.string(from: NSNumber(value: amount))
-        amountLabel.font = .boldSystemFont(ofSize: 13)
+        phoneNumberLabel.text = "\(String(describing: transaction.receiverPhoneNumber ?? ""))"
     }
     
 }

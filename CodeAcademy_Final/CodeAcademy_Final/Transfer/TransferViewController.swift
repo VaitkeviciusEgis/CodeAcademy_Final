@@ -26,7 +26,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     private let senderCurrencyTextField = UITextField()
     private let commentTextField = UITextField()
     private let enterSumTextField = UITextField()
-    let formatter = NumberFormatter()
+    let formatter = currencyFormatter()
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {

@@ -18,7 +18,7 @@ class HomeViewController: UIViewController {
     let companyLabel = UILabel()
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
-    let formatter = NumberFormatter()
+    let formatter = currencyFormatter()
     private var showHideButton = UIButton(type: .system)
     private var isTableViewHidden = false
     var viewModel: TransactionsViewModel?
@@ -82,7 +82,7 @@ class HomeViewController: UIViewController {
 //            tableView.topAnchor.constraint(equalTo: addMoneyButton.bottomAnchor, constant: 60)
         ])
         // Register any necessary cells or headers/footers
-        tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
+        tableView.register(ListCell.self, forCellReuseIdentifier: identifier)
         
         // Set the table view's data source and delegate
         tableView.dataSource = self
@@ -105,7 +105,6 @@ class HomeViewController: UIViewController {
     func setupCardView() {
         
         //Set up NumberFormatter
-        
         formatter.numberStyle = .currency
         formatter.currencySymbol = eurSymbol
         
@@ -230,8 +229,6 @@ class HomeViewController: UIViewController {
                                                          message: "Your deposit was successful!",
                                                          controller: self)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            self.formatter.numberStyle = .currency
-                            self.formatter.currencySymbol = eurSymbol
                             let balance = response.balance
                             self.balanceLabel.text = self.formatter.string(from: NSNumber(value: balance))
                             self.loggedInUser?.accountInfo.balance = response.balance
@@ -301,12 +298,12 @@ extension HomeViewController: UITableViewDataSource {
             hideButton()
             return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? ListCell
         guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath), let cell = cell else {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
-        cell.configure(with: transaction)
+        cell.configureCell(with: transaction)
 //        cell.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         cell.backgroundColor = UIColor(red: 0/255, green: 59/255, blue: 60/255, alpha: 1)
         setupShowHideButton()

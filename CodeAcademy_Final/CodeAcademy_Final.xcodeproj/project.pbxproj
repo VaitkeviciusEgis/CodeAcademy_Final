@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		ED1773B729FBA98100269392 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1773B629FBA98000269392 /* Constants.swift */; };
+		ED303CE129FEE5E80040CEA8 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED303CE029FEE5E80040CEA8 /* UIViewExtension.swift */; };
+		ED303CE629FEF56B0040CEA8 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED303CE529FEF56A0040CEA8 /* NumberFormatter.swift */; };
 		EDF0F02C29F4B6F300DD41F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */; };
 		EDF0F02E29F4B6F300DD41F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */; };
 		EDF0F03629F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F03429F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld */; };
@@ -47,6 +49,8 @@
 
 /* Begin PBXFileReference section */
 		ED1773B629FBA98000269392 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		ED303CE029FEE5E80040CEA8 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		ED303CE529FEF56A0040CEA8 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		EDF0F02829F4B6F300DD41F5 /* CodeAcademy_Final.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeAcademy_Final.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				EDF0F07229F4B82300DD41F5 /* AlertControllerExtension.swift */,
+				ED303CE029FEE5E80040CEA8 /* UIViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -159,6 +164,14 @@
 				ED1773B629FBA98000269392 /* Constants.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		ED303CE429FEF55F0040CEA8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				ED303CE529FEF56A0040CEA8 /* NumberFormatter.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		EDF0F01F29F4B6F300DD41F5 = {
@@ -180,6 +193,7 @@
 		EDF0F02A29F4B6F300DD41F5 /* CodeAcademy_Final */ = {
 			isa = PBXGroup;
 			children = (
+				ED303CE429FEF55F0040CEA8 /* Helpers */,
 				ED1773B529FBA96C00269392 /* Constants */,
 				ED1773B129F8E29D00269392 /* Extension */,
 				EDF0F08D29F4B87400DD41F5 /* Cells */,
@@ -454,9 +468,11 @@
 				EDF0F06C29F4B7CF00DD41F5 /* UserRegisterResponse.swift in Sources */,
 				EDF0F06A29F4B7CF00DD41F5 /* UserRegisterRequest.swift in Sources */,
 				EDF0F06E29F4B7CF00DD41F5 /* UpdateBalanceRequest.swift in Sources */,
+				ED303CE629FEF56B0040CEA8 /* NumberFormatter.swift in Sources */,
 				EDF0F06229F4B7CF00DD41F5 /* NetworkService.swift in Sources */,
 				EDF0F12329F7552C00DD41F5 /* AccountEntity+CoreDataProperties.swift in Sources */,
 				EDF0F06529F4B7CF00DD41F5 /* ServiceAPI.swift in Sources */,
+				ED303CE129FEE5E80040CEA8 /* UIViewExtension.swift in Sources */,
 				EDF0F06929F4B7CF00DD41F5 /* UpdateUserRequest.swift in Sources */,
 				EDF0F06629F4B7CF00DD41F5 /* TransactionInfo.swift in Sources */,
 				EDF0F06829F4B7CF00DD41F5 /* UserAuthenticationResponse.swift in Sources */,

@@ -63,7 +63,7 @@ class TransactionsListViewController: UIViewController {
         guard let tableView = tableView else {
             return
         }
-        tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
+        tableView.register(ListCell.self, forCellReuseIdentifier: identifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .systemGray6
@@ -194,7 +194,7 @@ extension TransactionsListViewController: UITableViewDataSource {
             guard let viewModel = self.viewModel else {
                 return UITableViewCell()
             }
-            let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? ListCell
             guard let cell = cell else {
                 return UITableViewCell()
             }
@@ -217,7 +217,7 @@ extension TransactionsListViewController: UITableViewDataSource {
             if indexPath.row < filteredTransactions.count {
                 let transaction = filteredTransactions[indexPath.row]
                 
-                cell.configure(with: transaction)
+                cell.configureCell(with: transaction)
     
                 cell.backgroundColor = .systemGray6
             } else {

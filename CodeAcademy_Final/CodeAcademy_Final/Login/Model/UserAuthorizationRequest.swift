@@ -5,7 +5,7 @@
 //  Created by Egidijus Vaitkevičius on 2023-04-18.
 //
 
-import Foundation
+import UIKit
 
 struct UserAuthorizationRequest: Encodable {
   let phoneNumber: String
