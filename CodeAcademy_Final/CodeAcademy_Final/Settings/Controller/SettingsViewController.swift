@@ -193,7 +193,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     @objc private func logoutButtonTapped() {
         self.navigationController?.setViewControllers([LoginViewController()], animated: true)
-        
     }
     
     

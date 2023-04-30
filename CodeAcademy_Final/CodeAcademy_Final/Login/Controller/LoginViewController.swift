@@ -19,24 +19,24 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet weak var currencyPickerView: UIPickerView!
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
         pickerViewSetup()
-//        attemptAutoLogin()
+        //        attemptAutoLogin()
     }
-
-    //MARK: - Properties
-
-    let serviceAPI = ServiceAPI(networkService: NetworkService())
-    let tabBarNav = TabBarViewController()
-    var selectedCurrency: Currency = .EUR
-    var transactions: [TransactionInfo] = []
-    let selectedColor = UIColor(red: 235/255, green: 242/255, blue: 250/255, alpha: 1)
     
-    let deSelectedColor = UIColor(red: 0/255, green: 178/255, blue: 149/255, alpha: 1)
+    //MARK: - Properties
+    
+    private let serviceAPI = ServiceAPI(networkService: NetworkService())
+    private let tabBarNav = TabBarViewController()
+    private var selectedCurrency: Currency = .EUR
+    private let selectedColor = UIColor(red: 235/255, green: 242/255, blue: 250/255, alpha: 1)
+    private let deSelectedColor = UIColor(red: 0/255, green: 178/255, blue: 149/255, alpha: 1)
+    
+    
+    // MARK: - Enums
     
     enum Currency: CaseIterable {
         case EUR
@@ -44,10 +44,10 @@ class LoginViewController: UIViewController {
         
         var description: String {
             switch self {
-            case .EUR:
-                return "EUR"
-            case .USD:
-                return "USD"
+                case .EUR:
+                    return "EUR"
+                case .USD:
+                    return "USD"
             }
         }
     }
@@ -56,90 +56,111 @@ class LoginViewController: UIViewController {
         case register
         case login
     }
-    private var currentState: State = .login
+    
+    // MARK: - Properties
+    
+    private var currentState: State = .login {
+        didSet {
+            confirmPasswordTextField.isHidden = currentState != .register
+            currencyPickerView.isHidden = currentState != .register
+            
+            switch currentState {
+                case .login:
+                    stateButton.setTitle("Sign Up", for: .normal)
+                    loginRegisterLabel.text = "Login"
+                    questionLabel.text = "Don't have an account?"
+                    actionButton.setTitle("Login", for: .normal)
+                    
+                case .register:
+                    stateButton.setTitle("Sign In", for: .normal)
+                    loginRegisterLabel.text = "Register"
+                    questionLabel.text = "Already have an account?"
+                    actionButton.setTitle("Register", for: .normal)
+            }
+        }
+    }
     
     //MARK: -  Action
     
     @IBAction private func signButtonTapped(_ sender: Any) {
         
-        if currentState == .login {
-            currentState = .register
-        } else if currentState == .register {
-            currentState = .login
-        }
-        confirmPasswordTextField.isHidden = currentState != .register
-        currencyPickerView.isHidden = currentState != .register
-        
-        switch currentState {
-            case .login:
-                stateButton.setTitle("Sign Up", for: .normal)
-                loginRegisterLabel.text = "Login"
-                questionLabel.text = "Don't have an account ?"
-                actionButton.setTitle("Login", for: .normal)
-            case .register:
-                stateButton.setTitle("Sign In", for: .normal)
-                loginRegisterLabel.text = "Register"
-                questionLabel.text = "Already have an account ?"
-                actionButton.setTitle("Register", for: .normal)
-        }
+        currentState = currentState == .login ? .register : .login
     }
     
-    
     func setupUI() {
+        setupTextFields()
+    
         actionButton.tintColor = .white
-        passwordTextField.delegate = self
-        phoneTextField.delegate = self
-        confirmPasswordTextField.delegate = self
-
-        passwordTextField.backgroundColor = deSelectedColor
-        confirmPasswordTextField.backgroundColor = deSelectedColor
-        phoneTextField.backgroundColor = deSelectedColor
-        passwordTextField.isSecureTextEntry = true
-        passwordTextField.borderStyle = .roundedRect
-        phoneTextField.borderStyle = .roundedRect
-        phoneTextField.keyboardType = .phonePad
-        passwordTextField.keyboardType = .namePhonePad
-        confirmPasswordTextField.keyboardType = .namePhonePad
-        confirmPasswordTextField.borderStyle = .roundedRect
-        confirmPasswordTextField.isSecureTextEntry = true
         stateButton.layer.masksToBounds = true
         stateButton.layer.cornerRadius = 8
         stateButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        phoneTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
     }
     
+    func setupTextFields() {
+        phoneTextField.borderStyle = .roundedRect
+        phoneTextField.keyboardType = .phonePad
+        phoneTextField.backgroundColor = deSelectedColor
+        phoneTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        phoneTextField.delegate = self
+        
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.borderStyle = .roundedRect
+        passwordTextField.backgroundColor = deSelectedColor
+        passwordTextField.keyboardType = .namePhonePad
+        passwordTextField.delegate = self
+        
+        confirmPasswordTextField.keyboardType = .namePhonePad
+        confirmPasswordTextField.borderStyle = .roundedRect
+        confirmPasswordTextField.isSecureTextEntry = true
+        confirmPasswordTextField.backgroundColor = deSelectedColor
+        confirmPasswordTextField.delegate = self
+    }
+    
+    func saveLoginCredentials(phoneNumber: String, password: String) {
+        
+        
+    }
+    
+    
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
     @objc private func textFieldDidChange(_ textField: UITextField) {
         let modifiedPhoneNumber = String(textField.text?.filter { "0123456789+".contains($0) } ?? "")
         phoneTextField.text = modifiedPhoneNumber
     }
     
-    @IBAction func actionButtonTapped(_ sender: Any) {
+    @IBAction private func actionButtonTapped(_ sender: Any) {
         switch currentState {
             case .register:
-             confirmPassword(password: passwordTextField.text ?? "", confirmation: confirmPasswordTextField.text ?? "", phoneNumber: phoneTextField.text ?? "", currency: selectedCurrency.description)
-            
+                confirmPassword(password: passwordTextField.text ?? "", confirmation: confirmPasswordTextField.text ?? "", phoneNumber: phoneTextField.text ?? "", currency: selectedCurrency.description)
+                
             case .login:
                 login()
         }
     }
     
-    func confirmPassword(password: String, confirmation: String, phoneNumber: String, currency: String) {
+    private func confirmPassword(password: String, confirmation: String, phoneNumber: String, currency: String) {
         if password != confirmation {
             UIAlertController.showErrorAlert(title: "Try again!", message: "This time make sure that passwords do match!", controller: self)
-
+            
         } else {
             register(phoneNumber: phoneNumber, password: password, currency: currency)
-      
+            
         }
     }
     
-    func register(phoneNumber: String, password: String, currency: String) {
+    private func pickerViewSetup() {
+        currencyPickerView.delegate = self
+        currencyPickerView.dataSource = self
+        currencyPickerView.isHidden = true
+    }
+    
+    private func register(phoneNumber: String, password: String, currency: String) {
         guard let password = passwordTextField.text, let phone = phoneTextField.text else {
             return
         }
@@ -159,9 +180,9 @@ class LoginViewController: UIViewController {
             }
         }
     }
-
     
-    func login() {
+    
+    private func login() {
         guard let password = passwordTextField.text, let phone = phoneTextField.text else {
             return
         }
@@ -173,23 +194,23 @@ class LoginViewController: UIViewController {
                     let defaults = UserDefaults.standard
                     defaults.set(password, forKey: uDefaultsPassword)
                     defaults.set(phone, forKey: uDefaultsPhone)
-
-//         
-//                    let keychain = KeychainSwift()
-//                    keychain.set(loggedUser.accessToken, forKey: keyAccessToken)
-
+                    
+                    //
+                    //                    let keychain = KeychainSwift()
+                    //                    keychain.set(loggedUser.accessToken, forKey: keyAccessToken)
+                    
                     tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
-              
+                    
                     self.navigationController?.setViewControllers([tabBarNav], animated: true)
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
-                                                         message: "\(errorStatusCodeMessage) \(error.statusCode)",
-                                                         controller: self)
+                                                     message: "\(errorStatusCodeMessage) \(error.statusCode)",
+                                                     controller: self)
             }
         }
     }
-
-    func attemptAutoLogin() {
+    
+    private func attemptAutoLogin() {
         let defaults = UserDefaults.standard
         guard let phoneNumber = defaults.string(forKey: "phoneNumber"), let password = defaults.string(forKey: "password") else {
             return
@@ -197,28 +218,21 @@ class LoginViewController: UIViewController {
         serviceAPI.loginUser(phoneNumber: phoneNumber, password: password) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let loggedUser):
-                tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
-                self.navigationController?.setViewControllers([tabBarNav], animated: false)
-            case .failure(let error):
-                print(error)
+                case .success(let loggedUser):
+                    tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+                    self.navigationController?.setViewControllers([tabBarNav], animated: false)
+                case .failure(let error):
+                    print(error)
             }
         }
     }
-    
-    func pickerViewSetup() {
-        currencyPickerView.delegate = self
-        currencyPickerView.dataSource = self
-        currencyPickerView.isHidden = true
-    }
 }
-
 
 // MARK: - UIPickerView
 
 extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        return pickerNumberOfComponents
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -238,11 +252,7 @@ extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
 extension LoginViewController: UITextFieldDelegate {
     
-    
-    // MARK: - Text Field Delegate
-    
-    
-    func textFieldShouldPaste(_ textField: UITextField) -> Bool {
+    private func textFieldShouldPaste(_ textField: UITextField) -> Bool {
         return false
     }
     
@@ -287,7 +297,6 @@ extension LoginViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.backgroundColor = deSelectedColor
-        
     }
 }
 
