@@ -57,7 +57,7 @@ class HomeViewController: UIViewController {
         viewModel.retrieveDataFromCoreData()
     }
     
-    func setupUI() {
+   private func setupUI() {
         view.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         setupTableView()
         setupCardView()
@@ -69,12 +69,12 @@ class HomeViewController: UIViewController {
         balanceLabel.text = currencyFormatter().string(from: NSNumber(value: balance))
     }
     
-    func setupDelegates() {
+   private func setupDelegates() {
         tableView.dataSource = self
         tableView.register(ListCell.self, forCellReuseIdentifier: listIdentifier)
     }
     
-    func setupTableView() {
+   private func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
@@ -86,28 +86,25 @@ class HomeViewController: UIViewController {
         view.addSubview(cardView)
     }
     
-    func setupTableViewConstrains() {
+    private func setupTableViewConstrains() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
             tableView.heightAnchor.constraint(equalToConstant: 220),
-            
         ])
     }
     
-    func setupCardHolderLabel() {
+    private func setupCardHolderLabel() {
         guard let loggedInUser = loggedInUser, let phoneNumber = loggedInUser.accountInfo.ownerPhoneNumber else {
             return
         }
         let cardholder = "Cardholder: "
         cardholderLabel.text = "\(cardholder) \(String(describing: phoneNumber))"
         cardholderLabel.textColor = UIColor(ciColor: .gray)
-        
-        
     }
     
-    func setupCardBalanceLabelConstraints() {
+    private func setupCardBalanceLabelConstraints() {
         balanceLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             balanceLabel.centerXAnchor.constraint(equalTo: cardView.centerXAnchor),
@@ -117,53 +114,40 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    func setupBalanceLabel() {
+    private func setupBalanceLabel() {
         balanceLabel.adjustsFontSizeToFitWidth = true
         balanceLabel.minimumScaleFactor = 0.5
         balanceLabel.font = UIFont.boldSystemFont(ofSize: 32)
-        
-        
         balanceLabel.textColor = UIColor(red: 31/255, green: 223/255, blue: 100/255, alpha: 1)
-        
         balanceLabel.textAlignment = .center
     }
     
-    func setupCardViewConstraints() {
+    private func setupCardViewConstraints() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             cardView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 6),
             cardView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 16),
             cardView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -16),
             cardView.heightAnchor.constraint(equalToConstant: 200)
-            
         ])
     }
-    func setupCardView() {
-        
-        //        //Set up NumberFormatter
-        //        formatter.numberStyle = .currency
-        //        formatter.currencySymbol = eurSymbol
-        //
-        // Set up the balance label
+    private func setupCardView() {
         setupBalanceLabel()
         cardView.addSubview(balanceLabel)
         setupCardBalanceLabelConstraints()
         setupCardViewConstraints()
-        // Set up the card view
         cardView.backgroundColor = cardViewBackgroundColor
         cardView.layer.cornerRadius = 10
         cardView.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         cardView.layer.borderWidth = 1
-        //        view.addSubview(cardView)
         cardView.translatesAutoresizingMaskIntoConstraints = false
         setupCardHolder()
         setupCardHolderConstraints()
         setupCompanyLabel()
         setupCompanyLabelConstraints()
-        
     }
     
-    func setupCompanyLabel() {
+    private func setupCompanyLabel() {
         // Set up the company label
         companyLabel.font = UIFont.boldSystemFont(ofSize: 18)
         companyLabel.textColor = UIColor(red: 214/255, green: 160/255, blue: 86/255, alpha: 1)
@@ -172,7 +156,7 @@ class HomeViewController: UIViewController {
         cardView.addSubview(companyLabel)
     }
     
-    func setupCompanyLabelConstraints() {
+    private func setupCompanyLabelConstraints() {
         companyLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             companyLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 16),
@@ -182,7 +166,7 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    func setupCardHolder() {
+    private func setupCardHolder() {
         // Set up the cardholder label
         cardholderLabel.font = UIFont.systemFont(ofSize: 16)
         cardholderLabel.textAlignment = .left
@@ -192,7 +176,7 @@ class HomeViewController: UIViewController {
         cardView.addSubview(cardholderLabel)
     }
     
-    func setupCardHolderConstraints() {
+    private func setupCardHolderConstraints() {
         cardholderLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             cardholderLabel.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -16),
@@ -202,9 +186,7 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    
-    
-    func setupAddMoneyButton() {
+    private func setupAddMoneyButton() {
         addMoneyButton.setTitle("Add Money", for: .normal)
         addMoneyButton.setTitleColor(.opaqueSeparator, for: .normal)
         addMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
@@ -217,7 +199,7 @@ class HomeViewController: UIViewController {
         setupAddMoneyButtonConstraints()
     }
     
-    func setupAddMoneyButtonConstraints() {
+    private func setupAddMoneyButtonConstraints() {
         addMoneyButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             addMoneyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -248,8 +230,6 @@ class HomeViewController: UIViewController {
                 
                 return
             }
-            
-            
             
             self.serviceAPI?.addMoney(accountId: userId, amountToAdd: amount) { [weak self] result in
                 guard let self = self else { return }
