@@ -25,7 +25,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         setupUI()
         pickerViewSetup()
-//        attemptAutoLogin()
+        attemptAutoLogin()
     }
     
     override func viewWillAppear(_ animated: Bool) {

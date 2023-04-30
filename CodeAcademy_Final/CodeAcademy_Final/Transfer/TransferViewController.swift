@@ -199,16 +199,31 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         let amount = Double(enterSumTextField.text ?? "")
         let comment = commentTextField.text
    
+        if amount == nil {
+                UIAlertController.showErrorAlert(title: "Amount is required", message: "Please enter amount", controller: self)
+        }
+        
         guard let senderPhoneNumber = senderPhoneNumber, let token = token, let receiverPhoneNumber = receiverPhoneNumber, let amount = amount, let comment = comment
         else {
             
             return
         }
         
+        
+ 
+        if comment.isEmpty {
+            UIAlertController.showErrorAlert(title: "Comment is required", message: "Enter a message to receiver", controller: self)
+        }
+        
+//        if enterSumTextField.text?.isEmpty ?? false {
+//            UIAlertController.showErrorAlert(title: "Amount", message: "Can't transfer to yourself", controller: self)
+//        }
         if receiverPhoneNumber == senderPhoneNumber {
             UIAlertController.showErrorAlert(title: "Transfer declined", message: "Can't transfer to yourself", controller: self)
         }
-
+        
+        
+    
    
         // TODO: implement code to send money
         serviceAPI?.transferMoney(senderPhoneNumber: senderPhoneNumber,
@@ -218,7 +233,7 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                                   comment: comment) { [weak self] result in
             guard let self = self else { return }
             
- 
+   
             
             switch result {
                 case .success(_):
@@ -261,12 +276,12 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         if textField == enterSumTextField || textField == recipientPhoneNumberTextField  {
             
             let newLength = text.count + string.count - range.length
-            let limit = 9
+            let limit = 12
             
             let allowedCharacterSet = CharacterSet(charactersIn: "0123456789")
             let replacementStringCharacterSet = CharacterSet(charactersIn: string)
             
-            // Only allow up to 9 characters
+            // Only allow up to 12 characters
             if newLength > limit {
                 return false
             }
