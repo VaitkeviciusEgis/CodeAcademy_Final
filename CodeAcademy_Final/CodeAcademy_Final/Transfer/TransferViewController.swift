@@ -272,15 +272,24 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
+
       
         if textField == enterSumTextField || textField == recipientPhoneNumberTextField  {
             
+            // Allow backspace
+            if string.isEmpty {
+                return true
+            }
             let newLength = text.count + string.count - range.length
             let limit = 12
             
             let allowedCharacterSet = CharacterSet(charactersIn: "0123456789")
             let replacementStringCharacterSet = CharacterSet(charactersIn: string)
             
+            // Don't allow leading zeros
+            if textField.text == "0" && string != "." {
+                return false
+            }
             // Only allow up to 12 characters
             if newLength > limit {
                 return false
@@ -292,9 +301,10 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             }
             
         }
-        
+
         return true
     }
+
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == recipientPhoneNumberTextField || textField == commentTextField || textField == enterSumTextField {
