@@ -44,8 +44,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     let tabBarNav = TabBarViewController()
     var selectedCurrency: Currency = .EUR
     var transactions: [TransactionInfo] = []
-    let selectedColor = UIColor(red: 9/255, green: 86/255, blue: 93/255, alpha: 1)
-    let deSelectedColor = UIColor(red: 28/255, green: 71/255, blue: 74/255, alpha: 1)
+    let selectedColor = UIColor(red: 235/255, green: 242/255, blue: 250/255, alpha: 1)
+    
+    let deSelectedColor = UIColor(red: 0/255, green: 178/255, blue: 149/255, alpha: 1)
     var managedContext: NSManagedObjectContext!
     {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate

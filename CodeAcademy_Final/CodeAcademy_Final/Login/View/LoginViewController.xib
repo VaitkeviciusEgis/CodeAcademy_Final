@@ -32,7 +32,7 @@
                     <rect key="frame" x="64" y="256.66666666666669" width="247" height="34"/>
                     <color key="backgroundColor" red="0.10980392156862745" green="0.27843137254901962" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <color key="textColor" red="0.28235294117647058" green="0.64313725490196072" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                     <imageReference key="background" image="highlighter" catalog="system" variableValue="0.80000000000000004"/>
@@ -40,7 +40,7 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SB4-Mc-zgq">
                     <rect key="frame" x="64" y="186" width="55" height="26"/>
                     <fontDescription key="fontDescription" name="SFMono-Bold" family="SF Mono" pointSize="22"/>
-                    <color key="textColor" red="0.13725490196078433" green="0.25490196078431371" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="textColor" red="1" green="0.58431372549019611" blue="0.019607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account ?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TRp-hg-ppr">
@@ -55,8 +55,8 @@
                     <color key="tintColor" red="0.1647058824" green="0.68627450980000004" blue="0.52549019610000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="filled" title="Login">
-                        <color key="baseForegroundColor" red="0.070588235289999995" green="0.30980392159999998" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="baseBackgroundColor" red="0.33725490196078434" green="0.61960784313725492" blue="0.63921568627450975" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="baseBackgroundColor" red="0.52941176470588236" green="0.70196078431372544" blue="0.47843137254901957" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </buttonConfiguration>
                     <connections>
                         <action selector="actionButtonTapped:" destination="-1" eventType="touchUpInside" id="eYP-oz-e88"/>
@@ -66,7 +66,7 @@
                     <rect key="frame" x="64" y="342.66666666666669" width="247" height="34"/>
                     <color key="backgroundColor" red="0.10980392156862745" green="0.27843137254901962" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <color key="textColor" red="0.28235294117647058" green="0.64313725490196072" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                 </textField>
@@ -74,7 +74,7 @@
                     <rect key="frame" x="64" y="302.66666666666669" width="247" height="34"/>
                     <color key="backgroundColor" red="0.10980392156862745" green="0.27843137254901962" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <color key="textColor" red="0.28235294117647058" green="0.64313725490196072" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                     <imageReference key="background" image="pencil.tip" catalog="system" symbolScale="medium"/>
@@ -99,7 +99,7 @@
                     <color key="tintColor" systemColor="secondarySystemBackgroundColor"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal" title="Sign Up">
-                        <color key="titleColor" red="0.28235294117647058" green="0.64313725490196072" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleColor" red="0.92549019607843142" green="0.30588235294117649" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.13725490196078433" green="0.25490196078431371" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -135,7 +135,7 @@
                 <constraint firstItem="Ko1-uo-whf" firstAttribute="top" secondItem="Gs5-zi-o0e" secondAttribute="bottom" constant="6" id="us4-qw-MpW"/>
                 <constraint firstItem="x3i-fp-XzG" firstAttribute="leading" secondItem="Z8G-xx-OOV" secondAttribute="leading" constant="64" id="wxH-no-xgY"/>
             </constraints>
-            <point key="canvasLocation" x="-7724" y="-1579.0640394088671"/>
+            <point key="canvasLocation" x="-8116" y="-1571"/>
         </view>
     </objects>
     <resources>
