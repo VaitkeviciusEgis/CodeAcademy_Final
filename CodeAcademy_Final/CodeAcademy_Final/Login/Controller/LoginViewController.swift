@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController {
     
     //MARK: - Outlets
     @IBOutlet private weak var stateButton: UIButton!
@@ -38,7 +38,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     //MARK: - Properties
 
-//    actionButton.tintColor = UIColor(red: 86/255, green: 158/255, blue: 163/255, alpha: 1)
     let serviceAPI = ServiceAPI(networkService: NetworkService())
     let tabBarNav = TabBarViewController()
     var selectedCurrency: Currency = .EUR
@@ -133,9 +132,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func textFieldDidChange(_ textField: UITextField) {
-        // Remove all non-numeric characters from the text field's text
         let modifiedPhoneNumber = String(textField.text?.filter { "0123456789+".contains($0) } ?? "")
-        // Update the text field's text to only include numeric characters
         phoneTextField.text = modifiedPhoneNumber
     }
     
@@ -185,9 +182,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         guard let password = passwordTextField.text, let phone = phoneTextField.text else {
             return
         }
-        // Set the password and phone keys based on the text field values
-
-
+        
         serviceAPI.loginUser(phoneNumber: phone, password: password) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -233,11 +228,40 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         currencyPickerView.dataSource = self
         currencyPickerView.isHidden = true
     }
+}
+
+
+// MARK: - UIPickerView
+
+extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
     
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return Currency.allCases.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let currency = Currency.allCases[row]
+        return currency.description
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        _ = Currency.allCases[row]
+        // Do something with the selected currency
+    }
+}
 
-
-
+extension LoginViewController: UITextFieldDelegate {
+    
+    
     // MARK: - Text Field Delegate
+    
+    
+    func textFieldShouldPaste(_ textField: UITextField) -> Bool {
+        return false
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
@@ -281,30 +305,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.backgroundColor = deSelectedColor
         
-    }
-
-}
-
-
-// MARK: - UIPickerView
-
-extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Currency.allCases.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let currency = Currency.allCases[row]
-        return currency.description
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        _ = Currency.allCases[row]
-        // Do something with the selected currency
     }
 }
 

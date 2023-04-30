@@ -47,11 +47,27 @@ class HomeViewController: UIViewController {
     
     //MARK: - Action
     
+    private func setupShowHideButton() {
+        showHideButton.translatesAutoresizingMaskIntoConstraints = false
+        showHideButton.setTitle("Hide Last Transactions", for: .normal)
+        showHideButton.addTarget(self, action: #selector(toggleTableView), for: .touchUpInside)
+        view.addSubview(showHideButton)
+        
+        NSLayoutConstraint.activate([
+            showHideButton.centerXAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -100),
+            showHideButton.topAnchor.constraint(equalTo:  cardView.topAnchor, constant: 16)
+        ])
+    }
+    
     private func loadCoreData() {
         guard let viewModel else {
             return
         }
         viewModel.retrieveDataFromCoreData()
+    }
+    
+    private func hideButton() {
+        showHideButton.isHidden = true
     }
     
     private func setupUI() {
@@ -162,12 +178,11 @@ class HomeViewController: UIViewController {
     }
     
     private func setupCardHolder() {
-        // Set up the cardholder label
         cardholderLabel.font = UIFont.systemFont(ofSize: 16)
         cardholderLabel.textAlignment = .left
         cardholderLabel.text = "Cardholder: \(loggedInUser?.accountInfo.ownerPhoneNumber ?? "")"
-        cardholderLabel.adjustsFontSizeToFitWidth = true // Add this line
-        cardholderLabel.minimumScaleFactor = 0.5 // Add this line to set the minimum font scale factor
+        cardholderLabel.adjustsFontSizeToFitWidth = true
+        cardholderLabel.minimumScaleFactor = 0.5
         cardView.addSubview(cardholderLabel)
     }
     
@@ -211,9 +226,8 @@ class HomeViewController: UIViewController {
         
         alertController.addTextField { textField in
             textField.placeholder = "Enter amount"
-            textField.keyboardType = .decimalPad
-            
-            
+            textField.keyboardType = .numberPad
+            textField.delegate = self
         }
         
         let submitAction = UIAlertAction(title: "Submit", style: .default) { action in
@@ -257,24 +271,6 @@ class HomeViewController: UIViewController {
         self.present(alertController, animated: true)
     }
     
-    func hideButton() {
-        showHideButton.isHidden = true
-    }
-    
-    //MARK: - Private method
-    
-    private func setupShowHideButton() {
-        showHideButton.translatesAutoresizingMaskIntoConstraints = false
-        showHideButton.setTitle("Hide Last Transactions", for: .normal)
-        showHideButton.addTarget(self, action: #selector(toggleTableView), for: .touchUpInside)
-        view.addSubview(showHideButton)
-        
-        NSLayoutConstraint.activate([
-            showHideButton.centerXAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -100),
-            showHideButton.topAnchor.constraint(equalTo:  cardView.topAnchor, constant: 16)
-        ])
-    }
-    
     @objc private func toggleTableView() {
         UIView.animate(withDuration: 0.1) { // Change the duration as needed
             self.tableView.alpha = self.tableView.alpha == 0 ? 1 : 0
@@ -316,6 +312,18 @@ extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableViewHeightForRow
+    }
+}
+
+extension HomeViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        return allowedCharacters.isSuperset(of: characterSet)
+    }
+    
+    private func textFieldShouldPaste(_ textField: UITextField) -> Bool {
+        return false
     }
 }
 
