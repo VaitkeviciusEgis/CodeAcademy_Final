@@ -12,22 +12,19 @@ class HomeViewController: UIViewController {
     
     //MARK: Properties
     
-    let cardView = UIView()
-    let balanceLabel = UILabel()
-    let cardholderLabel = UILabel()
-    let companyLabel = UILabel()
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
+    var viewModel: TransactionsViewModel?
+    let tableView = UITableView(frame: .zero, style: .plain)
+    private  let addMoneyButton = UIButton(type: .system)
     private var showHideButton = UIButton(type: .system)
     private var isTableViewHidden = false
-    var viewModel: TransactionsViewModel?
-    var transactions: [TransactionInfo] = []
-    let addMoneyButton = UIButton(type: .system)
-    let cardViewBackgroundColor = UIColor(red: 42/255, green: 175/255, blue: 134/255, alpha: 1)
-    let viewBackgroundColor = UIColor(red: 0/255, green: 59/255, blue: 60/255, alpha: 1)
+    private let cardView = UIView()
+    private let balanceLabel = UILabel()
+    private let cardholderLabel = UILabel()
+    private let companyLabel = UILabel()
     
-    let tableView = UITableView(frame: .zero, style: .plain)
-    //    let tableViewHeight = 220
+    
     //MARK: Lifecycle
     
     override func viewDidLoad() {
@@ -57,7 +54,7 @@ class HomeViewController: UIViewController {
         viewModel.retrieveDataFromCoreData()
     }
     
-   private func setupUI() {
+    private func setupUI() {
         view.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         setupTableView()
         setupCardView()
@@ -69,12 +66,12 @@ class HomeViewController: UIViewController {
         balanceLabel.text = currencyFormatter().string(from: NSNumber(value: balance))
     }
     
-   private func setupDelegates() {
+    private func setupDelegates() {
         tableView.dataSource = self
         tableView.register(ListCell.self, forCellReuseIdentifier: listIdentifier)
     }
     
-   private func setupTableView() {
+    private func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
@@ -136,7 +133,7 @@ class HomeViewController: UIViewController {
         cardView.addSubview(balanceLabel)
         setupCardBalanceLabelConstraints()
         setupCardViewConstraints()
-        cardView.backgroundColor = cardViewBackgroundColor
+        cardView.backgroundColor = UIColor(red: 42/255, green: 175/255, blue: 134/255, alpha: 1)
         cardView.layer.cornerRadius = 10
         cardView.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         cardView.layer.borderWidth = 1
@@ -241,7 +238,7 @@ class HomeViewController: UIViewController {
                                                          controller: self)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             let balance = response.balance
-                                                        self.balanceLabel.text = currencyFormatter().string(from: NSNumber(value: balance))
+                            self.balanceLabel.text = currencyFormatter().string(from: NSNumber(value: balance))
                             self.loggedInUser?.accountInfo.balance = response.balance
                         }
                         
@@ -271,7 +268,6 @@ class HomeViewController: UIViewController {
     private func setupShowHideButton() {
         showHideButton.translatesAutoresizingMaskIntoConstraints = false
         showHideButton.setTitle("Hide Last Transactions", for: .normal)
-        //        showHideButton.tintColorDidChange()
         showHideButton.addTarget(self, action: #selector(toggleTableView), for: .touchUpInside)
         view.addSubview(showHideButton)
         
@@ -298,7 +294,6 @@ extension HomeViewController: UITableViewDataSource {
         guard let viewModel = self.viewModel else {
             return 0
         }
-        
         let lastFiveTransactions = viewModel.fetchedResultsController?.fetchedObjects?.suffix(5)
         
         return min(lastFiveTransactions?.count ?? 0, 5)
@@ -313,6 +308,7 @@ extension HomeViewController: UITableViewDataSource {
         guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath), let cell = cell else {
             return UITableViewCell()
         }
+        
         cell.selectionStyle = .none
         cell.backgroundColor = UIColor(red: 0/255, green: 59/255, blue: 60/255, alpha: 1)
         cell.configureCell(with: transaction)
@@ -320,15 +316,8 @@ extension HomeViewController: UITableViewDataSource {
         return cell
     }
     
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableViewHeightForRow
-        
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false for the cells that you want to be non-editable
-        return false
     }
 }
 
