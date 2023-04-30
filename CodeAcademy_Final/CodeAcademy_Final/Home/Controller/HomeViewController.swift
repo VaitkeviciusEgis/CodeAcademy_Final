@@ -96,7 +96,7 @@ class HomeViewController: UIViewController {
             return
         }
         let cardholder = "Cardholder: "
-        
+       
         cardholderLabel.text = "\(cardholder) \(String(describing: phoneNumber))"
         cardholderLabel.textColor = UIColor(ciColor: .gray)
         
@@ -151,12 +151,14 @@ class HomeViewController: UIViewController {
         cardholderLabel.font = UIFont.systemFont(ofSize: 16)
         cardholderLabel.textAlignment = .left
         cardholderLabel.text = "Cardholder: \(loggedInUser?.accountInfo.ownerPhoneNumber ?? "")"
+        cardholderLabel.adjustsFontSizeToFitWidth = true // Add this line
+        cardholderLabel.minimumScaleFactor = 0.5 // Add this line to set the minimum font scale factor
         cardView.addSubview(cardholderLabel)
         cardholderLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             cardholderLabel.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -16),
             cardholderLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
-            cardholderLabel.widthAnchor.constraint(equalToConstant: 180),
+            cardholderLabel.widthAnchor.constraint(equalToConstant: 400),
             cardholderLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
         // Set up the company label
