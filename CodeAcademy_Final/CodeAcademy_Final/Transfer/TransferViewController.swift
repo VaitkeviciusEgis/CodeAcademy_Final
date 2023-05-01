@@ -15,6 +15,9 @@ class TransferViewController: UIViewController {
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     var viewModel: TransactionsViewModel?
+    
+    //MARK: -  Private Properties
+    
     private let titleLabel = UILabel()
     private let subLabel = UILabel()
     private let sendMoneyButton = UIButton(type: .system)
@@ -48,7 +51,7 @@ class TransferViewController: UIViewController {
         view.addSubview(subLabel)
         view.addSubview(titleLabel)
         view.addSubViews(subViews)
-  
+        
         
         setupTitleLabel()
         setupAmountTextField()
