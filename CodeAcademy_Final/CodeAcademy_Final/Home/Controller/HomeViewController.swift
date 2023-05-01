@@ -316,10 +316,9 @@ extension HomeViewController: UITableViewDataSource {
 extension HomeViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
-        if currentText.isEmpty && string == "0" {
-            return false
-        }
-        if currentText == "0" {
+       
+        let newLength = currentText.count + string.count - range.length
+        if newLength >= allowedCharacters.count || currentText == "0" ||  currentText.isEmpty && string == "0" {
             return false
         }
         return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)
@@ -328,6 +327,7 @@ extension HomeViewController: UITextFieldDelegate {
     private func textFieldShouldPaste(_ textField: UITextField) -> Bool {
         return false
     }
+    
 }
 
 
