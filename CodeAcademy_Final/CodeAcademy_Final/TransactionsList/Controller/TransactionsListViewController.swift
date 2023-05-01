@@ -13,7 +13,7 @@ protocol TransactionsFetching {
     func fetchTransactions()
 }
 
-class TransactionsListViewController: UIViewController {
+class TransactionsListViewController: UIViewController{
     
     // MARK: Outlets
     
@@ -161,61 +161,46 @@ class TransactionsListViewController: UIViewController {
         self.tableView?.reloadData()
     }
     
-    @objc private func repeatTransaction(_ transaction: TransactionEntity) {
+    @objc private func repeatTransaction(amountSent: Double, senderPhoneNumber: String, fromAccountId: Int, receiverPhoneNumber: String, commentSent: String) {
         var fromAccount: Int
         var fromPhoneNumber: String
         var toPhoneNumber: String
         var amount: Double
         var comment: String
         
-        fromAccount = Int(transaction.sendingAccountId)
-        fromPhoneNumber = transaction.senderPhoneNumber ?? ""
-        toPhoneNumber = transaction.receiverPhoneNumber ?? ""
-        amount = transaction.amount
-        comment = transaction.comment ?? ""
+        fromAccount = fromAccountId
+        fromPhoneNumber = senderPhoneNumber
+        toPhoneNumber = receiverPhoneNumber
+        amount = Double(amountSent)
+        comment = commentSent
 
-        // Create a new transaction entity with the same details
-        guard let viewContext = CoreDataManager.sharedInstance.container?.viewContext else {
-            return
-        }
-        
-        let repeatedTransaction = TransactionEntity(context: viewContext)
-        repeatedTransaction.amount = amount
-        repeatedTransaction.sendingAccountId = Int32(fromAccount)
-        repeatedTransaction.senderPhoneNumber = fromPhoneNumber
-        repeatedTransaction.comment = comment
-        repeatedTransaction.receiverPhoneNumber = toPhoneNumber
-        
-        // Create the alert
+       
         let alert = UIAlertController(title: "Repeat Transaction", message: "Do you want to repeat this transaction?", preferredStyle: .alert)
         
-        // Add the repeat action
+        
         let repeatAction = UIAlertAction(title: "Repeat", style: .default) { [weak self] _ in
             guard let self = self else { return }
             
-            // Get the authentication token from the keychain
+            
             guard let authToken = keyChain.get(keyAccessToken) else {
                 return
             }
 
-            // Call your existing function that handles performing a transaction
             transferVC?.serviceAPI?.transferMoney(senderPhoneNumber: fromPhoneNumber, token: authToken, senderAccountId: fromAccount, receiverPhoneNumber: toPhoneNumber, amount: amount, comment: comment, completion: { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                     case .success(_):
+                        let message = "Transaction completed"
+                        UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
+                        
                         var currentBalance = loggedInUser?.accountInfo.balance
                         let newBalance = (currentBalance ?? 0) - amount
-                        currentBalance = newBalance // update currentBalance with the new balance
-                        loggedInUser?.accountInfo.balance = newBalance // update loggedInUser with the new balance
+                        currentBalance = newBalance
+                        loggedInUser?.accountInfo.balance = newBalance
+                   
+                        transferVC?.didTransferMoneySuccessfully()
                         
-                 
-//
-                        let message = "Transaction completed"
-                        // Reload the table view
-                        DispatchQueue.main.async {
-                            self.transferVC?.didTransferMoneySuccessfully()
-                        }
-                        UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
+                        tableView?.reloadData()
 
                     case .failure(let error):
                         UIAlertController.showErrorAlert(title: error.message ?? "",
@@ -225,12 +210,8 @@ class TransactionsListViewController: UIViewController {
             })
         }
         alert.addAction(repeatAction)
-        
-        // Add the cancel action
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addAction(cancelAction)
-        
-        // Present the alert
         present(alert, animated: true)
     }
 }
@@ -293,15 +274,12 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        
-
         guard filterType == .outgoing else {
-            // User can only repeat/cancel outgoing transactions
             return
         }
 
         let transaction = filteredTransactions[indexPath.row]
-        repeatTransaction(transaction)
+        repeatTransaction(amountSent: Double(transaction.amount), senderPhoneNumber: transaction.senderPhoneNumber ?? "", fromAccountId: Int(transaction.sendingAccountId), receiverPhoneNumber: transaction.receiverPhoneNumber ?? "", commentSent: transaction.comment ?? "")
     }
 }
 

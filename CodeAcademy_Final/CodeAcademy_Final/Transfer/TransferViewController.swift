@@ -8,7 +8,6 @@
 import UIKit
 
 
-
 class TransferViewController: UIViewController {
     
     // MARK: - Properties
