@@ -225,7 +225,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         }
         
         if textField == phoneTextField {
-            let allowedCharacterSet = CharacterSet(charactersIn: "0123456789+")
+            let allowedCharacterSet = CharacterSet(charactersIn: allowedCharacters)
             let replacementStringCharacterSet = CharacterSet(charactersIn: string)
             return allowedCharacterSet.isSuperset(of: replacementStringCharacterSet)
         }

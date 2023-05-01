@@ -132,7 +132,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        let modifiedPhoneNumber = String(textField.text?.filter { "0123456789+".contains($0) } ?? "")
+        let modifiedPhoneNumber = String(textField.text?.filter { allowedCharacters.contains($0) } ?? "")
         phoneTextField.text = modifiedPhoneNumber
     }
     
@@ -258,7 +258,7 @@ extension LoginViewController: UITextFieldDelegate {
         }
         
         if textField == phoneTextField {
-            let allowedCharacterSet = CharacterSet(charactersIn: "0123456789+")
+            let allowedCharacterSet = CharacterSet(charactersIn: allowedCharacters)
             let replacementStringCharacterSet = CharacterSet(charactersIn: string)
             return allowedCharacterSet.isSuperset(of: replacementStringCharacterSet)
         }
