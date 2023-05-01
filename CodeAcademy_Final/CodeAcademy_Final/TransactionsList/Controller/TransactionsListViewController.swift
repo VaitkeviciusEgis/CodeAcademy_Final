@@ -27,9 +27,9 @@ class TransactionsListViewController: UIViewController {
     var transferVC: TransferViewController?
     var viewModel: TransactionsViewModel?
     var currentLoggedInAccount: AccountEntity?
-    private var filterType: FilterType = .outgoing
+    private var filterType: FilterType = .ingoing
     private let didReceiveTransferMoneyNotification = Notification.Name("didReceiveTransferMoneyNotification")
-    
+    var loggedInUser: UserAuthenticationResponse?
     enum FilterType: Int {
         case ingoing = 0
         case outgoing = 1
@@ -203,12 +203,18 @@ class TransactionsListViewController: UIViewController {
                 guard let self = self else { return }
                 switch result {
                     case .success(_):
+                        var currentBalance = loggedInUser?.accountInfo.balance
+                        let newBalance = (currentBalance ?? 0) - amount
+                        currentBalance = newBalance // update currentBalance with the new balance
+                        loggedInUser?.accountInfo.balance = newBalance // update loggedInUser with the new balance
+                        
+                 
+//
+                        let message = "Transaction completed"
                         // Reload the table view
                         DispatchQueue.main.async {
-                            self.updateTableView()
+                            self.transferVC?.didTransferMoneySuccessfully()
                         }
-                        transferVC?.didTransferMoneySuccessfully()
-                        let message = "Transaction completed"
                         UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
 
                     case .failure(let error):

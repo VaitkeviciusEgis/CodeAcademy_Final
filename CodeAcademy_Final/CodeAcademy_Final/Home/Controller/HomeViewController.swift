@@ -29,6 +29,11 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        NotificationCenter.default.addObserver(self, selector: #selector(transactionSuccessful(_:)), name: NSNotification.Name("TransactionSuccessful"), object: nil)
+    }
+    @objc func transactionSuccessful(_ notification: Notification) {
+        // Reload table view data
+        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
