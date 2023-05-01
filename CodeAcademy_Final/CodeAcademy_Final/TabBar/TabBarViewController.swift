@@ -84,7 +84,7 @@ class TabBarViewController: UITabBarController {
                 }
             }
         })
-        
+        transactionsVC.transferVC = transferVC
         transactionsVC.currentLoggedInAccount = loggedInAccount
         transactionsVC.viewModel = viewModel
         homeVC.serviceAPI = serviceAPI

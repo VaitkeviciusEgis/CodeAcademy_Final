@@ -23,11 +23,19 @@ class TransactionsListViewController: UIViewController {
     
     // MARK: Properties
     
+    private var filteredTransactions: [TransactionEntity] = []
+    var transferVC: TransferViewController?
     var viewModel: TransactionsViewModel?
     var currentLoggedInAccount: AccountEntity?
+    private var filterType: FilterType = .outgoing
     private let didReceiveTransferMoneyNotification = Notification.Name("didReceiveTransferMoneyNotification")
-    private var filterType = "Ingoing"
     
+    enum FilterType: Int {
+        case ingoing = 0
+        case outgoing = 1
+        case all = 2
+    }
+
     // MARK: Lifecycle Methods
     
     override func viewDidLoad() {
@@ -62,6 +70,7 @@ class TransactionsListViewController: UIViewController {
         }
         tableView.register(ListCell.self, forCellReuseIdentifier: listIdentifier)
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.backgroundColor = .systemGray6
         tableView.separatorStyle = .none
     }
@@ -116,11 +125,11 @@ class TransactionsListViewController: UIViewController {
     @objc private func segmentValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
             case 0:
-                filterType = "Ingoing"
+                filterType = .ingoing
             case 1:
-                filterType = "Outgoing"
+                filterType = .outgoing
             case 2:
-                filterType = "All"
+                filterType = .all
             default:
                 break
         }
@@ -136,7 +145,7 @@ class TransactionsListViewController: UIViewController {
             return
         }
         viewModel.retrieveDataFromCoreData()
-        tableView?.reloadData()
+        updateTableView()
     }
     
     // MARK: Private Methods
@@ -148,16 +157,79 @@ class TransactionsListViewController: UIViewController {
         inAndOutTransactions.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged) // Add the segment change action
     }
     
-    // MARK: Public Methods
+   private func updateTableView() {
+        self.tableView?.reloadData()
+    }
     
-    func updateTableView() {
-        tableView?.reloadData()
+    @objc private func repeatTransaction(_ transaction: TransactionEntity) {
+        var fromAccount: Int
+        var fromPhoneNumber: String
+        var toPhoneNumber: String
+        var amount: Double
+        var comment: String
+        
+        fromAccount = Int(transaction.sendingAccountId)
+        fromPhoneNumber = transaction.senderPhoneNumber ?? ""
+        toPhoneNumber = transaction.receiverPhoneNumber ?? ""
+        amount = transaction.amount
+        comment = transaction.comment ?? ""
+
+        // Create a new transaction entity with the same details
+        guard let viewContext = CoreDataManager.sharedInstance.container?.viewContext else {
+            return
+        }
+        
+        let repeatedTransaction = TransactionEntity(context: viewContext)
+        repeatedTransaction.amount = amount
+        repeatedTransaction.sendingAccountId = Int32(fromAccount)
+        repeatedTransaction.senderPhoneNumber = fromPhoneNumber
+        repeatedTransaction.comment = comment
+        repeatedTransaction.receiverPhoneNumber = toPhoneNumber
+        
+        // Create the alert
+        let alert = UIAlertController(title: "Repeat Transaction", message: "Do you want to repeat this transaction?", preferredStyle: .alert)
+        
+        // Add the repeat action
+        let repeatAction = UIAlertAction(title: "Repeat", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            
+            // Get the authentication token from the keychain
+            guard let authToken = keyChain.get(keyAccessToken) else {
+                return
+            }
+
+            // Call your existing function that handles performing a transaction
+            transferVC?.serviceAPI?.transferMoney(senderPhoneNumber: fromPhoneNumber, token: authToken, senderAccountId: fromAccount, receiverPhoneNumber: toPhoneNumber, amount: amount, comment: comment, completion: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                    case .success(_):
+                        // Reload the table view
+                        DispatchQueue.main.async {
+                            self.updateTableView()
+                        }
+                        transferVC?.didTransferMoneySuccessfully()
+                        let message = "Transaction completed"
+                        UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
+
+                    case .failure(let error):
+                        UIAlertController.showErrorAlert(title: error.message ?? "",
+                                                         message: "\(errorStatusCodeMessage) \(error.statusCode)",
+                                                         controller: self)
+                }
+            })
+        }
+        alert.addAction(repeatAction)
+        
+        // Add the cancel action
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(cancelAction)
+        
+        // Present the alert
+        present(alert, animated: true)
     }
 }
 
-// MARK: - UITableViewDataSource
-
-extension TransactionsListViewController: UITableViewDataSource {
+extension TransactionsListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = self.viewModel else {
@@ -166,11 +238,11 @@ extension TransactionsListViewController: UITableViewDataSource {
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
         
         switch filterType {
-            case "Ingoing":
+            case .ingoing:
                 return transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }.count
-            case "Outgoing":
+            case .outgoing:
                 return transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }.count
-            default:
+            case .all:
                 return transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 || $0.sendingAccountId == currentLoggedInAccount?.id  ?? -1}.count
         }
     }
@@ -184,19 +256,15 @@ extension TransactionsListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
-        let filteredTransactions: [TransactionEntity]
+        
         
         switch filterType {
-            case "Ingoing":
+            case .ingoing:
                 filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
-            case "Outgoing":
+            case .outgoing:
                 filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1}
-            case "All":
+            case .all:
                 filteredTransactions = transactions
-                
-            default:
-                filteredTransactions = transactions
-                
         }
         
         if indexPath.row < filteredTransactions.count {
@@ -214,6 +282,20 @@ extension TransactionsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableViewHeightForRow
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        
+
+        guard filterType == .outgoing else {
+            // User can only repeat/cancel outgoing transactions
+            return
+        }
+
+        let transaction = filteredTransactions[indexPath.row]
+        repeatTransaction(transaction)
     }
 }
 
