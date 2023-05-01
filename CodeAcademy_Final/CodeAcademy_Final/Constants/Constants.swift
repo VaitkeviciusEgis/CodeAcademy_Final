@@ -18,3 +18,4 @@ let listIdentifier = "listCell"
 let tableViewHeightForRow: CGFloat = 48
 let pickerNumberOfComponents = 1
 let keyChain = KeychainSwift()
+let textFieldLimit = 12

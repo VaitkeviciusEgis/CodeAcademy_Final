@@ -13,12 +13,12 @@ protocol NetworkRequesting {
     func putRequest(url: URL, body: Data?, completion: @escaping (Result<Data, NetworkError>) -> Void)
 }
 
-/// POST method
-/// - Parameters:
-///   - url: "base url"
-///   - body: data
-///   - completion: Inserts data into the server
 class NetworkService: NetworkRequesting {
+    /// POST method
+    /// - Parameters:
+    ///   - url: "base url"
+    ///   - body: data
+    ///   - completion: Inserts data into the server
     func postRequest(url: URL, body: Data?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

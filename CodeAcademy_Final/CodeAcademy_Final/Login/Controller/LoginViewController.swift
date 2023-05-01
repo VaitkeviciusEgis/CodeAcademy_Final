@@ -89,7 +89,7 @@ class LoginViewController: UIViewController {
     
     func setupUI() {
         setupTextFields()
-    
+        
         actionButton.tintColor = .white
         stateButton.layer.masksToBounds = true
         stateButton.layer.cornerRadius = 8
@@ -121,9 +121,9 @@ class LoginViewController: UIViewController {
     
     func saveLoginCredentials() {
         let savedPhoneNumber = keyChain.get(keyPhoneNumber) ?? ""
-                let savedPassword = keyChain.get(keyPassword) ?? ""
+        let savedPassword = keyChain.get(keyPassword) ?? ""
         phoneTextField.text = savedPhoneNumber
-                passwordTextField.text = savedPassword
+        passwordTextField.text = savedPassword
     }
     
     
@@ -183,7 +183,6 @@ class LoginViewController: UIViewController {
         }
     }
     
-    
     private func login() {
         guard let password = passwordTextField.text, let phone = phoneTextField.text else {
             return
@@ -192,19 +191,19 @@ class LoginViewController: UIViewController {
         serviceAPI.loginUser(phoneNumber: phone, password: password) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let loggedUser):
-                keyChain.set(password, forKey: keyPassword)
-                keyChain.set(phone, forKey: keyPhoneNumber)
-                keyChain.set(loggedUser.accessToken, forKey: keyAccessToken)
-          
-                
-                tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
-                
-                self.navigationController?.setViewControllers([tabBarNav], animated: true)
-            case .failure(let error):
-                UIAlertController.showErrorAlert(title: error.message ?? "",
-                                                 message: "\(errorStatusCodeMessage) \(error.statusCode)",
-                                                 controller: self)
+                case .success(let loggedUser):
+                    keyChain.set(password, forKey: keyPassword)
+                    keyChain.set(phone, forKey: keyPhoneNumber)
+                    keyChain.set(loggedUser.accessToken, forKey: keyAccessToken)
+                    
+                    
+                    tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+                    
+                    self.navigationController?.setViewControllers([tabBarNav], animated: true)
+                case .failure(let error):
+                    UIAlertController.showErrorAlert(title: error.message ?? "",
+                                                     message: "\(errorStatusCodeMessage) \(error.statusCode)",
+                                                     controller: self)
             }
         }
     }
@@ -224,11 +223,6 @@ extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let currency = Currency.allCases[row]
         return currency.description
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        _ = Currency.allCases[row]
-        // Do something with the selected currency
     }
 }
 
@@ -256,7 +250,7 @@ extension LoginViewController: UITextFieldDelegate {
         
         if textField == passwordTextField || textField == phoneTextField {
             let newLength = text.count + string.count - range.length
-            let limit = 12
+            let limit = textFieldLimit
             
             if newLength > limit {
                 return false

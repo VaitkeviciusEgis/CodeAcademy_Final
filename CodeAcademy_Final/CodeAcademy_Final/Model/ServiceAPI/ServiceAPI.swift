@@ -122,29 +122,29 @@ class ServiceAPI: Registering, Logging {
     func transferMoney(senderPhoneNumber: String, token: String, senderAccountId: Int, receiverPhoneNumber: String, amount: Double, comment: String, completion: @escaping (Result<Void, NetworkError>) -> Void)  {
         let url = URL(string: "http://134.122.94.77:7000/api/Transactions")!
         let transferRequest = Transfer(senderPhoneNumber: senderPhoneNumber, token: token, receiverPhoneNumber: receiverPhoneNumber, senderAccountId: senderAccountId, amount: amount, comment: comment)
-
+        
         let data = try! JSONEncoder().encode(transferRequest)
-//        print("TRANSFER REQUEST Encoded \(String(data: data, encoding: .utf8) ?? "")")
+        //        print("TRANSFER REQUEST Encoded \(String(data: data, encoding: .utf8) ?? "")")
         networkService.postRequest(url: url, body: data) { [weak self] result in
             guard self != nil else {
                 return }
             switch result {
                 case .success(let data):
                     if String(data: data, encoding: .utf8) != nil {
-//                        print("Raw JSON Data in TRANSFERMoney: \(jsonString)")
+                        //                        print("Raw JSON Data in TRANSFERMoney: \(jsonString)")
                     }
-
-
+                    
+                    
                     completion(.success(()))
                     
                     
                 case .failure(let error):
                     completion(.failure(error))
-                            print("ERROR TRANSFERMoney Failure on Post Request \(error.localizedDescription)")
+                    print("ERROR TRANSFERMoney Failure on Post Request \(error.localizedDescription)")
             }
         }
     }
-
+    
     func fetchingTransactions(url: URL, completion: @escaping (Result<[TransactionInfo],Error>) -> Void) {
         let session = URLSession.shared
         
