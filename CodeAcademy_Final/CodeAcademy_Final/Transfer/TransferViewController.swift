@@ -13,20 +13,20 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Properties
     
-    let titleLabel = UILabel()
-    let subLabel = UILabel()
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     var viewModel: TransactionsViewModel?
-    let sendMoneyButton = UIButton(type: .system)
-    let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-    let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
-    let didTransferMoneyNotification = Notification.Name("didTransferMoneyNotification")
+    private let titleLabel = UILabel()
+    private let subLabel = UILabel()
+    private let sendMoneyButton = UIButton(type: .system)
+    private let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+    private let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+    private let didTransferMoneyNotification = Notification.Name("didTransferMoneyNotification")
     private let recipientPhoneNumberTextField = UITextField()
     private let senderCurrencyTextField = UITextField()
     private let commentTextField = UITextField()
-    private let enterSumTextField = UITextField()
-    let formatter = currencyFormatter()
+    private let enterAmountTextField = UITextField()
+    
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
@@ -37,116 +37,158 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        // Remove observer for didTransferMoneySuccessfully notification
-        //            NotificationCenter.default.removeObserver(self, name: Notification.Name("didTransferMoneySuccessfully"), object: nil)
+        removeObserver()
     }
-
     
     // MARK: - UI Setup
+    
     private func setupUI() {
-
-        // Add tap gesture recognizer to dismiss keyboard
+        let subViews: [UIView] = [recipientPhoneNumberTextField, senderCurrencyTextField, commentTextField, enterAmountTextField]
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addSubview(subLabel)
+        view.addSubview(titleLabel)
         view.addGestureRecognizer(tapGestureRecognizer)
-        view.backgroundColor = .systemGray6
+        view.addSubViews(subViews)
+        
+        setupTitleLabel()
+        setupAmountTextField()
+        setupCommentTextField()
+        setupPhoneTextField()
+        setupCurrencyTextField()
+        setupTextFieldDelegate()
+        setupPhoneConstraints()
+        setupCurrencyConstraints()
+        setupCommentConstraints()
+        setupAmountConstraints()
+    }
+    
+    private func setupTitleLabel() {
+        setupSubLabel()
         titleLabel.text = "Make Transaction"
+        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
+    }
+    
+    private func setupSubLabel() {
         subLabel.text = "All fields are required"
         subLabel.font = UIFont.systemFont(ofSize: 12)
         subLabel.textColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-        // Set up text fields
-        recipientPhoneNumberTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-        senderCurrencyTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-        commentTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-        enterSumTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-        // selected UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        view.addSubview(titleLabel)
-        view.addSubview(subLabel)
+        subLabel.translatesAutoresizingMaskIntoConstraints = false
         subLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         subLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12).isActive = true
-        subLabel.translatesAutoresizingMaskIntoConstraints = false
-        // Add constraints for title label
-        titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
-
-
-        
-        recipientPhoneNumberTextField.placeholder = "Recipient phone number"
-        recipientPhoneNumberTextField.textAlignment = .center
-        senderCurrencyTextField.text = loggedInUser?.accountInfo.currency
-        senderCurrencyTextField.isUserInteractionEnabled = false
-        senderCurrencyTextField.textAlignment = .center
+    }
+    
+    func setupAmountTextField() {
+        enterAmountTextField.layer.cornerRadius = 8
+        enterAmountTextField.backgroundColor = normalColor
+        enterAmountTextField.placeholder = "Enter amount"
+        enterAmountTextField.textAlignment = .center
+        enterAmountTextField.keyboardType = .decimalPad
+    }
+    
+    func setupCommentTextField() {
+        commentTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
         commentTextField.placeholder = "Add a comment"
         commentTextField.textAlignment = .center
-        enterSumTextField.placeholder = "Enter amount"
-        enterSumTextField.textAlignment = .center
-        enterSumTextField.keyboardType = .decimalPad
-        recipientPhoneNumberTextField.keyboardType = .phonePad
-        
-        recipientPhoneNumberTextField.attributedPlaceholder = NSAttributedString(string: "Recipient Phone Number", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
-        senderCurrencyTextField.attributedPlaceholder = NSAttributedString(string: "Sender Currency", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
-        commentTextField.attributedPlaceholder = NSAttributedString(string: "Comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
-        enterSumTextField.attributedPlaceholder = NSAttributedString(string: "Amount", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
- 
-        
-        recipientPhoneNumberTextField.layer.cornerRadius = 8
-        senderCurrencyTextField.layer.cornerRadius = 8
-        commentTextField.layer.cornerRadius = 8
-        enterSumTextField.layer.cornerRadius = 8
-        
-        recipientPhoneNumberTextField.backgroundColor = normalColor
-        senderCurrencyTextField.backgroundColor = selectedColor
         commentTextField.backgroundColor = normalColor
-        enterSumTextField.backgroundColor = normalColor
-        
-        // Set delegate for text fields
+        commentTextField.layer.cornerRadius = 8
+    }
+    
+    func setupTextFieldDelegate() {
         recipientPhoneNumberTextField.delegate = self
         senderCurrencyTextField.delegate = self
         commentTextField.delegate = self
-        enterSumTextField.delegate = self
-        
-        senderCurrencyTextField.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
-        
-        
-        // Add subviews
-        view.addSubview(recipientPhoneNumberTextField)
-        view.addSubview(senderCurrencyTextField)
-        view.addSubview(commentTextField)
-        view.addSubview(enterSumTextField)
-        
-        // Add constraints
+        enterAmountTextField.delegate = self
+    }
+    
+    func setupPhoneTextField() {
+        recipientPhoneNumberTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        recipientPhoneNumberTextField.placeholder = "Recipient phone number"
+        recipientPhoneNumberTextField.textAlignment = .center
+        recipientPhoneNumberTextField.layer.cornerRadius = 8
+        recipientPhoneNumberTextField.keyboardType = .phonePad
+    }
+    
+    func setupPhoneConstraints() {
         recipientPhoneNumberTextField.translatesAutoresizingMaskIntoConstraints = false
-        senderCurrencyTextField.translatesAutoresizingMaskIntoConstraints = false
-        commentTextField.translatesAutoresizingMaskIntoConstraints = false
-        enterSumTextField.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             recipientPhoneNumberTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
             recipientPhoneNumberTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             recipientPhoneNumberTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             recipientPhoneNumberTextField.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.05),
-            
+        ])
+        
+    }
+    
+    func setupCurrencyTextField() {
+        senderCurrencyTextField.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+        senderCurrencyTextField.layer.cornerRadius = 8
+        senderCurrencyTextField.text = loggedInUser?.accountInfo.currency
+        senderCurrencyTextField.isUserInteractionEnabled = false
+        senderCurrencyTextField.textAlignment = .center
+        
+    }
+    
+    func setupCurrencyConstraints() {
+        senderCurrencyTextField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
             senderCurrencyTextField.topAnchor.constraint(equalTo: recipientPhoneNumberTextField.bottomAnchor, constant: 20),
             senderCurrencyTextField.leadingAnchor.constraint(equalTo: recipientPhoneNumberTextField.leadingAnchor),
             senderCurrencyTextField.widthAnchor.constraint(equalTo: recipientPhoneNumberTextField.widthAnchor),
             senderCurrencyTextField.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.05),
-            
+        ])
+    }
+    
+    func setupCommentConstraints() {
+        commentTextField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
             commentTextField.topAnchor.constraint(equalTo: senderCurrencyTextField.bottomAnchor, constant: 20),
             commentTextField.leadingAnchor.constraint(equalTo: senderCurrencyTextField.leadingAnchor),
             commentTextField.widthAnchor.constraint(equalTo: senderCurrencyTextField.widthAnchor),
             commentTextField.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.05),
-            
-            enterSumTextField.topAnchor.constraint(equalTo: commentTextField.bottomAnchor, constant: 20),
-            enterSumTextField.leadingAnchor.constraint(equalTo: commentTextField.leadingAnchor),
-            enterSumTextField.widthAnchor.constraint(equalTo: commentTextField.widthAnchor),
-            enterSumTextField.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.05),
         ])
     }
     
+    func setupAmountConstraints() {
+        enterAmountTextField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            enterAmountTextField.topAnchor.constraint(equalTo: commentTextField.bottomAnchor, constant: 20),
+            enterAmountTextField.leadingAnchor.constraint(equalTo: commentTextField.leadingAnchor),
+            enterAmountTextField.widthAnchor.constraint(equalTo: commentTextField.widthAnchor),
+            enterAmountTextField.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.05),
+        ])
+    }
+    
+    func setupSendButton() {
+        sendMoneyButton.setTitle("Send Money", for: .normal)
+        sendMoneyButton.addTarget(self, action: #selector(sendMoneyTapped), for: .touchUpInside)
+        sendMoneyButton.setTitleColor(.opaqueSeparator, for: .normal)
+        sendMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        sendMoneyButton.layer.borderWidth = 1
+        sendMoneyButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        sendMoneyButton.layer.cornerRadius = 8
+        view.addSubview(sendMoneyButton)
+        setupSendButtonConstraints()
+    }
+    
+    func setupSendButtonConstraints() {
+        sendMoneyButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            sendMoneyButton.topAnchor.constraint(equalTo: enterAmountTextField.bottomAnchor, constant: 24),
+            sendMoneyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sendMoneyButton.widthAnchor.constraint(equalToConstant: 120),
+            sendMoneyButton.heightAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+    
+    private func removeObserver() {
+        
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("didTransferMoneySuccessfully"), object: nil)
+    }
+    
     func didTransferMoneySuccessfully() {
-        // Transfer money code here...
         serviceAPI?.fetchingTransactions(url: URLBuilder.getTransactionURL(withId: loggedInUser?.accountInfo.id ?? 0), completion: { [weak self] (result) in
             guard self != nil else {
                 return
@@ -161,46 +203,20 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             }
             
         })
-        // Post a notification
         NotificationCenter.default.post(name: didTransferMoneyNotification, object: nil)
     }
     
-    func setupSendButton() {
-        // create a button and add it to the view
-        
-        sendMoneyButton.setTitle("Send Money", for: .normal)
-        sendMoneyButton.addTarget(self, action: #selector(sendMoneyTapped), for: .touchUpInside)
-        sendMoneyButton.translatesAutoresizingMaskIntoConstraints = false
-        sendMoneyButton.setTitleColor(.opaqueSeparator, for: .normal)
-        sendMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        //        sendMoneyButton.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-        sendMoneyButton.layer.borderWidth = 1
-        sendMoneyButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-        sendMoneyButton.layer.cornerRadius = 8
-        view.addSubview(sendMoneyButton)
-        
-        // set constraints for the button
-        NSLayoutConstraint.activate([
-            sendMoneyButton.topAnchor.constraint(equalTo: enterSumTextField.bottomAnchor, constant: 24),
-            sendMoneyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            sendMoneyButton.widthAnchor.constraint(equalToConstant: 120),
-            sendMoneyButton.heightAnchor.constraint(equalToConstant: 44)
-        ])
-        
-    }
-    
-    // called when user taps the send money buttontableView.separatorStyle = .nonec
     @objc private func sendMoneyTapped() {
         
         let senderPhoneNumber = loggedInUser?.accountInfo.ownerPhoneNumber
         let token = loggedInUser?.accessToken
         let senderAccountId = Int(loggedInUser?.accountInfo.id ?? -1)
         let receiverPhoneNumber = recipientPhoneNumberTextField.text
-        let amount = Double(enterSumTextField.text ?? "")
+        let amount = Double(enterAmountTextField.text ?? "")
         let comment = commentTextField.text
-   
+        
         if amount == nil {
-                UIAlertController.showErrorAlert(title: "Amount is required", message: "Please enter amount", controller: self)
+            UIAlertController.showErrorAlert(title: "Amount is required", message: "Please enter amount", controller: self)
         }
         
         guard let senderPhoneNumber = senderPhoneNumber, let token = token, let receiverPhoneNumber = receiverPhoneNumber, let amount = amount, let comment = comment
@@ -209,23 +225,14 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        
- 
         if comment.isEmpty {
             UIAlertController.showErrorAlert(title: "Comment is required", message: "Enter a message to receiver", controller: self)
         }
         
-//        if enterSumTextField.text?.isEmpty ?? false {
-//            UIAlertController.showErrorAlert(title: "Amount", message: "Can't transfer to yourself", controller: self)
-//        }
         if receiverPhoneNumber == senderPhoneNumber {
             UIAlertController.showErrorAlert(title: "Transfer declined", message: "Can't transfer to yourself", controller: self)
         }
         
-        
-    
-   
-        // TODO: implement code to send money
         serviceAPI?.transferMoney(senderPhoneNumber: senderPhoneNumber,
                                   token: token, senderAccountId: senderAccountId,
                                   receiverPhoneNumber: receiverPhoneNumber,
@@ -233,19 +240,19 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                                   comment: comment) { [weak self] result in
             guard let self = self else { return }
             
-   
+            
             
             switch result {
                 case .success(_):
-
+                    
                     let message = "Transaction completed"
                     UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
-             
+                    
                     recipientPhoneNumberTextField.text = ""
                     senderCurrencyTextField.text = loggedInUser?.accountInfo.currency
                     senderCurrencyTextField.isUserInteractionEnabled = false
                     commentTextField.text = ""
-                    enterSumTextField.text = ""
+                    enterAmountTextField.text = ""
                     var currentBalance = loggedInUser?.accountInfo.balance
                     let newBalance = (currentBalance ?? 0) - amount
                     currentBalance = newBalance // update currentBalance with the new balance
@@ -271,36 +278,21 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Text Field Delegate
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let text = textField.text else { return true }
-
-  
-        if textField == enterSumTextField || textField == recipientPhoneNumberTextField  {
+        guard textField.text != nil else { return true }
+        
+        if textField == enterAmountTextField || textField == recipientPhoneNumberTextField  {
             
-            // Allow backspace
-            if string.isEmpty {
-                return true
-            }
-            let newLength = text.count + string.count - range.length
-            let limit = 12
-            
-            
-            // Don't allow leading zeros
             if textField.text == "0" && string != "." {
                 return false
             }
-            // Only allow up to 12 characters
-            if newLength > limit {
-                return false
-            }
-        
+            
             return textField.validateDecimalInput(replacementString: string)
         }
         return true
     }
-
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == recipientPhoneNumberTextField || textField == commentTextField || textField == enterSumTextField {
+        if textField == recipientPhoneNumberTextField || textField == commentTextField || textField == enterAmountTextField {
             textField.backgroundColor = selectedColor
         } else {
             textField.backgroundColor = normalColor
@@ -316,8 +308,8 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         if textField == recipientPhoneNumberTextField {
             commentTextField.becomeFirstResponder()
         } else if textField == commentTextField {
-            enterSumTextField.becomeFirstResponder()
-        } else if textField == enterSumTextField {
+            enterAmountTextField.becomeFirstResponder()
+        } else if textField == enterAmountTextField {
             sendMoneyTapped()
         }
         return true
