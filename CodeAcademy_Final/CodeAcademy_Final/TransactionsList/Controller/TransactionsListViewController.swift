@@ -8,13 +8,10 @@
 import UIKit
 import CoreData
 
-// MARK: - TransactionsFetching Protocol
 
 protocol TransactionsFetching {
     func fetchTransactions()
 }
-
-// MARK: - TransactionsListViewController
 
 class TransactionsListViewController: UIViewController {
     
@@ -64,7 +61,6 @@ class TransactionsListViewController: UIViewController {
             return
         }
         tableView.register(ListCell.self, forCellReuseIdentifier: listIdentifier)
-        tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .systemGray6
         tableView.separatorStyle = .none
@@ -85,36 +81,32 @@ class TransactionsListViewController: UIViewController {
     func setupSearchBar() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
- 
-
-            // Setup clear button for search bar
-            
-            let clearButton = UIButton(type: .custom)
-            clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-            clearButton.addTarget(self, action: #selector(clearSearchBar), for: .touchUpInside)
-            searchBar.placeholder = "Search"
-            searchBar.returnKeyType = .search
-            searchBar.inputViewController?.navigationItem.hidesSearchBarWhenScrolling = true
-            searchBar.searchTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 10))
-            searchBar.searchTextField.rightView = clearButton
-            searchBar.searchTextField.rightViewMode = .whileEditing
-            searchBar.searchTextField.textColor = .label
-            searchBar.searchTextField.tintColor = .label
-            searchBar.searchTextField.backgroundColor = .systemGray5
-            searchBar.searchTextField.layer.cornerRadius = 10
-            searchBar.searchTextField.layer.masksToBounds = true
-            searchBar.tintColor = .label
-            searchBar.barTintColor = .systemGray6
-            searchBar.backgroundColor = .systemGray6
         
+        // Setup clear button for search bar
+        let clearButton = UIButton(type: .custom)
+        clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        clearButton.addTarget(self, action: #selector(clearSearchBar), for: .touchUpInside)
+        searchBar.placeholder = "Search"
+        searchBar.returnKeyType = .search
+        searchBar.inputViewController?.navigationItem.hidesSearchBarWhenScrolling = true
+        searchBar.searchTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 10))
+        searchBar.searchTextField.rightView = clearButton
+        searchBar.searchTextField.rightViewMode = .whileEditing
+        searchBar.searchTextField.textColor = .label
+        searchBar.searchTextField.tintColor = .label
+        searchBar.searchTextField.backgroundColor = .systemGray5
+        searchBar.searchTextField.layer.cornerRadius = 10
+        searchBar.searchTextField.layer.masksToBounds = true
+        searchBar.tintColor = .label
+        searchBar.barTintColor = .systemGray6
+        searchBar.backgroundColor = .systemGray6
     }
     
     // MARK: Actions
     
-    
     @objc private func clearSearchBar() {
         searchBar.text = ""
-//        viewModel?.filterTransactions(with: searchBar.text)
+        //        viewModel?.filterTransactions(with: searchBar.text)
         updateTableView()
     }
     
@@ -133,8 +125,6 @@ class TransactionsListViewController: UIViewController {
             default:
                 break
         }
-
-        // Reload the table view with the filtered transactions
         updateTableView()
     }
     
@@ -149,7 +139,6 @@ class TransactionsListViewController: UIViewController {
         viewModel.retrieveDataFromCoreData()
         tableView?.reloadData()
     }
-    
     
     // MARK: Private Methods
     
@@ -175,11 +164,9 @@ extension TransactionsListViewController: UITableViewDataSource {
         guard let viewModel = self.viewModel else {
             return 0
         }
-        
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
- 
+        
         switch filterType {
-                
             case "Ingoing":
                 return transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }.count
             case "Outgoing":
@@ -189,54 +176,47 @@ extension TransactionsListViewController: UITableViewDataSource {
         }
     }
     
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-            guard let viewModel = self.viewModel else {
-                return UITableViewCell()
-            }
-            let cell = tableView.dequeueReusableCell(withIdentifier: listIdentifier, for: indexPath) as? ListCell
-            guard let cell = cell else {
-                return UITableViewCell()
-            }
-            let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
-            let filteredTransactions: [TransactionEntity]
-    
-            switch filterType {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let viewModel = self.viewModel else {
+            return UITableViewCell()
+        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: listIdentifier, for: indexPath) as? ListCell
+        guard let cell = cell else {
+            return UITableViewCell()
+        }
+        let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
+        let filteredTransactions: [TransactionEntity]
+        
+        switch filterType {
             case "Ingoing":
-                    filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
+                filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
             case "Outgoing":
-                    filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1}
+                filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1}
             case "All":
-                 filteredTransactions = transactions
-               
-                default:
-                    filteredTransactions = transactions
-                    
-            }
-    
-            if indexPath.row < filteredTransactions.count {
-                let transaction = filteredTransactions[indexPath.row]
+                filteredTransactions = transactions
                 
-                cell.configureCell(with: transaction)
-    
-                cell.backgroundColor = .systemGray6
-            } else {
-                cell.textLabel?.text = "No data"
-            }
-    
-            return cell
+            default:
+                filteredTransactions = transactions
+                
         }
-    
-        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 64
-    
+        
+        if indexPath.row < filteredTransactions.count {
+            let transaction = filteredTransactions[indexPath.row]
+            
+            cell.configureCell(with: transaction)
+            
+            cell.backgroundColor = .systemGray6
+        } else {
+            cell.textLabel?.text = "No data"
         }
-}
-
-extension TransactionsListViewController: UITableViewDelegate {
+        
+        return cell
+    }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableViewHeightForRow
+    }
 }
-
 
 extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDelegate, UISearchControllerDelegate {
     
