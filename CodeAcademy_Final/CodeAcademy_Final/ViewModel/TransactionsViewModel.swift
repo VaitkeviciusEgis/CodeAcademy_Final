@@ -5,57 +5,59 @@
 //  Created by Egidijus Vaitkevičius on 2023-04-22.
 //
 
-import CoreData
 import UIKit
+import CoreData
 
-protocol UpdateTableViewDelegate: NSObjectProtocol {
+protocol UpdateTableViewDelegate: AnyObject {
     func reloadData(sender: TransactionsViewModel)
 }
 
-class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
+final class TransactionsViewModel: NSObject {
     
-    //MARK: - Properties
+    // MARK: - Properties
     
     private var displayedTransactions = [TransactionEntity]()
-    private let container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    private let container: NSPersistentContainer?
     var fetchedResultsController: NSFetchedResultsController<TransactionEntity>?
     weak var delegate: UpdateTableViewDelegate?
     
-    //MARK: - Fetched Results Controller - Retrieve data from Core Data
+    // MARK: - Initializer
+    
+    init(container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer) {
+        self.container = container
+        super.init()
+    }
+    
+    // MARK: - Public Functions
+    
     func retrieveDataFromCoreData() {
-        if let context = container?.viewContext {
-            let fetchRequest: NSFetchRequest<TransactionEntity> = TransactionEntity.fetchRequest()
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "transactionTime", ascending: false)]
-            fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchedResultsController?.delegate = self
-            
-            do {
-                try fetchedResultsController?.performFetch()
-                if let transactions = fetchedResultsController?.fetchedObjects {
-                    displayedTransactions = transactions
-                }
-            } catch {
-            }
+        guard let context = container?.viewContext else { return }
+        let fetchRequest: NSFetchRequest<TransactionEntity> = TransactionEntity.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "transactionTime", ascending: false)]
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController?.delegate = self
+        
+        do {
+            try fetchedResultsController?.performFetch()
+            displayedTransactions = fetchedResultsController?.fetchedObjects ?? []
+        } catch {
+            print("Error fetching transactions: \(error.localizedDescription)")
         }
     }
+}
+
+extension TransactionsViewModel: NSFetchedResultsControllerDelegate  {
     
-    // MARK: - NSFetchedResultsControllerDelegate
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.delegate?.reloadData(sender: self)
-        
+        delegate?.reloadData(sender: self)
     }
     
-    //MARK: - TableView DataSource functions
-    func numberOfRowsInSection (section: Int) -> Int {
-        
-        let lastFiveTransactions = fetchedResultsController?.fetchedObjects?.suffix(5)
-        let lastFiveTransactionsCount = min(lastFiveTransactions?.count ?? 0, 5)
-        return lastFiveTransactionsCount
-        
-  
+    func numberOfRowsInSection(section: Int) -> Int {
+        let lastFiveTransactions = fetchedResultsController?.fetchedObjects?.suffix(5) ?? []
+        return min(lastFiveTransactions.count, 5)
     }
     
-    func object (indexPath: IndexPath) -> TransactionEntity? {
+    func object(indexPath: IndexPath) -> TransactionEntity? {
         return fetchedResultsController?.object(at: indexPath)
     }
 }

@@ -19,4 +19,21 @@ extension UITextField {
         let characterSet = CharacterSet(charactersIn: replacementString)
         return allowedCharacters.isSuperset(of: characterSet)
     }
+    
+    func validatePassword(replacementString: String) -> Bool {
+        let allowedCharactersCount = allowedCharacters.count
+           let keyboard = UIKeyboardType.namePhonePad
+           let allowedCharacters = CharacterSet.alphanumerics
+           let characterSet = CharacterSet(charactersIn: replacementString)
+           
+           if self.keyboardType != keyboard {
+               self.keyboardType = keyboard
+           }
+           
+           if self.text?.count == allowedCharactersCount && !replacementString.isEmpty {
+               return false
+           }
+           
+           return allowedCharacters.isSuperset(of: characterSet)
+       }
 }

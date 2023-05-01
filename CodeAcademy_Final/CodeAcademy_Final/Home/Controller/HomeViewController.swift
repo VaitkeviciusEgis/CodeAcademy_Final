@@ -225,7 +225,7 @@ class HomeViewController: UIViewController {
         
         alertController.addTextField { textField in
             textField.placeholder = "Enter amount"
-            textField.keyboardType = .numberPad
+            textField.keyboardType = .decimalPad
             textField.delegate = self
         }
         
@@ -315,6 +315,13 @@ extension HomeViewController: UITableViewDataSource {
 
 extension HomeViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        if currentText.isEmpty && string == "0" {
+            return false
+        }
+        if currentText == "0" {
+            return false
+        }
         return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)
     }
     

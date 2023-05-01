@@ -86,7 +86,6 @@ class TransactionsListViewController: UIViewController {
         let clearButton = UIButton(type: .custom)
         clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         clearButton.addTarget(self, action: #selector(clearSearchBar), for: .touchUpInside)
-        searchBar.placeholder = "Search"
         searchBar.returnKeyType = .search
         searchBar.inputViewController?.navigationItem.hidesSearchBarWhenScrolling = true
         searchBar.searchTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 10))

@@ -78,10 +78,13 @@ class TabBarViewController: UITabBarController {
                     case .success(_):
                         break
                     case .failure(let error):
-                        print("Error processing json data: \(error)")
+                        UIAlertController.showErrorAlert(title: "\(error)",
+                                                         message: "Error saving data to CoreData",
+                                                         controller: UIViewController())
                 }
             }
         })
+        
         transactionsVC.currentLoggedInAccount = loggedInAccount
         transactionsVC.viewModel = viewModel
         homeVC.serviceAPI = serviceAPI

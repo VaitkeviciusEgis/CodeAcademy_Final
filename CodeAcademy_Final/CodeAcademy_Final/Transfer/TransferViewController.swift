@@ -9,7 +9,7 @@ import UIKit
 
 
 
-class TransferViewController: UIViewController, UITextFieldDelegate {
+class TransferViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -45,10 +45,11 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     private func setupUI() {
         let subViews: [UIView] = [recipientPhoneNumberTextField, senderCurrencyTextField, commentTextField, enterAmountTextField]
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGestureRecognizer)
         view.addSubview(subLabel)
         view.addSubview(titleLabel)
-        view.addGestureRecognizer(tapGestureRecognizer)
         view.addSubViews(subViews)
+  
         
         setupTitleLabel()
         setupAmountTextField()
@@ -184,7 +185,6 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func removeObserver() {
-        
         NotificationCenter.default.removeObserver(self, name: Notification.Name("didTransferMoneySuccessfully"), object: nil)
     }
     
@@ -207,7 +207,6 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func sendMoneyTapped() {
-        
         let senderPhoneNumber = loggedInUser?.accountInfo.ownerPhoneNumber
         let token = loggedInUser?.accessToken
         let senderAccountId = Int(loggedInUser?.accountInfo.id ?? -1)
@@ -240,8 +239,6 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
                                   comment: comment) { [weak self] result in
             guard let self = self else { return }
             
-            
-            
             switch result {
                 case .success(_):
                     
@@ -268,25 +265,35 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
-    // MARK: - Keyboard Handling
-    
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    // MARK: - Text Field Delegate
+}
+
+extension TransferViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard textField.text != nil else { return true }
         
-        if textField == enterAmountTextField || textField == recipientPhoneNumberTextField  {
+        guard let currentText = textField.text else { return true }
+        let newLength = currentText.count + string.count - range.length
+        
+        if textField == enterAmountTextField  {
             
-            if textField.text == "0" && string != "." {
+            let currentText = textField.text ?? ""
+            if currentText.isEmpty && string == "0" {
                 return false
             }
-            
+            if currentText == "0" {
+                return false
+            }
+            if newLength >= allowedCharacters.count {
+                return false
+            }
             return textField.validateDecimalInput(replacementString: string)
+        }
+        
+        if textField == recipientPhoneNumberTextField {
+            return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)
         }
         return true
     }
@@ -312,7 +319,9 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
         } else if textField == enterAmountTextField {
             sendMoneyTapped()
         }
+        
         return true
     }
 }
+
 

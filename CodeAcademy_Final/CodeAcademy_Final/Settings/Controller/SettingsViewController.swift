@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UITextFieldDelegate {
+class SettingsViewController: UIViewController {
     
     //MARK: - Properties
     
@@ -48,13 +48,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
         
-        phoneTextField.attributedPlaceholder = NSAttributedString(string: "Phone Number", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
+        
         
     }
     
     private func setupPhoneTextField() {
-        
         let savedPhoneNumber = keyChain.get(keyPhoneNumber) ?? ""
         phoneTextField.text = savedPhoneNumber
         phoneTextField.placeholder = "Phone number"
@@ -75,16 +73,22 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func setupPasswordTextField() {
-        
         let savedPassword = keyChain.get(keyPassword) ?? ""
         passwordTextField.text = savedPassword
         passwordTextField.placeholder = "Password"
+        passwordTextField.keyboardType = .namePhonePad
         passwordTextField.borderStyle = .roundedRect
         passwordTextField.isSecureTextEntry = true
         view.addSubview(passwordTextField)
         passwordTextField.delegate = self
         passwordTextField.backgroundColor = normalColor
+        
+        setupPasswordConstraints()
         // Add constraints for passwordTextField
+        
+    }
+    
+    private func setupPasswordConstraints() {
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -170,10 +174,15 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             
+            
+            if loggedInUser?.accountInfo.ownerPhoneNumber == newPhoneNumber {
+                UIAlertController.showErrorAlert(title: "Current phone number is the same", message: "Please enter new phone number", controller: self)
+            }
+            
             switch result {
                 case .success(let updated):
                     UIAlertController.showErrorAlert(title: "Success!",
-                                                     message: "Credentials updated",
+                                                     message: "Credentials updated. Please login again",
                                                      controller: self)
                     let updatedLoggedInUser = UserAuthenticationResponse(userId: updated.userId, validUntil: updated.validUntil, accessToken: updated.accessToken, accountInfo: updated.accountInfo)
                     
@@ -200,8 +209,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.setViewControllers([LoginViewController()], animated: true)
     }
     
-    
-    // MARK: - Text Field Delegate
+}
+   
+extension SettingsViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == phoneTextField {
@@ -215,16 +225,21 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
-        if textField == passwordTextField || textField == phoneTextField {
+
+        if textField == phoneTextField  {
+            
+            return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)
+        }
+        
+        if textField == passwordTextField {
             let newLength = text.count + string.count - range.length
-            let limit = 10
+            let limit = allowedCharacters.count
             
             if newLength > limit {
                 return false
             }
         }
-        
-        return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)
+        return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
