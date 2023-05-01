@@ -283,8 +283,6 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             let newLength = text.count + string.count - range.length
             let limit = 12
             
-            let allowedCharacterSet = CharacterSet(charactersIn: allowedCharacters)
-            let replacementStringCharacterSet = CharacterSet(charactersIn: string)
             
             // Don't allow leading zeros
             if textField.text == "0" && string != "." {
@@ -294,14 +292,9 @@ class TransferViewController: UIViewController, UITextFieldDelegate {
             if newLength > limit {
                 return false
             }
-            
-            // Only allow digits
-            if !allowedCharacterSet.isSuperset(of: replacementStringCharacterSet) {
-                return false
-            }
-            
+        
+            return textField.validateDecimalInput(replacementString: string)
         }
-
         return true
     }
 

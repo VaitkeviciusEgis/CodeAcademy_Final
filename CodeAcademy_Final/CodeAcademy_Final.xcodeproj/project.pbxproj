@@ -11,6 +11,7 @@
 		ED303CE129FEE5E80040CEA8 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED303CE029FEE5E80040CEA8 /* UIViewExtension.swift */; };
 		ED303CE629FEF56B0040CEA8 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED303CE529FEF56A0040CEA8 /* NumberFormatter.swift */; };
 		ED303CE929FF36830040CEA8 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ED303CE829FF36830040CEA8 /* KeychainSwift */; };
+		ED303CF129FF733A0040CEA8 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED303CF029FF733A0040CEA8 /* UITextFieldExtension.swift */; };
 		EDF0F02C29F4B6F300DD41F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */; };
 		EDF0F02E29F4B6F300DD41F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */; };
 		EDF0F03629F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F03429F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld */; };
@@ -52,6 +53,7 @@
 		ED1773B629FBA98000269392 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		ED303CE029FEE5E80040CEA8 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		ED303CE529FEF56A0040CEA8 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
+		ED303CF029FF733A0040CEA8 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		EDF0F02829F4B6F300DD41F5 /* CodeAcademy_Final.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeAcademy_Final.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			children = (
 				EDF0F07229F4B82300DD41F5 /* AlertControllerExtension.swift */,
 				ED303CE029FEE5E80040CEA8 /* UIViewExtension.swift */,
+				ED303CF029FF733A0040CEA8 /* UITextFieldExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				EDF0F06629F4B7CF00DD41F5 /* TransactionInfo.swift in Sources */,
 				EDF0F06829F4B7CF00DD41F5 /* UserAuthenticationResponse.swift in Sources */,
 				EDF0F09129F4B87400DD41F5 /* ListCell.swift in Sources */,
+				ED303CF129FF733A0040CEA8 /* UITextFieldExtension.swift in Sources */,
 				EDF0F12229F7552C00DD41F5 /* AccountEntity+CoreDataClass.swift in Sources */,
 				EDF0F02E29F4B6F300DD41F5 /* SceneDelegate.swift in Sources */,
 				EDF0F09329F4B87E00DD41F5 /* CoreDataManager.swift in Sources */,

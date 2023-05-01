@@ -315,9 +315,7 @@ extension HomeViewController: UITableViewDataSource {
 
 extension HomeViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let allowedCharacters = CharacterSet.decimalDigits
-        let characterSet = CharacterSet(charactersIn: string)
-        return allowedCharacters.isSuperset(of: characterSet)
+        return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)
     }
     
     private func textFieldShouldPaste(_ textField: UITextField) -> Bool {

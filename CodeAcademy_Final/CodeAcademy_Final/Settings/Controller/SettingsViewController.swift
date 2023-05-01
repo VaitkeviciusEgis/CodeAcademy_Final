@@ -11,16 +11,16 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Properties
     
-    let phoneTextField = UITextField()
-    let passwordTextField = UITextField()
-    let titleLabel = UILabel()
-    let submitButton = UIButton(type: .system)
-    let logoutButton = UIButton(type: .system)
+    private let phoneTextField = UITextField()
+    private let passwordTextField = UITextField()
+    private let titleLabel = UILabel()
+    private let submitButton = UIButton(type: .system)
+    private let logoutButton = UIButton(type: .system)
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     var homeVC: HomeViewController?
-    let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-    let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+    private let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+    private let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
     
     //MARK: - LifeCycle
     
@@ -35,7 +35,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Setup UI
     
-    func setupUI() {
+    private func setupUI() {
         view.backgroundColor = .systemGray6
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
@@ -53,8 +53,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func setupPhoneTextField() {
-
+    private func setupPhoneTextField() {
+        
         let savedPhoneNumber = keyChain.get(keyPhoneNumber) ?? ""
         phoneTextField.text = savedPhoneNumber
         phoneTextField.placeholder = "Phone number"
@@ -74,7 +74,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         ])
     }
     
-    func setupPasswordTextField() {
+    private func setupPasswordTextField() {
         
         let savedPassword = keyChain.get(keyPassword) ?? ""
         passwordTextField.text = savedPassword
@@ -94,7 +94,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         ])
     }
     
-    func setupLogoutButton() {
+    private func setupLogoutButton() {
         logoutButton.setTitle("Logout", for: .normal)
         logoutButton.setTitleColor(.opaqueSeparator, for: .normal)
         logoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
@@ -114,7 +114,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func setupSubmitButton() {
+    private  func setupSubmitButton() {
         // Set up Submit button
         let submitButton = UIButton(type: .system)
         submitButton.setTitle("Submit Changes", for: .normal)
@@ -224,12 +224,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             }
         }
         
-        if textField == phoneTextField {
-            let allowedCharacterSet = CharacterSet(charactersIn: allowedCharacters)
-            let replacementStringCharacterSet = CharacterSet(charactersIn: string)
-            return allowedCharacterSet.isSuperset(of: replacementStringCharacterSet)
-        }
-        return true
+        return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
