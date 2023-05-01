@@ -17,14 +17,14 @@ class LoginViewController: UIViewController {
     @IBOutlet private weak var questionLabel: UILabel!
     @IBOutlet private weak var actionButton: UIButton!
     @IBOutlet weak var phoneTextField: UITextField!
-    @IBOutlet private weak var passwordTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var currencyPickerView: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         pickerViewSetup()
-        //        attemptAutoLogin()
+        saveLoginCredentials()
     }
     
     //MARK: - Properties
@@ -119,9 +119,11 @@ class LoginViewController: UIViewController {
         confirmPasswordTextField.delegate = self
     }
     
-    func saveLoginCredentials(phoneNumber: String, password: String) {
-        
-        
+    func saveLoginCredentials() {
+        let savedPhoneNumber = keyChain.get(keyPhoneNumber) ?? ""
+                let savedPassword = keyChain.get(keyPassword) ?? ""
+        phoneTextField.text = savedPhoneNumber
+                passwordTextField.text = savedPassword
     }
     
     
@@ -190,39 +192,19 @@ class LoginViewController: UIViewController {
         serviceAPI.loginUser(phoneNumber: phone, password: password) { [weak self] result in
             guard let self = self else { return }
             switch result {
-                case .success(let loggedUser):
-                    let defaults = UserDefaults.standard
-                    defaults.set(password, forKey: uDefaultsPassword)
-                    defaults.set(phone, forKey: uDefaultsPhone)
-                    
-                    //
-                    //                    let keychain = KeychainSwift()
-                    //                    keychain.set(loggedUser.accessToken, forKey: keyAccessToken)
-                    
-                    tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
-                    
-                    self.navigationController?.setViewControllers([tabBarNav], animated: true)
-                case .failure(let error):
-                    UIAlertController.showErrorAlert(title: error.message ?? "",
-                                                     message: "\(errorStatusCodeMessage) \(error.statusCode)",
-                                                     controller: self)
-            }
-        }
-    }
-    
-    private func attemptAutoLogin() {
-        let defaults = UserDefaults.standard
-        guard let phoneNumber = defaults.string(forKey: "phoneNumber"), let password = defaults.string(forKey: "password") else {
-            return
-        }
-        serviceAPI.loginUser(phoneNumber: phoneNumber, password: password) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-                case .success(let loggedUser):
-                    tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
-                    self.navigationController?.setViewControllers([tabBarNav], animated: false)
-                case .failure(let error):
-                    print(error)
+            case .success(let loggedUser):
+                keyChain.set(password, forKey: keyPassword)
+                keyChain.set(phone, forKey: keyPhoneNumber)
+                keyChain.set(loggedUser.accessToken, forKey: keyAccessToken)
+          
+                
+                tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+                
+                self.navigationController?.setViewControllers([tabBarNav], animated: true)
+            case .failure(let error):
+                UIAlertController.showErrorAlert(title: error.message ?? "",
+                                                 message: "\(errorStatusCodeMessage) \(error.statusCode)",
+                                                 controller: self)
             }
         }
     }

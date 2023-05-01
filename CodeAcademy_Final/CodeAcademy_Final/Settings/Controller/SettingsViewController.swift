@@ -37,28 +37,26 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     func setupUI() {
         view.backgroundColor = .systemGray6
-        // Add tap gesture recognizer to dismiss keyboard
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
         
-        // Set up title label
         titleLabel.text = "Change Settings"
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(titleLabel)
         
-        // Add constraints for Title label
         titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
         
-        // Add constraints for phoneTextField
         phoneTextField.attributedPlaceholder = NSAttributedString(string: "Phone Number", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray6])
         
     }
     
     func setupPhoneTextField() {
-        // Set up phone text field
+
+        let savedPhoneNumber = keyChain.get(keyPhoneNumber) ?? ""
+        phoneTextField.text = savedPhoneNumber
         phoneTextField.placeholder = "Phone number"
         phoneTextField.borderStyle = .roundedRect
         phoneTextField.keyboardType = .phonePad
@@ -77,7 +75,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     func setupPasswordTextField() {
-        // Set up password text field
+        
+        let savedPassword = keyChain.get(keyPassword) ?? ""
+        passwordTextField.text = savedPassword
         passwordTextField.placeholder = "Password"
         passwordTextField.borderStyle = .roundedRect
         passwordTextField.isSecureTextEntry = true
@@ -140,7 +140,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
     //MARK: - Action
     
     @objc private func submitButtonTapped() {
@@ -153,7 +153,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         
         
         guard let newPhoneNumber = newPhoneNumber, let newPassword = newPassword else {
-        
+            
             return
         }
         
@@ -164,7 +164,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         } else if newPassword.isEmpty {
             UIAlertController.showErrorAlert(title: "Empty input", message: "Enter new password", controller: self)
         }
-
+        
         serviceAPI?.updateUser(currentPhoneNumber: currentPhoneNumber, newPhoneNumber: newPhoneNumber, newPassword: newPassword, accessToken: currentToken, completion: { [weak self] result in
             guard let self = self else {
                 return
@@ -178,9 +178,14 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
                     let updatedLoggedInUser = UserAuthenticationResponse(userId: updated.userId, validUntil: updated.validUntil, accessToken: updated.accessToken, accountInfo: updated.accountInfo)
                     
                     homeVC?.loggedInUser = updatedLoggedInUser
-                    let defaults = UserDefaults.standard
-                    defaults.set(newPhoneNumber, forKey: "phoneNumber")
-                    defaults.set(newPassword, forKey: "password")
+                    // Save updated credentials to keychain
+                    keyChain.set(newPhoneNumber, forKey: keyPhoneNumber)
+                    keyChain.set(newPassword, forKey: keyPassword)
+                    
+                    // Set the updated credentials on the login screen
+                    guard let loginVC = self.navigationController?.viewControllers.first(where: { $0 is LoginViewController }) as? LoginViewController else { return }
+                    loginVC.phoneTextField.text = newPhoneNumber
+                    loginVC.passwordTextField.text = newPassword
                     
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: "\(errorStatusCodeMessage) \(error.statusCode)",
@@ -204,10 +209,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         } else if textField == passwordTextField {
             submitButtonTapped()
         }
-    
+        
         return true
     }
-
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         if textField == passwordTextField || textField == phoneTextField {
