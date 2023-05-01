@@ -9,10 +9,6 @@ import UIKit
 import CoreData
 
 
-protocol TransactionsFetching {
-    func fetchTransactions()
-}
-
 class TransactionsListViewController: UIViewController{
     
     // MARK: Outlets
@@ -23,19 +19,17 @@ class TransactionsListViewController: UIViewController{
     
     // MARK: Properties
     
-    private var filteredTransactions: [TransactionEntity] = []
     var transferVC: TransferViewController?
     var viewModel: TransactionsViewModel?
     var currentLoggedInAccount: AccountEntity?
-    private var filterType: FilterType = .ingoing
-    private let didReceiveTransferMoneyNotification = Notification.Name("didReceiveTransferMoneyNotification")
     var loggedInUser: UserAuthenticationResponse?
+    
     enum FilterType: Int {
         case ingoing = 0
         case outgoing = 1
         case all = 2
     }
-
+    
     // MARK: Lifecycle Methods
     
     override func viewDidLoad() {
@@ -150,6 +144,10 @@ class TransactionsListViewController: UIViewController{
     
     // MARK: Private Methods
     
+    private var filterType: FilterType = .ingoing
+    private let didReceiveTransferMoneyNotification = Notification.Name("didReceiveTransferMoneyNotification")
+    private var filteredTransactions: [TransactionEntity] = []
+    
     private func segmentSetup() {
         inAndOutTransactions.setTitle("Ingoing", forSegmentAt: 0)
         inAndOutTransactions.setTitle("Outgoing", forSegmentAt: 1)
@@ -157,7 +155,7 @@ class TransactionsListViewController: UIViewController{
         inAndOutTransactions.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged) // Add the segment change action
     }
     
-   private func updateTableView() {
+    private func updateTableView() {
         self.tableView?.reloadData()
     }
     
@@ -173,8 +171,8 @@ class TransactionsListViewController: UIViewController{
         toPhoneNumber = receiverPhoneNumber
         amount = Double(amountSent)
         comment = commentSent
-
-       
+        
+        
         let alert = UIAlertController(title: "Repeat Transaction", message: "Do you want to repeat this transaction?", preferredStyle: .alert)
         
         
@@ -185,7 +183,7 @@ class TransactionsListViewController: UIViewController{
             guard let authToken = keyChain.get(keyAccessToken) else {
                 return
             }
-
+            
             transferVC?.serviceAPI?.transferMoney(senderPhoneNumber: fromPhoneNumber, token: authToken, senderAccountId: fromAccount, receiverPhoneNumber: toPhoneNumber, amount: amount, comment: comment, completion: { [weak self] result in
                 guard let self = self else { return }
                 switch result {
@@ -197,11 +195,11 @@ class TransactionsListViewController: UIViewController{
                         let newBalance = (currentBalance ?? 0) - amount
                         currentBalance = newBalance
                         loggedInUser?.accountInfo.balance = newBalance
-                   
+                        
                         transferVC?.didTransferMoneySuccessfully()
                         
                         tableView?.reloadData()
-
+                        
                     case .failure(let error):
                         UIAlertController.showErrorAlert(title: error.message ?? "",
                                                          message: "\(errorStatusCodeMessage) \(error.statusCode)",
@@ -277,7 +275,7 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
         guard filterType == .outgoing else {
             return
         }
-
+        
         let transaction = filteredTransactions[indexPath.row]
         repeatTransaction(amountSent: Double(transaction.amount), senderPhoneNumber: transaction.senderPhoneNumber ?? "", fromAccountId: Int(transaction.sendingAccountId), receiverPhoneNumber: transaction.receiverPhoneNumber ?? "", commentSent: transaction.comment ?? "")
     }
@@ -296,7 +294,6 @@ extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDe
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder() // dismiss keyboard
     }
-    
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
