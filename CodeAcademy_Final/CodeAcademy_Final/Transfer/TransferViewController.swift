@@ -125,10 +125,10 @@ class TransferViewController: UIViewController {
     }
     
     func setupCurrencyTextField() {
-        senderCurrencyTextField.backgroundColor = selectedColor
+        senderCurrencyTextField.backgroundColor = cardPayBackgroundColor
         senderCurrencyTextField.layer.cornerRadius = 8
         senderCurrencyTextField.text = loggedInUser?.accountInfo.currency
-        senderCurrencyTextField.textColor = UIColor(red: 41, green: 44, blue: 53, alpha: 1)
+        senderCurrencyTextField.textColor = .black
         senderCurrencyTextField.isUserInteractionEnabled = false
         senderCurrencyTextField.textAlignment = .center
         
@@ -316,7 +316,12 @@ extension TransferViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.backgroundColor = deSelectedColor
+
+        if textField == recipientPhoneNumberTextField || textField == commentTextField || textField == enterAmountTextField {
+            textField.backgroundColor = deSelectedColor
+        } else {
+            textField.backgroundColor = selectedColor
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

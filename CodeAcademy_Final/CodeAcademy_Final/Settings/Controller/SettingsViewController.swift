@@ -19,8 +19,7 @@ class SettingsViewController: UIViewController {
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     var homeVC: HomeViewController?
-    private let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-    private let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+
     
     //MARK: - LifeCycle
     
@@ -33,10 +32,22 @@ class SettingsViewController: UIViewController {
         setupLogoutButton()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        displayDetails()
+    }
+    
     //MARK: - Setup UI
     
+    func displayDetails() {
+        let savedPassword = keyChain.get(keyPassword) ?? ""
+        passwordTextField.text = savedPassword
+        let savedPhoneNumber = keyChain.get(keyPhoneNumber) ?? ""
+        phoneTextField.text = savedPhoneNumber
+    }
+    
     private func setupUI() {
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = cardPayBackgroundColor
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
         
@@ -53,13 +64,12 @@ class SettingsViewController: UIViewController {
     }
     
     private func setupPhoneTextField() {
-        let savedPhoneNumber = keyChain.get(keyPhoneNumber) ?? ""
-        phoneTextField.text = savedPhoneNumber
         phoneTextField.placeholder = "Phone number"
         phoneTextField.borderStyle = .roundedRect
         phoneTextField.keyboardType = .phonePad
-        phoneTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        phoneTextField.backgroundColor = deSelectedColor
         phoneTextField.translatesAutoresizingMaskIntoConstraints = false
+        phoneTextField.textAlignment = .center
         view.addSubview(phoneTextField)
         phoneTextField.delegate = self
         
@@ -73,19 +83,16 @@ class SettingsViewController: UIViewController {
     }
     
     private func setupPasswordTextField() {
-        let savedPassword = keyChain.get(keyPassword) ?? ""
-        passwordTextField.text = savedPassword
         passwordTextField.placeholder = "Password"
         passwordTextField.keyboardType = .namePhonePad
         passwordTextField.borderStyle = .roundedRect
         passwordTextField.isSecureTextEntry = true
         view.addSubview(passwordTextField)
         passwordTextField.delegate = self
-        passwordTextField.backgroundColor = normalColor
+        passwordTextField.backgroundColor = deSelectedColor
+        passwordTextField.textAlignment = .center
         
         setupPasswordConstraints()
-        // Add constraints for passwordTextField
-        
     }
     
     private func setupPasswordConstraints() {
@@ -186,7 +193,7 @@ class SettingsViewController: UIViewController {
             switch result {
                 case .success(let updated):
                     UIAlertController.showErrorAlert(title: "Success!",
-                                                     message: "Credentials updated. Please login again",
+                                                     message: "Credentials updated.\n" + "Please login again",
                                                      controller: self)
                     let updatedLoggedInUser = UserAuthenticationResponse(userId: updated.userId, validUntil: updated.validUntil, accessToken: updated.accessToken, accountInfo: updated.accountInfo)
                     
@@ -199,12 +206,13 @@ class SettingsViewController: UIViewController {
                     guard let loginVC = self.navigationController?.viewControllers.first(where: { $0 is LoginViewController }) as? LoginViewController else { return }
                     loginVC.phoneTextField.text = newPhoneNumber
                     loginVC.passwordTextField.text = newPassword
-                    
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: "\(errorStatusCodeMessage) \(error.statusCode)",
                                                      message: error.localizedDescription,
                                                      controller: self)
             }
+    
+            
         })
         dismissKeyboard()
     }
@@ -247,15 +255,32 @@ extension SettingsViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == phoneTextField || textField == submitButton || textField == passwordTextField {
-            textField.backgroundColor = selectedColor
+        
+  
+        
+        if textField == phoneTextField || textField == passwordTextField {
+            textField.backgroundColor = buttonBackgroundColor
         } else {
-            textField.backgroundColor = normalColor
+            textField.backgroundColor = deSelectedColor
         }
+        
+  
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.backgroundColor = normalColor
+        
+        if textField == phoneTextField  || textField == passwordTextField {
+            textField.backgroundColor = deSelectedColor
+        } else {
+            textField.backgroundColor = buttonBackgroundColor
+        }
+        
+        if !(phoneTextField.text?.isEmpty ?? false) && !(phoneTextField.text?.isEmpty ?? false) {
+            submitButton.backgroundColor = UIColor(red: 135/255, green: 179/255, blue: 53/255, alpha: 1)
+        } else {
+            submitButton.backgroundColor = buttonBackgroundColor
+        }
+      
     }
 }
 

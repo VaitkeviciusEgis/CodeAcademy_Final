@@ -14,7 +14,7 @@ class ListCell: UITableViewCell {
     
     private let phoneNumberLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 8, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
         return label
     }()
     
