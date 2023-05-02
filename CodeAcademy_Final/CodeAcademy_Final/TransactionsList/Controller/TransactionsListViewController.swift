@@ -294,41 +294,41 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
             return UITableViewCell()
         }
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
-
-        let filteredTransactions: [TransactionEntity]
-        switch filterType {
-        case .ingoing:
-            filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
-        case .outgoing:
-            filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }
-        case .all:
-            filteredTransactions = transactions
-        }
-
-        if let startDate = self.startDate, let endDate = self.endDate {
-            // Filter transactions by selected date range
-            let dateFilteredTransactions = filteredTransactions.filter { transaction in
+        
+        var filteredTransactions: [TransactionEntity] = []
+        let startDate = self.startDate
+        let endDate = self.endDate
+        
+        // Filter transactions by date
+        if let startDate = startDate, let endDate = endDate {
+            filteredTransactions = transactions.filter { transaction in
                 transaction.transactionTime >= startDate && transaction.transactionTime <= endDate
             }
-            if indexPath.row < dateFilteredTransactions.count {
-                let transaction = dateFilteredTransactions[indexPath.row]
-                cell.configureCell(with: transaction)
-                cell.backgroundColor = .systemGray6
-            } else {
-//                cell.textLabel?.text = "No data"
-            }
         } else {
-            // Display all transactions if no date range is selected
-            if indexPath.row < filteredTransactions.count {
-                let transaction = filteredTransactions[indexPath.row]
-                cell.configureCell(with: transaction)
-                cell.backgroundColor = .systemGray6
-            } else {
-//                cell.textLabel?.text = "No data"
-            }
+            filteredTransactions = transactions
         }
+        
+        // Filter transactions by type
+        switch filterType {
+        case .ingoing:
+            filteredTransactions = filteredTransactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
+        case .outgoing:
+            filteredTransactions = filteredTransactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }
+        case .all:
+            break
+        }
+        
+        if indexPath.row < filteredTransactions.count {
+            let transaction = filteredTransactions[indexPath.row]
+            cell.configureCell(with: transaction)
+            cell.backgroundColor = .systemGray6
+        } else {
+            cell.textLabel?.text = "No data"
+        }
+        
         return cell
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableViewHeightForRow
     }
