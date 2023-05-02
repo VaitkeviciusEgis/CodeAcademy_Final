@@ -155,7 +155,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
         setupCardViewConstraints()
         cardView.backgroundColor = cardViewBackgroundColor
         cardView.layer.cornerRadius = 10
-        cardView.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        cardView.layer.borderColor = CGColor(red: 135/255, green: 179/255, blue: 122/255, alpha: 1)
         cardView.layer.borderWidth = 1
         cardView.translatesAutoresizingMaskIntoConstraints = false
         setupCardHolder()
