@@ -19,7 +19,7 @@ class SettingsViewController: UIViewController {
     var loggedInUser: UserAuthenticationResponse?
     var serviceAPI: ServiceAPI?
     var homeVC: HomeViewController?
-
+    
     
     //MARK: - LifeCycle
     
@@ -50,17 +50,13 @@ class SettingsViewController: UIViewController {
         view.backgroundColor = cardPayBackgroundColor
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
-        
         titleLabel.text = "Change Settings"
+        titleLabel.textColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(titleLabel)
-        
         titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
-        
-        
-        
     }
     
     private func setupPhoneTextField() {
@@ -211,7 +207,7 @@ class SettingsViewController: UIViewController {
                                                      message: error.localizedDescription,
                                                      controller: self)
             }
-    
+            
             
         })
         dismissKeyboard()
@@ -222,7 +218,7 @@ class SettingsViewController: UIViewController {
     }
     
 }
-   
+
 extension SettingsViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -237,7 +233,7 @@ extension SettingsViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
-
+        
         if textField == phoneTextField  {
             
             return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)

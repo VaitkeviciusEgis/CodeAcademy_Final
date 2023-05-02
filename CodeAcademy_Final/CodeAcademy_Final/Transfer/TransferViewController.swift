@@ -71,6 +71,7 @@ class TransferViewController: UIViewController {
     private func setupTitleLabel() {
         setupSubLabel()
         titleLabel.text = "Make Transaction"
+        titleLabel.textColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -78,7 +79,6 @@ class TransferViewController: UIViewController {
     }
     
     private func setupSubLabel() {
-        subLabel.text = "All fields are required"
         subLabel.font = UIFont.systemFont(ofSize: 12)
         subLabel.textColor = textColor
         subLabel.translatesAutoresizingMaskIntoConstraints = false
