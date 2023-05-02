@@ -93,7 +93,7 @@ class ListCell: UITableViewCell {
         let date = Date(timeIntervalSince1970: TimeInterval(transaction.transactionTime) / 1000)
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
+        dateFormatter.timeStyle = .none
         let dateString = dateFormatter.string(from: date)
         dateLabel.text = dateString
         

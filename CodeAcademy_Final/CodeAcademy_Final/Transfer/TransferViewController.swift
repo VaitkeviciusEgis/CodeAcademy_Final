@@ -40,6 +40,10 @@ class TransferViewController: UIViewController {
         removeObserver()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     // MARK: - UI Setup
     
     private func setupUI() {

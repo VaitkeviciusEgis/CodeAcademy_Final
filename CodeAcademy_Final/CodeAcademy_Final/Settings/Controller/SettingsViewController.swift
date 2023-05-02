@@ -107,10 +107,10 @@ class SettingsViewController: UIViewController {
     
     private func setupLogoutButton() {
         logoutButton.setTitle("Logout", for: .normal)
-        logoutButton.setTitleColor(UIColor(cgColor: CGColor(red: 245/255, green: 93/255, blue: 62/255, alpha: 1)), for: .normal)
+        logoutButton.setTitleColor(UIColor.white, for: .normal)
         logoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         logoutButton.layer.borderColor = borderColor
-        logoutButton.backgroundColor = buttonBackgroundColor
+        logoutButton.backgroundColor = UIColor(red: 245/255, green: 93/255, blue: 62/255, alpha: 1)
         logoutButton.layer.cornerRadius = 8
         logoutButton.layer.borderWidth = 1
         logoutButton.layer.opacity = 0.5
@@ -131,13 +131,13 @@ class SettingsViewController: UIViewController {
         // Set up Submit button
         let submitButton = UIButton(type: .system)
         submitButton.setTitle("Submit Changes", for: .normal)
-        submitButton.setTitleColor(UIColor(cgColor: borderColor), for: .normal)
+        submitButton.backgroundColor = UIColor(red: 135/255, green: 179/255, blue: 53/255, alpha: 1)
+        submitButton.setTitleColor(UIColor.white, for: .normal)
         submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         submitButton.layer.cornerRadius = 8
         submitButton.layer.borderWidth = 1
         submitButton.layer.borderColor = borderColor
         submitButton.layer.opacity = 0.5
-        submitButton.backgroundColor = buttonBackgroundColor
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
         view.addSubview(submitButton)
         
@@ -255,32 +255,20 @@ extension SettingsViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-  
-        
         if textField == phoneTextField || textField == passwordTextField {
             textField.backgroundColor = buttonBackgroundColor
         } else {
             textField.backgroundColor = deSelectedColor
         }
-        
-  
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
         if textField == phoneTextField  || textField == passwordTextField {
             textField.backgroundColor = deSelectedColor
         } else {
             textField.backgroundColor = buttonBackgroundColor
         }
-        
-        if !(phoneTextField.text?.isEmpty ?? false) && !(phoneTextField.text?.isEmpty ?? false) {
-            submitButton.backgroundColor = UIColor(red: 135/255, green: 179/255, blue: 53/255, alpha: 1)
-        } else {
-            submitButton.backgroundColor = buttonBackgroundColor
-        }
-      
     }
 }
+
 
