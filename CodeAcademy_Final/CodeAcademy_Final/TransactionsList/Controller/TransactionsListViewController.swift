@@ -17,12 +17,30 @@ protocol NewBalanceDisplaying {
 }
 
 class TransactionsListViewController: UIViewController, CoreDataLoading, NewBalanceDisplaying  {
+    
+    private lazy var filterButton: UIBarButtonItem = {
+        let button = UIButton(type: .system)
+        button.setTitle("Filter", for: .normal)
+        button.addTarget(self, action: #selector(showFilterModal), for: .touchUpInside)
+        let barButtonItem = UIBarButtonItem(customView: button)
+        return barButtonItem
+    }()
+    
+    @objc private func showFilterModal() {
+        let filterViewController = FilterViewController()
+
+        
+        let navigationController = UINavigationController(rootViewController: filterViewController)
+        navigationController.modalPresentationStyle = .formSheet
+        
+        present(navigationController, animated: true)
+    }
+    
     func reloadData(sender: TransactionsViewModel) {
         loadCoreData()
         updateTableView()
     }
-    
-    
+
     // MARK: Outlets
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -68,6 +86,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     // MARK: Configuration
     
     private func configureView() {
+           navigationItem.rightBarButtonItem = filterButton
         view.backgroundColor = .systemGray6
         segmentSetup()
         setupSearchBar()
@@ -100,7 +119,6 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
         
-        // Setup clear button for search bar
         let clearButton = UIButton(type: .custom)
         clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         clearButton.addTarget(self, action: #selector(clearSearchBar), for: .touchUpInside)
@@ -123,7 +141,6 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     
     @objc private func clearSearchBar() {
         searchBar.text = ""
-        //        viewModel?.filterTransactions(with: searchBar.text)
         updateTableView()
     }
     
@@ -320,7 +337,7 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
 extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDelegate, UISearchControllerDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = true // show cancel button
+        searchBar.showsCancelButton = true
     }
     
     
@@ -343,3 +360,6 @@ extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDe
         self.tableView?.reloadData()
     }
 }
+
+
+

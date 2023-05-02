@@ -15,7 +15,7 @@ struct TransactionInfo: Decodable {
     let transactionTime: Int64
     let amount: Double
     let comment: String
-    
+
 }
 
 
