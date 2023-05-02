@@ -20,3 +20,9 @@ let pickerNumberOfComponents = 1
 let keyChain = KeychainSwift()
 let textFieldLimit = 12
 let allowedCharacters = "0123456789+"
+let cardPayBackgroundColor = UIColor(red: 215/255, green: 222/255, blue: 220/255, alpha: 1)
+
+//MARK: - Colors
+
+//let cardViewBackgroundColor = UIColor(red: 245/255, green: 93/255, blue: 62/255, alpha: 1)
+let cardViewBackgroundColor = UIColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1)

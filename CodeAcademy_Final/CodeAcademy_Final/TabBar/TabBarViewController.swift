@@ -36,14 +36,16 @@ class TabBarViewController: UITabBarController {
         guard let items = tabBar.items else { return }
         
         let images = ["house.fill", "arrow.left.arrow.right","list.bullet.clipboard.fill", "gearshape.fill"]
-        let color = UIColor(red: 42/255, green: 175/255, blue: 134/255, alpha: 1)
-        let titleColor = UIColor(red: 42/255, green: 175/255, blue: 134/255, alpha: 1)
+        let color = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        let titleColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         
         for image in 0...3 {
             let origImage = UIImage(systemName: images[image])
             let tintedImage = origImage?.withTintColor(color, renderingMode: .alwaysOriginal)
             items[image].image = tintedImage
         }
+        
+        tabBar.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
         
         tabBar.tintColor = titleColor
         homeVC.title = "Home"

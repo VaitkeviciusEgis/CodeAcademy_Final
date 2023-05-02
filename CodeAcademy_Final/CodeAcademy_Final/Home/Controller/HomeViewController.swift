@@ -75,7 +75,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
     }
     
     private func setupUI() {
-        view.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        view.backgroundColor = cardPayBackgroundColor
         setupTableView()
         setupCardView()
         setupAddMoneyButton()
@@ -94,7 +94,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
     private func setupTableView() {
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
-        tableView.layer.cornerRadius = 1
+        tableView.layer.cornerRadius = 6
         tableView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         view.addSubViews([tableView, cardView])
         setupTableViewConstrains()
@@ -104,8 +104,8 @@ class HomeViewController: UIViewController, CoreDataLoading {
     private func setupTableViewConstrains() {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 6),
+            tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -6),
             tableView.heightAnchor.constraint(equalToConstant: 220),
         ])
     }
@@ -133,7 +133,8 @@ class HomeViewController: UIViewController, CoreDataLoading {
         balanceLabel.adjustsFontSizeToFitWidth = true
         balanceLabel.minimumScaleFactor = 0.5
         balanceLabel.font = UIFont.boldSystemFont(ofSize: 32)
-        balanceLabel.textColor = UIColor(red: 31/255, green: 223/255, blue: 100/255, alpha: 1)
+//        balanceLabel.textColor = UIColor(red: 135/255, green: 179/255, blue: 122/255, alpha: 1)
+        balanceLabel.textColor = UIColor(red: 235/255, green: 242/255, blue: 250/255, alpha: 1)
         balanceLabel.textAlignment = .center
     }
     
@@ -151,7 +152,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
         cardView.addSubview(balanceLabel)
         setupCardBalanceLabelConstraints()
         setupCardViewConstraints()
-        cardView.backgroundColor = UIColor(red: 42/255, green: 175/255, blue: 134/255, alpha: 1)
+        cardView.backgroundColor = cardViewBackgroundColor
         cardView.layer.cornerRadius = 10
         cardView.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
         cardView.layer.borderWidth = 1
@@ -164,7 +165,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
     
     private func setupCompanyLabel() {
         companyLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        companyLabel.textColor = UIColor(red: 214/255, green: 160/255, blue: 86/255, alpha: 1)
+        companyLabel.textColor = UIColor(red: 135/255, green: 179/255, blue: 122/255, alpha: 1)
         companyLabel.textAlignment = .left
         companyLabel.text = "Card Pay"
         cardView.addSubview(companyLabel)
@@ -201,9 +202,8 @@ class HomeViewController: UIViewController, CoreDataLoading {
     
     private func setupAddMoneyButton() {
         addMoneyButton.setTitle("Add Money", for: .normal)
-        addMoneyButton.setTitleColor(.opaqueSeparator, for: .normal)
+        addMoneyButton.setTitleColor(UIColor(red: 252/255, green: 179/255, blue: 38/255, alpha: 1), for: .normal)
         addMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        addMoneyButton.titleLabel?.textColor = .systemGray6
         addMoneyButton.layer.cornerRadius = 8
         addMoneyButton.layer.borderWidth = 1
         addMoneyButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
@@ -306,7 +306,11 @@ extension HomeViewController: UITableViewDataSource {
         }
         
         cell.selectionStyle = .none
-        cell.backgroundColor = UIColor(red: 0/255, green: 59/255, blue: 60/255, alpha: 1)
+//        cell.backgroundColor = UIColor(red: 157/255, green: 132/255, blue: 32/255, alpha: 1)
+//        cell.backgroundColor = UIColor(red: 15/255, green: 244/255, blue: 149/255, alpha: 1)
+        cell.backgroundColor = UIColor(red: 78/255, green: 129/255, blue: 123/255, alpha: 1)
+
+
         cell.configureCell(with: transaction)
         setupShowHideButton()
         return cell
