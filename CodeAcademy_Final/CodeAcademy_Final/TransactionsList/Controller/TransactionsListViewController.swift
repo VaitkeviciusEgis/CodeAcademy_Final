@@ -17,19 +17,18 @@ protocol NewBalanceDisplaying {
 }
 
 class TransactionsListViewController: UIViewController, CoreDataLoading, NewBalanceDisplaying  {
-    
     private lazy var filterButton: UIBarButtonItem = {
         let button = UIButton(type: .system)
-        button.setTitle("Filter", for: .normal)
+        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setImage(UIImage(systemName: "calendar"), for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
+        button.tintColor = UIColor.lightGray
         button.addTarget(self, action: #selector(showFilterModal), for: .touchUpInside)
         let barButtonItem = UIBarButtonItem(customView: button)
         return barButtonItem
     }()
     
     @objc private func showFilterModal() {
-      
-
-        
         let navigationController = UINavigationController(rootViewController: filterViewController)
         navigationController.modalPresentationStyle = .formSheet
         
@@ -50,7 +49,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     // MARK: Properties
     var startDate: Int64?
     var endDate: Int64?
-    
+
     var transferVC: TransferViewController?
     var viewModel: TransactionsViewModel?
     var currentLoggedInAccount: AccountEntity?
@@ -323,7 +322,7 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
         
         let filteredByDateTransactions: [TransactionEntity]
         if let startDate = startDate, let endDate = endDate {
-
+        
             filteredByDateTransactions = filteredTransactions.filter { transaction in
                 transaction.transactionTime >= startDate && transaction.transactionTime <= endDate
             }

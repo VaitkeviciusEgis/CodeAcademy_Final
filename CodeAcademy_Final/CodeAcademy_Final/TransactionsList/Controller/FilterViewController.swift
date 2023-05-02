@@ -34,6 +34,7 @@ class FilterViewController: UIViewController {
         let label = UILabel()
         label.text = "End Date:"
         label.translatesAutoresizingMaskIntoConstraints = false
+        
         return label
     }()
     
@@ -48,6 +49,10 @@ class FilterViewController: UIViewController {
     let filterButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Filter by Date", for: .normal)
+        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setImage(UIImage(systemName: "calendar"), for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
+        button.tintColor = UIColor.lightGray
         button.addTarget(self, action: #selector(filterButtonPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
