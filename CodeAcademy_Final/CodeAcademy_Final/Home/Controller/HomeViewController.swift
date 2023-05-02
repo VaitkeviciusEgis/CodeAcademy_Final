@@ -97,6 +97,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
         tableView.isScrollEnabled = false
         tableView.layer.cornerRadius = 6
         tableView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        tableView.backgroundColor = UIColor(red: 78/255, green: 129/255, blue: 123/255, alpha: 1)
         view.addSubViews([tableView, cardView])
         setupTableViewConstrains()
         setupDelegates()
@@ -134,7 +135,6 @@ class HomeViewController: UIViewController, CoreDataLoading {
         balanceLabel.adjustsFontSizeToFitWidth = true
         balanceLabel.minimumScaleFactor = 0.5
         balanceLabel.font = UIFont.boldSystemFont(ofSize: 32)
-//        balanceLabel.textColor = UIColor(red: 135/255, green: 179/255, blue: 122/255, alpha: 1)
         balanceLabel.textColor = UIColor(red: 235/255, green: 242/255, blue: 250/255, alpha: 1)
         balanceLabel.textAlignment = .center
     }
@@ -162,6 +162,13 @@ class HomeViewController: UIViewController, CoreDataLoading {
         setupCardHolderConstraints()
         setupCompanyLabel()
         setupCompanyLabelConstraints()
+        
+        cardView.layer.shadowColor = CGColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1)
+        cardView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        cardView.layer.shadowOpacity = 1
+        cardView.layer.shadowRadius = 4
+        cardView.layer.masksToBounds = false
+        
     }
     
     private func setupCompanyLabel() {
