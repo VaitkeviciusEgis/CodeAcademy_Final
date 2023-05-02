@@ -195,10 +195,10 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
         comment = commentSent
         
         
-        let alert = UIAlertController(title: "Repeat Transaction\n" + 
-                                      "Amount: \(eurSymbol)\(amount)\n" +
+        let alert = UIAlertController(title: "Repeat Transaction\n\n" +
+                                      "Amount: \(eurSymbol)\(amount)\n\n" +
                                       "Receiver: \(receiverPhoneNumber)\n",
-                                      message: "Do you want to repeat this transaction?", preferredStyle: .alert)
+                                      message: "Do you want to repeat this transaction?", preferredStyle: .actionSheet)
         
         
         let repeatAction = UIAlertAction(title: "Repeat", style: .default) { [weak self] _ in
@@ -238,7 +238,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
             })
         }
         alert.addAction(repeatAction)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
         alert.addAction(cancelAction)
         present(alert, animated: true)
     }
