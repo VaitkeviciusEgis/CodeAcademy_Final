@@ -173,7 +173,10 @@ class TransactionsListViewController: UIViewController{
         comment = commentSent
         
         
-        let alert = UIAlertController(title: "Repeat Transaction", message: "Do you want to repeat this transaction?", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Repeat Transaction\n" + 
+                                      "Amount: \(eurSymbol)\(amount)\n" +
+                                      "Receiver: \(receiverPhoneNumber)\n",
+                                      message: "Do you want to repeat this transaction?", preferredStyle: .alert)
         
         
         let repeatAction = UIAlertAction(title: "Repeat", style: .default) { [weak self] _ in
@@ -184,7 +187,11 @@ class TransactionsListViewController: UIViewController{
                 return
             }
             
-            transferVC?.serviceAPI?.transferMoney(senderPhoneNumber: fromPhoneNumber, token: authToken, senderAccountId: fromAccount, receiverPhoneNumber: toPhoneNumber, amount: amount, comment: comment, completion: { [weak self] result in
+            transferVC?.serviceAPI?.transferMoney(senderPhoneNumber: fromPhoneNumber,
+                                                  token: authToken, senderAccountId: fromAccount,
+                                                  receiverPhoneNumber: toPhoneNumber,
+                                                  amount: amount,
+                                                  comment: comment, completion: { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                     case .success(_):
@@ -245,9 +252,11 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
         
         switch filterType {
             case .ingoing:
-                filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
+                filteredTransactions = transactions.filter {
+                    $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
             case .outgoing:
-                filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1}
+                filteredTransactions = transactions.filter {
+                    $0.sendingAccountId == currentLoggedInAccount?.id ?? -1}
             case .all:
                 filteredTransactions = transactions
         }
@@ -277,7 +286,11 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
         }
         
         let transaction = filteredTransactions[indexPath.row]
-        repeatTransaction(amountSent: Double(transaction.amount), senderPhoneNumber: transaction.senderPhoneNumber ?? "", fromAccountId: Int(transaction.sendingAccountId), receiverPhoneNumber: transaction.receiverPhoneNumber ?? "", commentSent: transaction.comment ?? "")
+        repeatTransaction(amountSent: Double(transaction.amount),
+                          senderPhoneNumber: transaction.senderPhoneNumber ?? "",
+                          fromAccountId: Int(transaction.sendingAccountId),
+                          receiverPhoneNumber: transaction.receiverPhoneNumber ?? "",
+                          commentSent: transaction.comment ?? "")
     }
 }
 
