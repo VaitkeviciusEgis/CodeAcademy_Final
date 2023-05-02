@@ -50,6 +50,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     // MARK: Properties
     var startDate: Int64?
     var endDate: Int64?
+    
     var transferVC: TransferViewController?
     var viewModel: TransactionsViewModel?
     var currentLoggedInAccount: AccountEntity?
@@ -273,15 +274,28 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
         guard let viewModel = self.viewModel else {
             return 0
         }
+        
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
         
+        let filteredTransactions: [TransactionEntity]
         switch filterType {
-            case .ingoing:
-                return transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }.count
-            case .outgoing:
-                return transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }.count
-            case .all:
-                return transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 || $0.sendingAccountId == currentLoggedInAccount?.id  ?? -1}.count
+        case .ingoing:
+            filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
+        case .outgoing:
+            filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }
+        case .all:
+            filteredTransactions = transactions
+        }
+        
+        
+        
+        if let startDate = startDate, let endDate = endDate {
+            let filteredByDateTransactions = filteredTransactions.filter { transaction in
+                transaction.transactionTime >= startDate && transaction.transactionTime <= endDate
+            }
+            return filteredByDateTransactions.count
+        } else {
+            return filteredTransactions.count
         }
     }
     
@@ -289,44 +303,44 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
         guard let viewModel = self.viewModel else {
             return UITableViewCell()
         }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: listIdentifier, for: indexPath) as? ListCell
-        guard let cell = cell else {
+        guard let listCell = cell else {
             return UITableViewCell()
         }
+        
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
         
-        var filteredTransactions: [TransactionEntity] = []
-        let startDate = self.startDate
-        let endDate = self.endDate
-        
-        // Filter transactions by date
-        if let startDate = startDate, let endDate = endDate {
-            filteredTransactions = transactions.filter { transaction in
-                transaction.transactionTime >= startDate && transaction.transactionTime <= endDate
-            }
-        } else {
+        let filteredTransactions: [TransactionEntity]
+        switch filterType {
+        case .ingoing:
+            filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
+        case .outgoing:
+            filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }
+        case .all:
             filteredTransactions = transactions
         }
         
-        // Filter transactions by type
-        switch filterType {
-        case .ingoing:
-            filteredTransactions = filteredTransactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
-        case .outgoing:
-            filteredTransactions = filteredTransactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }
-        case .all:
-            break
-        }
-        
-        if indexPath.row < filteredTransactions.count {
-            let transaction = filteredTransactions[indexPath.row]
-            cell.configureCell(with: transaction)
-            cell.backgroundColor = .systemGray6
+        let filteredByDateTransactions: [TransactionEntity]
+        if let startDate = startDate, let endDate = endDate {
+
+            filteredByDateTransactions = filteredTransactions.filter { transaction in
+                transaction.transactionTime >= startDate && transaction.transactionTime <= endDate
+            }
         } else {
-            cell.textLabel?.text = "No data"
+            filteredByDateTransactions = filteredTransactions
         }
         
-        return cell
+        let transactionIndex = indexPath.row
+        if transactionIndex < filteredByDateTransactions.count {
+            let transaction = filteredByDateTransactions[transactionIndex]
+            listCell.configureCell(with: transaction)
+            listCell.backgroundColor = .systemGray6
+        } else {
+            listCell.textLabel?.text = "No data"
+        }
+        
+        return listCell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -377,22 +391,14 @@ extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDe
 }
 
 extension TransactionsListViewController: FilterViewControllerDelegate {
-    func filterTransactions() {
-        let transactions = viewModel?.fetchedResultsController?.fetchedObjects ?? []
-        
-        if let startDate = startDate, let endDate = endDate {
-            filteredTransactions = transactions.filter {
-                $0.transactionTime >= startDate && $0.transactionTime <= endDate
-            }
-        } else {
-            filteredTransactions = transactions
-        }
-    }
+
     
     func filterViewController(_ filterViewController: FilterViewController, didSelectStartDate startDate: Int64?, endDate: Int64?) {
         self.startDate = startDate
         self.endDate = endDate
-        filterTransactions()
+        
+
+        
         tableView?.reloadData()
     }
 }

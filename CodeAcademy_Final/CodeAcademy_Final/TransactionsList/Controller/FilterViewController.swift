@@ -41,12 +41,13 @@ class FilterViewController: UIViewController {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
         picker.translatesAutoresizingMaskIntoConstraints = false
+        picker.maximumDate = Date()
         return picker
     }()
     
     let filterButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Filter", for: .normal)
+        button.setTitle("Filter by Date", for: .normal)
         button.addTarget(self, action: #selector(filterButtonPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
