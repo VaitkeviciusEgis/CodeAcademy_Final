@@ -42,6 +42,7 @@ class FilterViewController: UIViewController {
     let endPicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
+        picker.backgroundColor = .systemGray6
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.maximumDate = Date()
         
@@ -68,7 +69,7 @@ class FilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
-        view.layer.opacity = 0.9
+        view.layer.opacity = 0.99
         setupSubViews()
         setupConstraints()
     }
@@ -86,22 +87,24 @@ class FilterViewController: UIViewController {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            startDateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            startDateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 48),
             startDateLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 124),
             
             startPicker.leadingAnchor.constraint(equalTo: startDateLabel.trailingAnchor, constant: 16),
             startPicker.centerYAnchor.constraint(equalTo: startDateLabel.centerYAnchor),
+            startPicker.centerXAnchor.constraint(equalTo: view.trailingAnchor, constant: -64),
             startPicker.widthAnchor.constraint(equalToConstant: 80),
             
-            endDateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            endDateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 48),
             endDateLabel.topAnchor.constraint(equalTo: startPicker.bottomAnchor, constant: 24),
             
             endPicker.leadingAnchor.constraint(equalTo: endDateLabel.trailingAnchor, constant: 16),
             endPicker.centerYAnchor.constraint(equalTo: endDateLabel.centerYAnchor),
-            endPicker.widthAnchor.constraint(equalToConstant: 88),
+            endPicker.centerXAnchor.constraint(equalTo: view.trailingAnchor, constant: -64),
+            endPicker.widthAnchor.constraint(equalToConstant: 80),
             
             filterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            filterButton.topAnchor.constraint(equalTo: endPicker.bottomAnchor, constant: 48),
+            filterButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 48),
         ])
     }
 }
