@@ -16,7 +16,6 @@ final class TransactionsViewModel: NSObject {
     
     // MARK: - Properties
     
-    private var displayedTransactions = [TransactionEntity]()
     private let container: NSPersistentContainer?
     var fetchedResultsController: NSFetchedResultsController<TransactionEntity>?
     weak var delegate: UpdateTableViewDelegate?
@@ -39,7 +38,6 @@ final class TransactionsViewModel: NSObject {
         
         do {
             try fetchedResultsController?.performFetch()
-            displayedTransactions = fetchedResultsController?.fetchedObjects ?? []
         } catch {
             print("Error fetching transactions: \(error.localizedDescription)")
         }

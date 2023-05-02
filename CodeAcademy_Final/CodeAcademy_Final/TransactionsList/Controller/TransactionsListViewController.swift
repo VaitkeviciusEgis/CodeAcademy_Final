@@ -12,7 +12,11 @@ protocol CoreDataLoading {
     func loadCoreData()
 }
 
-class TransactionsListViewController: UIViewController, CoreDataLoading {
+protocol NewBalanceDisplaying {
+    func displayNewBalance(amount: Double)
+}
+
+class TransactionsListViewController: UIViewController, CoreDataLoading, NewBalanceDisplaying  {
     func reloadData(sender: TransactionsViewModel) {
         loadCoreData()
         updateTableView()
@@ -47,6 +51,10 @@ class TransactionsListViewController: UIViewController, CoreDataLoading {
         addObservers()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        loadCoreData()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addObservers()
@@ -55,7 +63,6 @@ class TransactionsListViewController: UIViewController, CoreDataLoading {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeObservers()
-        loadCoreData()
     }
     
     // MARK: Configuration
@@ -147,6 +154,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading {
             return
         }
         viewModel.retrieveDataFromCoreData()
+        tableView?.reloadData()
     }
     
     // MARK: Private Methods
@@ -164,6 +172,13 @@ class TransactionsListViewController: UIViewController, CoreDataLoading {
     
     private func updateTableView() {
         self.tableView?.reloadData()
+    }
+    
+    func displayNewBalance(amount: Double) {
+        var currentBalance = loggedInUser?.accountInfo.balance
+        let newBalance = (currentBalance ?? 0) - amount
+        currentBalance = newBalance
+        loggedInUser?.accountInfo.balance = newBalance
     }
     
     @objc private func repeatTransaction(amountSent: Double, senderPhoneNumber: String, fromAccountId: Int, receiverPhoneNumber: String, commentSent: String) {
@@ -205,21 +220,20 @@ class TransactionsListViewController: UIViewController, CoreDataLoading {
                         let message = "Transaction completed"
                         UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
                         
-                        var currentBalance = loggedInUser?.accountInfo.balance
-                        let newBalance = (currentBalance ?? 0) - amount
-                        currentBalance = newBalance
-                        loggedInUser?.accountInfo.balance = newBalance
-                        
-                        transferVC?.didTransferMoneySuccessfully()
-                        loadCoreData()
-                        guard let viewModel else { return }
-                        self.reloadData(sender: viewModel)
+                        displayNewBalance(amount: amount)
 
-                        
+                        self.transferVC?.didTransferMoneySuccessfully()
+                    
+                        handleTransferMoneyNotification()
+                        DispatchQueue.main.async {
+                            self.loadCoreData()
+                        }
+           
                     case .failure(let error):
                         UIAlertController.showErrorAlert(title: error.message ?? "",
                                                          message: "\(errorStatusCodeMessage) \(error.statusCode)",
                                                          controller: self)
+            
                 }
             })
         }
