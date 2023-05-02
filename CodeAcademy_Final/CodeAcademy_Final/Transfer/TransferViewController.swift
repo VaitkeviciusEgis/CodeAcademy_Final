@@ -175,6 +175,7 @@ class TransferViewController: UIViewController {
         sendMoneyButton.backgroundColor = buttonBackgroundColor
         sendMoneyButton.layer.opacity = 0.5
         view.addSubview(sendMoneyButton)
+        sendMoneyButton.isEnabled = false
         setupSendButtonConstraints()
     }
     
@@ -309,19 +310,29 @@ extension TransferViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == recipientPhoneNumberTextField || textField == commentTextField || textField == enterAmountTextField {
-            textField.backgroundColor = selectedColor
+            textField.backgroundColor = buttonBackgroundColor
         } else {
             textField.backgroundColor = deSelectedColor
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-
+        
         if textField == recipientPhoneNumberTextField || textField == commentTextField || textField == enterAmountTextField {
             textField.backgroundColor = deSelectedColor
         } else {
-            textField.backgroundColor = selectedColor
+            textField.backgroundColor = buttonBackgroundColor
         }
+
+        if !(enterAmountTextField.text?.isEmpty ?? false) && !(recipientPhoneNumberTextField.text?.isEmpty ?? false) && !(commentTextField.text?.isEmpty ?? false) {
+            sendMoneyButton.backgroundColor = UIColor(red: 135/255, green: 179/255, blue: 53/255, alpha: 1)
+            sendMoneyButton.setTitleColor(UIColor.white, for: .normal)
+            sendMoneyButton.isEnabled = true
+        } else {
+            sendMoneyButton.backgroundColor = buttonBackgroundColor
+        }
+        
+
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

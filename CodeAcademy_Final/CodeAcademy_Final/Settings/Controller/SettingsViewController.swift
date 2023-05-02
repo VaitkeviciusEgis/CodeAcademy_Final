@@ -89,7 +89,7 @@ class SettingsViewController: UIViewController {
         passwordTextField.isSecureTextEntry = true
         view.addSubview(passwordTextField)
         passwordTextField.delegate = self
-        passwordTextField.backgroundColor = deSelectedColor
+        passwordTextField.backgroundColor = cardPayBackgroundColor
         passwordTextField.textAlignment = .center
         
         setupPasswordConstraints()
