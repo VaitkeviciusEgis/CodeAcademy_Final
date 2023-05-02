@@ -14,13 +14,13 @@ class ListCell: UITableViewCell {
     
     private let phoneNumberLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 8, weight: .semibold)
         return label
     }()
     
     private  let amountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 8)
         return label
     }()
     
@@ -55,30 +55,31 @@ class ListCell: UITableViewCell {
     
     private func setupCellConstraints() {
         NSLayoutConstraint.activate([
-            phoneNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
-            phoneNumberLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
-            dateLabel.leadingAnchor.constraint(equalTo: phoneNumberLabel.trailingAnchor, constant: 32),
+            dateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
             dateLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
+            phoneNumberLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: -16),
+            phoneNumberLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-//            commentLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 16),
-            commentLabel.trailingAnchor.constraint(equalTo: amountLabel.leadingAnchor, constant: -16),
-            commentLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            commentLabel.leadingAnchor.constraint(equalTo: phoneNumberLabel.trailingAnchor, constant: 12),
+            commentLabel.centerYAnchor.constraint(equalTo: phoneNumberLabel.centerYAnchor),
+            commentLabel.trailingAnchor.constraint(equalTo: amountLabel.leadingAnchor, constant: -8),
+            
+            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
+            amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            dateLabel.widthAnchor.constraint(equalToConstant: 70),
+            commentLabel.widthAnchor.constraint(equalToConstant: 90)
         ])
     }
     
     private func setupTextFields() {
-        amountLabel.lineBreakMode = .byTruncatingTail
-        amountLabel.numberOfLines = 1
         amountLabel.font = .boldSystemFont(ofSize: 13)
-        
         phoneNumberLabel.lineBreakMode = .byTruncatingHead
         phoneNumberLabel.numberOfLines = 1
-        phoneNumberLabel.font = .monospacedDigitSystemFont(ofSize: 12, weight: .light)
     }
+    
+    
     
     func configureCell(with transaction: TransactionEntity) {
         
@@ -89,7 +90,7 @@ class ListCell: UITableViewCell {
         phoneNumberLabel.text = "\(String(describing: transaction.receiverPhoneNumber ?? ""))"
         commentLabel.text = "\(String(describing: transaction.comment ?? ""))"
         
-        let date = Date(timeIntervalSince1970: TimeInterval(transaction.transactionTime))
+        let date = Date(timeIntervalSince1970: TimeInterval(transaction.transactionTime) / 1000)
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .none
