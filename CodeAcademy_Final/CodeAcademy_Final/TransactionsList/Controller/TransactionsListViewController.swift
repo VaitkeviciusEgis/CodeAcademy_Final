@@ -8,8 +8,16 @@
 import UIKit
 import CoreData
 
+protocol CoreDataLoading {
+    func loadCoreData()
+}
 
-class TransactionsListViewController: UIViewController{
+class TransactionsListViewController: UIViewController, CoreDataLoading {
+    func reloadData(sender: TransactionsViewModel) {
+        loadCoreData()
+        updateTableView()
+    }
+    
     
     // MARK: Outlets
     
@@ -42,12 +50,12 @@ class TransactionsListViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addObservers()
-        loadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeObservers()
+        loadCoreData()
     }
     
     // MARK: Configuration
@@ -134,12 +142,11 @@ class TransactionsListViewController: UIViewController{
         updateTableView()
     }
     
-    private func loadData() {
+    func loadCoreData() {
         guard let viewModel = self.viewModel else {
             return
         }
         viewModel.retrieveDataFromCoreData()
-        updateTableView()
     }
     
     // MARK: Private Methods
@@ -204,8 +211,10 @@ class TransactionsListViewController: UIViewController{
                         loggedInUser?.accountInfo.balance = newBalance
                         
                         transferVC?.didTransferMoneySuccessfully()
-                        
-                        tableView?.reloadData()
+                        loadCoreData()
+                        guard let viewModel else { return }
+                        self.reloadData(sender: viewModel)
+
                         
                     case .failure(let error):
                         UIAlertController.showErrorAlert(title: error.message ?? "",

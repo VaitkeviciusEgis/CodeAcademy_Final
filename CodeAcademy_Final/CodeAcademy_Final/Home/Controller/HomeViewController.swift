@@ -8,7 +8,7 @@
 import UIKit
 
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, CoreDataLoading {
     
     //MARK: Properties
     
@@ -63,7 +63,7 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    private func loadCoreData() {
+    internal func loadCoreData() {
         guard let viewModel else {
             return
         }
@@ -163,7 +163,6 @@ class HomeViewController: UIViewController {
     }
     
     private func setupCompanyLabel() {
-        // Set up the company label
         companyLabel.font = UIFont.boldSystemFont(ofSize: 18)
         companyLabel.textColor = UIColor(red: 214/255, green: 160/255, blue: 86/255, alpha: 1)
         companyLabel.textAlignment = .left
