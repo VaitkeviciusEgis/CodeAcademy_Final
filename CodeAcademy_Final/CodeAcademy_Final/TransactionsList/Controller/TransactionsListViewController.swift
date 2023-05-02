@@ -311,7 +311,6 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
         
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
         
-//        let filteredTransactions: [TransactionEntity]
         switch filterType {
         case .ingoing:
             filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
