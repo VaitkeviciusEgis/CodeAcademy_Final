@@ -186,7 +186,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     private var filterType: FilterType = .ingoing
     private let didReceiveTransferMoneyNotification = Notification.Name("didReceiveTransferMoneyNotification")
     private var filteredTransactions: [TransactionEntity] = []
-    
+    private var filteredByDateTransactions: [TransactionEntity] = []
     private func segmentSetup() {
         inAndOutTransactions.setTitle("Ingoing", forSegmentAt: 0)
         inAndOutTransactions.setTitle("Outgoing", forSegmentAt: 1)
@@ -311,7 +311,7 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
         
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
         
-        let filteredTransactions: [TransactionEntity]
+//        let filteredTransactions: [TransactionEntity]
         switch filterType {
         case .ingoing:
             filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
