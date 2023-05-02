@@ -279,6 +279,12 @@ extension TransferViewController: UITextFieldDelegate {
         guard let currentText = textField.text else { return true }
         let newLength = currentText.count + string.count - range.length
         
+        if textField == commentTextField {
+            let maxCommentLength = allowedCharacters.count
+            return newLength <= maxCommentLength
+        }
+      
+        
         if textField == enterAmountTextField  {
             
             let currentText = textField.text ?? ""

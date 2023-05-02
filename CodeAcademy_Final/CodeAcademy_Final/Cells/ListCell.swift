@@ -24,9 +24,21 @@ class ListCell: UITableViewCell {
         return label
     }()
     
+    private  let commentLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 10)
+        return label
+    }()
+    
+    private  let dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 10)
+        return label
+    }()
+    
     private override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        let subViews: [UIView] = [phoneNumberLabel, amountLabel]
+        let subViews: [UIView] = [phoneNumberLabel, amountLabel, commentLabel, dateLabel]
         addSubViews(subViews)
         
         setupCellConstraints()
@@ -41,17 +53,21 @@ class ListCell: UITableViewCell {
     
     //MARK: - Action
     
-    private  func setupCellConstraints() {
-        
+    private func setupCellConstraints() {
         NSLayoutConstraint.activate([
             phoneNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
-            phoneNumberLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             phoneNumberLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
+            dateLabel.leadingAnchor.constraint(equalTo: phoneNumberLabel.trailingAnchor, constant: 32),
+            dateLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
             amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30)
+            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
+            
+//            commentLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 16),
+            commentLabel.trailingAnchor.constraint(equalTo: amountLabel.leadingAnchor, constant: -16),
+            commentLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
-        
     }
     
     private func setupTextFields() {
@@ -71,6 +87,16 @@ class ListCell: UITableViewCell {
         
         amountLabel.text = formatter.string(from: NSNumber(value: amount))
         phoneNumberLabel.text = "\(String(describing: transaction.receiverPhoneNumber ?? ""))"
+        commentLabel.text = "\(String(describing: transaction.comment ?? ""))"
+        
+        let date = Date(timeIntervalSince1970: TimeInterval(transaction.transactionTime))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .none
+        let dateString = dateFormatter.string(from: date)
+        dateLabel.text = dateString
+        
+        
     }
     
 }
