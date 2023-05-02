@@ -47,14 +47,13 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     @IBOutlet private weak var inAndOutTransactions: UISegmentedControl!
     
     // MARK: Properties
-    var startDate: Int64?
-    var endDate: Int64?
-
+    private var startDate: Int64?
+    private var endDate: Int64?
     var transferVC: TransferViewController?
     var viewModel: TransactionsViewModel?
     var currentLoggedInAccount: AccountEntity?
     var loggedInUser: UserAuthenticationResponse?
-    lazy var filterViewController: FilterViewController = {
+    private lazy var filterViewController: FilterViewController = {
         let filterVC = FilterViewController()
         filterVC.delegate = self
         return filterVC
@@ -92,7 +91,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     // MARK: Configuration
     
     private func configureView() {
-           navigationItem.rightBarButtonItem = filterButton
+        navigationItem.rightBarButtonItem = filterButton
         view.backgroundColor = .systemGray6
         segmentSetup()
         setupSearchBar()
@@ -141,6 +140,12 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
         searchBar.tintColor = .label
         searchBar.barTintColor = .systemGray6
         searchBar.backgroundColor = .systemGray6
+        
+//        searchBar.layer.shadowColor = CGColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1)
+//        searchBar.layer.shadowOffset = CGSize(width: 0, height: 2)
+//        searchBar.layer.shadowOpacity = 1
+//        searchBar.layer.shadowRadius = 4
+//        searchBar.layer.masksToBounds = false
     }
     
     // MARK: Actions
@@ -189,8 +194,9 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     private func segmentSetup() {
         inAndOutTransactions.setTitle("Ingoing", forSegmentAt: 0)
         inAndOutTransactions.setTitle("Outgoing", forSegmentAt: 1)
-        inAndOutTransactions.selectedSegmentIndex = 0 // Set the initial valu
+        inAndOutTransactions.selectedSegmentIndex = 0
         inAndOutTransactions.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged) // Add the segment change action
+
     }
     
     private func updateTableView() {
