@@ -100,11 +100,13 @@ class SettingsViewController: UIViewController {
     
     private func setupLogoutButton() {
         logoutButton.setTitle("Logout", for: .normal)
-        logoutButton.setTitleColor(.opaqueSeparator, for: .normal)
+        logoutButton.setTitleColor(UIColor(cgColor: CGColor(red: 245/255, green: 93/255, blue: 62/255, alpha: 1)), for: .normal)
         logoutButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        logoutButton.layer.borderColor = CGColor(red: 255/255, green: 69/255, blue: 58/255, alpha: 1)
+        logoutButton.layer.borderColor = borderColor
+        logoutButton.backgroundColor = buttonBackgroundColor
         logoutButton.layer.cornerRadius = 8
         logoutButton.layer.borderWidth = 1
+        logoutButton.layer.opacity = 0.5
         logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         view.addSubview(logoutButton)
         
@@ -122,11 +124,13 @@ class SettingsViewController: UIViewController {
         // Set up Submit button
         let submitButton = UIButton(type: .system)
         submitButton.setTitle("Submit Changes", for: .normal)
-        submitButton.setTitleColor(.opaqueSeparator, for: .normal)
+        submitButton.setTitleColor(UIColor(cgColor: borderColor), for: .normal)
         submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         submitButton.layer.cornerRadius = 8
         submitButton.layer.borderWidth = 1
-        submitButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        submitButton.layer.borderColor = borderColor
+        submitButton.layer.opacity = 0.5
+        submitButton.backgroundColor = buttonBackgroundColor
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
         view.addSubview(submitButton)
         

@@ -32,8 +32,7 @@ class LoginViewController: UIViewController {
     private let serviceAPI = ServiceAPI(networkService: NetworkService())
     private let tabBarNav = TabBarViewController()
     private var selectedCurrency: Currency = .EUR
-    private let selectedColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
-    private let deSelectedColor = UIColor(red: 78/255, green: 129/255, blue: 123/255, alpha: 1)
+    private var selectedCurrencyRow: Int = 0
     
     
     // MARK: - Enums
@@ -206,6 +205,11 @@ class LoginViewController: UIViewController {
                                                      controller: self)
             }
         }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedCurrencyRow = row
+        selectedCurrency = Currency.allCases[selectedCurrencyRow]
     }
 }
 

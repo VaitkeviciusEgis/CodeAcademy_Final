@@ -155,7 +155,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
         setupCardViewConstraints()
         cardView.backgroundColor = cardViewBackgroundColor
         cardView.layer.cornerRadius = 10
-        cardView.layer.borderColor = CGColor(red: 135/255, green: 179/255, blue: 122/255, alpha: 1)
+        cardView.layer.borderColor = borderColor
         cardView.layer.borderWidth = 1
         cardView.translatesAutoresizingMaskIntoConstraints = false
         setupCardHolder()
@@ -210,11 +210,13 @@ class HomeViewController: UIViewController, CoreDataLoading {
     
     private func setupAddMoneyButton() {
         addMoneyButton.setTitle("Add Money", for: .normal)
-        addMoneyButton.setTitleColor(UIColor(red: 27/255, green: 93/255, blue: 127/255, alpha: 1), for: .normal)
+        addMoneyButton.setTitleColor(UIColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1), for: .normal)
         addMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         addMoneyButton.layer.cornerRadius = 8
         addMoneyButton.layer.borderWidth = 1
-        addMoneyButton.layer.borderColor = CGColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1)
+        addMoneyButton.layer.borderColor = borderColor
+        addMoneyButton.backgroundColor = buttonBackgroundColor
+        addMoneyButton.layer.opacity = 0.5
         addMoneyButton.addTarget(self, action: #selector(addMoneyButtonTapped), for: .touchUpInside)
         view.addSubview(addMoneyButton)
         setupAddMoneyButtonConstraints()

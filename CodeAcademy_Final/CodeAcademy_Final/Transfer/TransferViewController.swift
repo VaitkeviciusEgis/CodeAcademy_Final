@@ -21,8 +21,6 @@ class TransferViewController: UIViewController {
     private let titleLabel = UILabel()
     private let subLabel = UILabel()
     private let sendMoneyButton = UIButton(type: .system)
-    private let normalColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
-    private let selectedColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
     private let didTransferMoneyNotification = Notification.Name("didTransferMoneyNotification")
     private let recipientPhoneNumberTextField = UITextField()
     private let senderCurrencyTextField = UITextField()
@@ -45,6 +43,7 @@ class TransferViewController: UIViewController {
     // MARK: - UI Setup
     
     private func setupUI() {
+        view.backgroundColor = cardPayBackgroundColor
         let subViews: [UIView] = [recipientPhoneNumberTextField, senderCurrencyTextField, commentTextField, enterAmountTextField]
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
@@ -77,7 +76,7 @@ class TransferViewController: UIViewController {
     private func setupSubLabel() {
         subLabel.text = "All fields are required"
         subLabel.font = UIFont.systemFont(ofSize: 12)
-        subLabel.textColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        subLabel.textColor = textColor
         subLabel.translatesAutoresizingMaskIntoConstraints = false
         subLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         subLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12).isActive = true
@@ -85,17 +84,17 @@ class TransferViewController: UIViewController {
     
     func setupAmountTextField() {
         enterAmountTextField.layer.cornerRadius = 8
-        enterAmountTextField.backgroundColor = normalColor
+        enterAmountTextField.backgroundColor = deSelectedColor
         enterAmountTextField.placeholder = "Enter amount"
         enterAmountTextField.textAlignment = .center
         enterAmountTextField.keyboardType = .decimalPad
     }
     
     func setupCommentTextField() {
-        commentTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        commentTextField.backgroundColor = deSelectedColor
         commentTextField.placeholder = "Add a comment"
         commentTextField.textAlignment = .center
-        commentTextField.backgroundColor = normalColor
+        commentTextField.backgroundColor = deSelectedColor
         commentTextField.layer.cornerRadius = 8
     }
     
@@ -107,7 +106,7 @@ class TransferViewController: UIViewController {
     }
     
     func setupPhoneTextField() {
-        recipientPhoneNumberTextField.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 54/255, alpha: 1)
+        recipientPhoneNumberTextField.backgroundColor = deSelectedColor
         recipientPhoneNumberTextField.placeholder = "Recipient phone number"
         recipientPhoneNumberTextField.textAlignment = .center
         recipientPhoneNumberTextField.layer.cornerRadius = 8
@@ -126,9 +125,10 @@ class TransferViewController: UIViewController {
     }
     
     func setupCurrencyTextField() {
-        senderCurrencyTextField.backgroundColor = UIColor(red: 105/255, green: 105/255, blue: 112/255, alpha: 1)
+        senderCurrencyTextField.backgroundColor = deSelectedColor
         senderCurrencyTextField.layer.cornerRadius = 8
-        senderCurrencyTextField.text = loggedInUser?.accountInfo.currency
+        senderCurrencyTextField.text = "USD"
+        senderCurrencyTextField.textColor = UIColor(red: 41, green: 44, blue: 53, alpha: 1)
         senderCurrencyTextField.isUserInteractionEnabled = false
         senderCurrencyTextField.textAlignment = .center
         
@@ -167,11 +167,13 @@ class TransferViewController: UIViewController {
     func setupSendButton() {
         sendMoneyButton.setTitle("Send Money", for: .normal)
         sendMoneyButton.addTarget(self, action: #selector(sendMoneyTapped), for: .touchUpInside)
-        sendMoneyButton.setTitleColor(.opaqueSeparator, for: .normal)
+        sendMoneyButton.setTitleColor((UIColor(cgColor: borderColor)), for: .normal) 
         sendMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         sendMoneyButton.layer.borderWidth = 1
-        sendMoneyButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        sendMoneyButton.layer.borderColor = borderColor
         sendMoneyButton.layer.cornerRadius = 8
+        sendMoneyButton.backgroundColor = buttonBackgroundColor
+        sendMoneyButton.layer.opacity = 0.5
         view.addSubview(sendMoneyButton)
         setupSendButtonConstraints()
     }
@@ -249,7 +251,6 @@ class TransferViewController: UIViewController {
                     
                     recipientPhoneNumberTextField.text = ""
                     senderCurrencyTextField.text = loggedInUser?.accountInfo.currency
-                    senderCurrencyTextField.isUserInteractionEnabled = false
                     commentTextField.text = ""
                     enterAmountTextField.text = ""
                     var currentBalance = loggedInUser?.accountInfo.balance
@@ -310,12 +311,12 @@ extension TransferViewController: UITextFieldDelegate {
         if textField == recipientPhoneNumberTextField || textField == commentTextField || textField == enterAmountTextField {
             textField.backgroundColor = selectedColor
         } else {
-            textField.backgroundColor = normalColor
+            textField.backgroundColor = deSelectedColor
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.backgroundColor = normalColor
+        textField.backgroundColor = deSelectedColor
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

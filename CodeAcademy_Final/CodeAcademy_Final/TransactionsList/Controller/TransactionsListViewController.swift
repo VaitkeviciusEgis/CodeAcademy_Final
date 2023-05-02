@@ -19,11 +19,10 @@ protocol NewBalanceDisplaying {
 class TransactionsListViewController: UIViewController, CoreDataLoading, NewBalanceDisplaying  {
     private lazy var filterButton: UIBarButtonItem = {
         let button = UIButton(type: .system)
-        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitleColor(UIColor(cgColor: borderColor), for: .normal)
         button.setImage(UIImage(systemName: "calendar"), for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
         button.tintColor = UIColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1)
-//        button.setTitleColor(UIColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1), for: .normal)
         button.addTarget(self, action: #selector(showFilterModal), for: .touchUpInside)
         let barButtonItem = UIBarButtonItem(customView: button)
         return barButtonItem
