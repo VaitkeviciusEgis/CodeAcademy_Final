@@ -45,11 +45,11 @@ class FilterViewController: UIViewController {
         picker.maximumDate = Date()
         return picker
     }()
-    
+
     let filterButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Filter by Date", for: .normal)
-        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitleColor(UIColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1), for: .normal)
         button.setImage(UIImage(systemName: "calendar"), for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
         button.tintColor = UIColor.lightGray

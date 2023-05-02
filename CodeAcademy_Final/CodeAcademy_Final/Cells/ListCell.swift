@@ -32,7 +32,7 @@ class ListCell: UITableViewCell {
     
     private  let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont.systemFont(ofSize: 6)
         return label
     }()
     
@@ -58,7 +58,7 @@ class ListCell: UITableViewCell {
             dateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
             dateLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            phoneNumberLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: -16),
+            phoneNumberLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 0),
             phoneNumberLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             commentLabel.leadingAnchor.constraint(equalTo: phoneNumberLabel.trailingAnchor, constant: 12),
@@ -93,7 +93,7 @@ class ListCell: UITableViewCell {
         let date = Date(timeIntervalSince1970: TimeInterval(transaction.transactionTime) / 1000)
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .none
+        dateFormatter.timeStyle = .short
         let dateString = dateFormatter.string(from: date)
         dateLabel.text = dateString
         

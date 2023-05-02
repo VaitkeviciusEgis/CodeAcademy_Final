@@ -54,6 +54,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
     private func setupShowHideButton() {
         showHideButton.translatesAutoresizingMaskIntoConstraints = false
         showHideButton.setTitle("Hide Last Transactions", for: .normal)
+        showHideButton.setTitleColor(UIColor(red: 18/255, green: 184/255, blue: 218/255, alpha: 1), for: .normal)
         showHideButton.addTarget(self, action: #selector(toggleTableView), for: .touchUpInside)
         view.addSubview(showHideButton)
         
@@ -167,7 +168,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
         companyLabel.font = UIFont.boldSystemFont(ofSize: 18)
         companyLabel.textColor = UIColor(red: 135/255, green: 179/255, blue: 122/255, alpha: 1)
         companyLabel.textAlignment = .left
-        companyLabel.text = "Card Pay"
+        companyLabel.text = "CardPay"
         cardView.addSubview(companyLabel)
     }
     
@@ -202,11 +203,11 @@ class HomeViewController: UIViewController, CoreDataLoading {
     
     private func setupAddMoneyButton() {
         addMoneyButton.setTitle("Add Money", for: .normal)
-        addMoneyButton.setTitleColor(UIColor(red: 252/255, green: 179/255, blue: 38/255, alpha: 1), for: .normal)
+        addMoneyButton.setTitleColor(UIColor(red: 27/255, green: 93/255, blue: 127/255, alpha: 1), for: .normal)
         addMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         addMoneyButton.layer.cornerRadius = 8
         addMoneyButton.layer.borderWidth = 1
-        addMoneyButton.layer.borderColor = CGColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        addMoneyButton.layer.borderColor = CGColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1)
         addMoneyButton.addTarget(self, action: #selector(addMoneyButtonTapped), for: .touchUpInside)
         view.addSubview(addMoneyButton)
         setupAddMoneyButtonConstraints()
@@ -225,7 +226,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
     }
     
     @objc private func addMoneyButtonTapped() {
-        let alertController = UIAlertController(title: "Card Pay", message: "Please enter the amount:", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "CardPay", message: "Please enter the amount:", preferredStyle: .alert)
         
         alertController.addTextField { textField in
             textField.placeholder = "Enter amount"
