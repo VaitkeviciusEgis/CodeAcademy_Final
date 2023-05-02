@@ -125,9 +125,9 @@ class TransferViewController: UIViewController {
     }
     
     func setupCurrencyTextField() {
-        senderCurrencyTextField.backgroundColor = deSelectedColor
+        senderCurrencyTextField.backgroundColor = selectedColor
         senderCurrencyTextField.layer.cornerRadius = 8
-        senderCurrencyTextField.text = "USD"
+        senderCurrencyTextField.text = loggedInUser?.accountInfo.currency
         senderCurrencyTextField.textColor = UIColor(red: 41, green: 44, blue: 53, alpha: 1)
         senderCurrencyTextField.isUserInteractionEnabled = false
         senderCurrencyTextField.textAlignment = .center

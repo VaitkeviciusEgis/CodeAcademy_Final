@@ -166,7 +166,7 @@ class LoginViewController: UIViewController {
             return
         }
         serviceAPI.registerUser(phoneNumber: phone,
-                                password: password, currency: selectedCurrency.description) { [weak self] result in
+                                password: password, currency: currency) { [weak self] result in
             guard let self else { return }
             switch result {
                 case .success(_):
@@ -208,8 +208,8 @@ class LoginViewController: UIViewController {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedCurrencyRow = row
-        selectedCurrency = Currency.allCases[selectedCurrencyRow]
+        selectedCurrency = Currency.allCases[row]
+        pickerViewSetup()
     }
 }
 

@@ -93,6 +93,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
     }
     
     private func setupTableView() {
+        tableView.layer.opacity = 0
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         tableView.layer.cornerRadius = 6
@@ -306,7 +307,6 @@ extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let viewModel = self.viewModel else {
-            hideButton()
             return UITableViewCell()
         }
         
@@ -314,10 +314,8 @@ extension HomeViewController: UITableViewDataSource {
         guard let transaction = viewModel.fetchedResultsController?.object(at: indexPath), let cell = cell else {
             return UITableViewCell()
         }
-        
+        tableView.layer.opacity = 0.8
         cell.selectionStyle = .none
-//        cell.backgroundColor = UIColor(red: 157/255, green: 132/255, blue: 32/255, alpha: 1)
-//        cell.backgroundColor = UIColor(red: 15/255, green: 244/255, blue: 149/255, alpha: 1)
         cell.backgroundColor = UIColor(red: 78/255, green: 129/255, blue: 123/255, alpha: 1)
 
 

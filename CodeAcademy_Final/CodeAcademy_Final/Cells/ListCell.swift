@@ -20,7 +20,7 @@ class ListCell: UITableViewCell {
     
     private  let amountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 8)
+        label.font = UIFont.systemFont(ofSize: 8, weight: .bold)
         return label
     }()
     
@@ -32,7 +32,7 @@ class ListCell: UITableViewCell {
     
     private  let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 6)
+        label.font = UIFont.systemFont(ofSize: 6, weight: .semibold)
         return label
     }()
     
@@ -55,7 +55,7 @@ class ListCell: UITableViewCell {
     
     private func setupCellConstraints() {
         NSLayoutConstraint.activate([
-            dateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
+            dateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             dateLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             phoneNumberLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 0),
@@ -65,7 +65,7 @@ class ListCell: UITableViewCell {
             commentLabel.centerYAnchor.constraint(equalTo: phoneNumberLabel.centerYAnchor),
             commentLabel.trailingAnchor.constraint(equalTo: amountLabel.leadingAnchor, constant: -8),
             
-            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
+            amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             dateLabel.widthAnchor.constraint(equalToConstant: 70),
