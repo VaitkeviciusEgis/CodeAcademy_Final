@@ -32,8 +32,8 @@ class LoginViewController: UIViewController {
     private let serviceAPI = ServiceAPI(networkService: NetworkService())
     private let tabBarNav = TabBarViewController()
     private var selectedCurrency: Currency = .EUR
-    private let selectedColor = UIColor(red: 235/255, green: 242/255, blue: 250/255, alpha: 1)
-    private let deSelectedColor = UIColor(red: 0/255, green: 178/255, blue: 149/255, alpha: 1)
+    private let selectedColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+    private let deSelectedColor = UIColor(red: 78/255, green: 129/255, blue: 123/255, alpha: 1)
     
     
     // MARK: - Enums
