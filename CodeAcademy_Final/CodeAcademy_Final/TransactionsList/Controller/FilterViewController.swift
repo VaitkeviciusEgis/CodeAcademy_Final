@@ -13,9 +13,9 @@ protocol FilterViewControllerDelegate: AnyObject {
 
 
 class FilterViewController: UIViewController {
-
+    
     weak var delegate: FilterViewControllerDelegate?
-
+    
     let startDateLabel: UILabel = {
         let label = UILabel()
         label.text = "Start Date:"
@@ -27,6 +27,7 @@ class FilterViewController: UIViewController {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
         picker.translatesAutoresizingMaskIntoConstraints = false
+        picker.maximumDate = Date()
         return picker
     }()
     
@@ -43,31 +44,32 @@ class FilterViewController: UIViewController {
         picker.datePickerMode = .date
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.maximumDate = Date()
+        
         return picker
     }()
-
+    
     let filterButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Filter by Date", for: .normal)
-        button.setTitleColor((UIColor(cgColor: borderColor)), for: .normal) 
+        button.setTitleColor((UIColor(cgColor: borderColor)), for: .normal)
         button.setImage(UIImage(systemName: "calendar"), for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
-        button.tintColor = UIColor.lightGray
+        button.tintColor = UIColor(red: 245/255, green: 93/255, blue: 62/255, alpha: 1)
         button.addTarget(self, action: #selector(filterButtonPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
+    func setupSubViews() {
+        let subViews: [UIView] = [startDateLabel, startPicker, endDateLabel, endPicker, filterButton]
+        view.addSubViews(subViews)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .gray
-        
-        view.addSubview(startDateLabel)
-        view.addSubview(startPicker)
-        view.addSubview(endDateLabel)
-        view.addSubview(endPicker)
-        view.addSubview(filterButton)
-        
+        view.backgroundColor = .systemGray6
+        view.layer.opacity = 0.9
+        setupSubViews()
         setupConstraints()
     }
     
@@ -89,14 +91,14 @@ class FilterViewController: UIViewController {
             
             startPicker.leadingAnchor.constraint(equalTo: startDateLabel.trailingAnchor, constant: 16),
             startPicker.centerYAnchor.constraint(equalTo: startDateLabel.centerYAnchor),
-            startPicker.widthAnchor.constraint(equalToConstant: 240),
+            startPicker.widthAnchor.constraint(equalToConstant: 80),
             
             endDateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             endDateLabel.topAnchor.constraint(equalTo: startPicker.bottomAnchor, constant: 24),
             
             endPicker.leadingAnchor.constraint(equalTo: endDateLabel.trailingAnchor, constant: 16),
             endPicker.centerYAnchor.constraint(equalTo: endDateLabel.centerYAnchor),
-            endPicker.widthAnchor.constraint(equalToConstant: 240),
+            endPicker.widthAnchor.constraint(equalToConstant: 88),
             
             filterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             filterButton.topAnchor.constraint(equalTo: endPicker.bottomAnchor, constant: 48),

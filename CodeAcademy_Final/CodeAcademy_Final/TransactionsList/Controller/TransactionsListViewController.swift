@@ -22,7 +22,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
         button.setTitleColor(UIColor(cgColor: borderColor), for: .normal)
         button.setImage(UIImage(systemName: "calendar"), for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
-        button.tintColor = UIColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1)
+        button.tintColor = UIColor(red: 245/255, green: 93/255, blue: 62/255, alpha: 1)
         button.addTarget(self, action: #selector(showFilterModal), for: .touchUpInside)
         let barButtonItem = UIBarButtonItem(customView: button)
         return barButtonItem
