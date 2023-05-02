@@ -323,31 +323,23 @@ extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDe
         searchBar.showsCancelButton = true // show cancel button
     }
     
+    
+    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false // hide cancel button
+        searchBar.text = nil
+        viewModel?.retrieveDataFromCoreData()
+        tableView?.reloadData()
+        searchBar.showsCancelButton = false
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder() // dismiss keyboard
+  
+        searchBar.resignFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        //        print("\(searchText)")
-        //        if !searchText.isEmpty {
-        //            var predicate: NSPredicate = NSPredicate()
-        //            predicate = NSPredicate(format: "name contains[c] '\(searchText)'")
-        //            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        //            let managedObjectContext = appDelegate.persistentContainer.viewContext
-        //            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:"Contact")
-        //            fetchRequest.predicate = predicate
-        //            do {
-        ////                contacts = try managedObjectContext.fetch(fetchRequest) as! [NSManagedObject]
-        //            } catch let error as NSError {
-        //                print("Could not fetch. \(error)")
-        //            }
-        //        }
-        //        tableView.reloadData()
-        //    }
+
+        viewModel?.retrieveDataFromCoreData(searchText: searchText)
+        self.tableView?.reloadData()
     }
 }

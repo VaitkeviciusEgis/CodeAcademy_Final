@@ -11,6 +11,7 @@ import CoreData
 protocol UpdateTableViewDelegate: AnyObject {
     func reloadData(sender: TransactionsViewModel)
 }
+var transactions: [TransactionEntity] = []
 
 final class TransactionsViewModel: NSObject {
     
@@ -29,15 +30,24 @@ final class TransactionsViewModel: NSObject {
     
     // MARK: - Public Functions
     
-    func retrieveDataFromCoreData() {
+    func retrieveDataFromCoreData(searchText: String? = nil) {
         guard let context = container?.viewContext else { return }
         let fetchRequest: NSFetchRequest<TransactionEntity> = TransactionEntity.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "transactionTime", ascending: false)]
+        
+        if let searchText = searchText, !searchText.isEmpty {
+            let searchPredicate = NSPredicate(format: "comment CONTAINS[c] %@ OR amount == %@", searchText, searchText)
+            fetchRequest.predicate = searchPredicate
+        } else {
+            fetchRequest.predicate = nil
+        }
+        
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController?.delegate = self
         
         do {
             try fetchedResultsController?.performFetch()
+            transactions = fetchedResultsController?.fetchedObjects ?? []
         } catch {
             print("Error fetching transactions: \(error.localizedDescription)")
         }
