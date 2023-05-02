@@ -8,11 +8,13 @@
 import UIKit
 
 protocol FilterViewControllerDelegate: AnyObject {
-    func filterViewController(_ filterViewController: FilterViewController, didSelectDateRange startDate: Date?, endDate: Date?)
+    func filterViewController(_ filterViewController: FilterViewController, didSelectStartDate startDate: Int64?, endDate: Int64?)
 }
 
 
 class FilterViewController: UIViewController {
+
+    weak var delegate: FilterViewControllerDelegate?
 
     let startDateLabel: UILabel = {
         let label = UILabel()
@@ -45,7 +47,7 @@ class FilterViewController: UIViewController {
     let filterButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Filter", for: .normal)
-        button.addTarget(FilterViewController.self, action: #selector(filterButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(filterButtonPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -66,11 +68,9 @@ class FilterViewController: UIViewController {
     @objc func filterButtonPressed() {
         let startDate = startPicker.date
         let endDate = endPicker.date
-        
-        // pass date range to delegate
-//        delegate?.filterTransactions(startDate: startDate, endDate: endDate)
-        
-        // dismiss view controller
+        let startDateTimestamp = Int64(startDate.timeIntervalSince1970 * 1000)
+        let endDateTimestamp = Int64(endDate.timeIntervalSince1970 * 1000)
+        delegate?.filterViewController(self, didSelectStartDate: startDateTimestamp, endDate: endDateTimestamp)
         dismiss(animated: true, completion: nil)
     }
     

@@ -27,7 +27,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     }()
     
     @objc private func showFilterModal() {
-        let filterViewController = FilterViewController()
+      
 
         
         let navigationController = UINavigationController(rootViewController: filterViewController)
@@ -48,11 +48,17 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     @IBOutlet private weak var inAndOutTransactions: UISegmentedControl!
     
     // MARK: Properties
-    
+    var startDate: Int64?
+    var endDate: Int64?
     var transferVC: TransferViewController?
     var viewModel: TransactionsViewModel?
     var currentLoggedInAccount: AccountEntity?
     var loggedInUser: UserAuthenticationResponse?
+    lazy var filterViewController: FilterViewController = {
+        let filterVC = FilterViewController()
+        filterVC.delegate = self
+        return filterVC
+    }()
     
     enum FilterType: Int {
         case ingoing = 0
@@ -288,32 +294,41 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
             return UITableViewCell()
         }
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
-        
-        
+
+        let filteredTransactions: [TransactionEntity]
         switch filterType {
-            case .ingoing:
-                filteredTransactions = transactions.filter {
-                    $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
-            case .outgoing:
-                filteredTransactions = transactions.filter {
-                    $0.sendingAccountId == currentLoggedInAccount?.id ?? -1}
-            case .all:
-                filteredTransactions = transactions
+        case .ingoing:
+            filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
+        case .outgoing:
+            filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }
+        case .all:
+            filteredTransactions = transactions
         }
-        
-        if indexPath.row < filteredTransactions.count {
-            let transaction = filteredTransactions[indexPath.row]
-            
-            cell.configureCell(with: transaction)
-            
-            cell.backgroundColor = .systemGray6
+
+        if let startDate = self.startDate, let endDate = self.endDate {
+            // Filter transactions by selected date range
+            let dateFilteredTransactions = filteredTransactions.filter { transaction in
+                transaction.transactionTime >= startDate && transaction.transactionTime <= endDate
+            }
+            if indexPath.row < dateFilteredTransactions.count {
+                let transaction = dateFilteredTransactions[indexPath.row]
+                cell.configureCell(with: transaction)
+                cell.backgroundColor = .systemGray6
+            } else {
+//                cell.textLabel?.text = "No data"
+            }
         } else {
-            cell.textLabel?.text = "No data"
+            // Display all transactions if no date range is selected
+            if indexPath.row < filteredTransactions.count {
+                let transaction = filteredTransactions[indexPath.row]
+                cell.configureCell(with: transaction)
+                cell.backgroundColor = .systemGray6
+            } else {
+//                cell.textLabel?.text = "No data"
+            }
         }
-        
         return cell
     }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableViewHeightForRow
     }
@@ -361,5 +376,25 @@ extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDe
     }
 }
 
+extension TransactionsListViewController: FilterViewControllerDelegate {
+    func filterTransactions() {
+        let transactions = viewModel?.fetchedResultsController?.fetchedObjects ?? []
+        
+        if let startDate = startDate, let endDate = endDate {
+            filteredTransactions = transactions.filter {
+                $0.transactionTime >= startDate && $0.transactionTime <= endDate
+            }
+        } else {
+            filteredTransactions = transactions
+        }
+    }
+    
+    func filterViewController(_ filterViewController: FilterViewController, didSelectStartDate startDate: Int64?, endDate: Int64?) {
+        self.startDate = startDate
+        self.endDate = endDate
+        filterTransactions()
+        tableView?.reloadData()
+    }
+}
 
 
