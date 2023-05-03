@@ -17,7 +17,7 @@ final class CoreDataManager {
     let fetchRequest: NSFetchRequest<TransactionEntity>
     static let sharedInstance = CoreDataManager()
     
-     init() {
+    init() {
         container = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
         fetchRequest = NSFetchRequest<TransactionEntity>(entityName: "TransactionEntity")
     }
@@ -30,7 +30,7 @@ final class CoreDataManager {
             self?.saveDataToCoreData(transactions: transactions, context: context)
         }
     }
-
+    
     func saveAccountToCoreData(accountEntity: AccountEntity) {
         guard let container = container else {
             return

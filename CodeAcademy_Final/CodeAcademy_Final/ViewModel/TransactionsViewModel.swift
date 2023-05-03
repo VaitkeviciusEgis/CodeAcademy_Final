@@ -11,7 +11,6 @@ import CoreData
 protocol UpdateTableViewDelegate: AnyObject {
     func reloadData(sender: TransactionsViewModel)
 }
-var transactions: [TransactionEntity] = []
 
 final class TransactionsViewModel: NSObject {
     
@@ -47,7 +46,6 @@ final class TransactionsViewModel: NSObject {
         
         do {
             try fetchedResultsController?.performFetch()
-            transactions = fetchedResultsController?.fetchedObjects ?? []
         } catch {
             print("Error fetching transactions: \(error.localizedDescription)")
         }

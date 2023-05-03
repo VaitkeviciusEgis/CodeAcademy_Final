@@ -171,7 +171,7 @@ class TransferViewController: UIViewController {
     func setupSendButton() {
         sendMoneyButton.setTitle("Send Money", for: .normal)
         sendMoneyButton.addTarget(self, action: #selector(sendMoneyTapped), for: .touchUpInside)
-        sendMoneyButton.setTitleColor((UIColor(cgColor: borderColor)), for: .normal) 
+        sendMoneyButton.setTitleColor((UIColor(cgColor: borderColor)), for: .normal)
         sendMoneyButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         sendMoneyButton.layer.borderWidth = 1
         sendMoneyButton.layer.borderColor = borderColor
@@ -289,7 +289,7 @@ extension TransferViewController: UITextFieldDelegate {
             let maxCommentLength = allowedCharacters.count
             return newLength <= maxCommentLength
         }
-      
+        
         
         if textField == enterAmountTextField  {
             
@@ -327,7 +327,7 @@ extension TransferViewController: UITextFieldDelegate {
         } else {
             textField.backgroundColor = buttonBackgroundColor
         }
-
+        
         if !(enterAmountTextField.text?.isEmpty ?? false) && !(recipientPhoneNumberTextField.text?.isEmpty ?? false) && !(commentTextField.text?.isEmpty ?? false) {
             sendMoneyButton.backgroundColor = UIColor(red: 135/255, green: 179/255, blue: 53/255, alpha: 1)
             sendMoneyButton.setTitleColor(UIColor.white, for: .normal)
@@ -336,7 +336,7 @@ extension TransferViewController: UITextFieldDelegate {
             sendMoneyButton.backgroundColor = buttonBackgroundColor
         }
         
-
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

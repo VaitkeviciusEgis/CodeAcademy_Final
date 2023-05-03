@@ -136,23 +136,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		ED1773AC29F8E1C900269392 /* Module */ = {
-			isa = PBXGroup;
-			children = (
-				EDF0F06029F4B7CF00DD41F5 /* AccountInfo.swift */,
-				EDF0F05A29F4B7CF00DD41F5 /* UpdateUserRequest.swift */,
-				EDF0F05829F4B7CF00DD41F5 /* UpdateUserResponse.swift */,
-			);
-			path = Module;
-			sourceTree = "<group>";
-		};
-		ED1773AD29F8E20600269392 /* Model */ = {
+		ED1773AD29F8E20600269392 /* Service */ = {
 			isa = PBXGroup;
 			children = (
 				EDF0F05129F4B7CF00DD41F5 /* Networking */,
 				EDF0F05429F4B7CF00DD41F5 /* ServiceAPI */,
 			);
-			path = Model;
+			path = Service;
 			sourceTree = "<group>";
 		};
 		ED1773B129F8E29D00269392 /* Extension */ = {
@@ -179,6 +169,16 @@
 				ED303CE529FEF56A0040CEA8 /* NumberFormatter.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		ED9326212A02299C002D05C0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EDF0F06029F4B7CF00DD41F5 /* AccountInfo.swift */,
+				EDF0F05A29F4B7CF00DD41F5 /* UpdateUserRequest.swift */,
+				EDF0F05829F4B7CF00DD41F5 /* UpdateUserResponse.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		EDF0F01F29F4B6F300DD41F5 = {
@@ -209,7 +209,7 @@
 				EDF0F07429F4B82800DD41F5 /* Home */,
 				EDF0F03C29F4B6F600DD41F5 /* Info.plist */,
 				EDF0F04229F4B77A00DD41F5 /* Login */,
-				ED1773AD29F8E20600269392 /* Model */,
+				ED1773AD29F8E20600269392 /* Service */,
 				EDF0F07D29F4B83B00DD41F5 /* Settings */,
 				EDF0F04A29F4B79600DD41F5 /* Supporting */,
 				EDF0F04D29F4B7B200DD41F5 /* TabBar */,
@@ -310,7 +310,7 @@
 		EDF0F07D29F4B83B00DD41F5 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				ED1773AC29F8E1C900269392 /* Module */,
+				ED9326212A02299C002D05C0 /* Model */,
 				EDF0F07E29F4B83B00DD41F5 /* Controller */,
 			);
 			path = Settings;

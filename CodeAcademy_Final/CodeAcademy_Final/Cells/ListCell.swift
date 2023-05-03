@@ -20,7 +20,7 @@ class ListCell: UITableViewCell {
     
     private  let amountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 8, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 10, weight: .bold)
         return label
     }()
     
@@ -32,7 +32,7 @@ class ListCell: UITableViewCell {
     
     private  let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 6, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 8, weight: .semibold)
         return label
     }()
     
@@ -82,7 +82,6 @@ class ListCell: UITableViewCell {
     
     
     func configureCell(with transaction: TransactionEntity) {
-        
         let amount = transaction.amount
         let formatter = currencyFormatter()
         
@@ -96,8 +95,6 @@ class ListCell: UITableViewCell {
         dateFormatter.timeStyle = .none
         let dateString = dateFormatter.string(from: date)
         dateLabel.text = dateString
-        
-        
     }
     
 }

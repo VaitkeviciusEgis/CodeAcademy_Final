@@ -39,7 +39,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
         loadCoreData()
         updateTableView()
     }
-
+    
     // MARK: Outlets
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -140,12 +140,6 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
         searchBar.tintColor = .label
         searchBar.barTintColor = .systemGray6
         searchBar.backgroundColor = .systemGray6
-        
-//        searchBar.layer.shadowColor = CGColor(red: 41/255, green: 44/255, blue: 53/255, alpha: 1)
-//        searchBar.layer.shadowOffset = CGSize(width: 0, height: 2)
-//        searchBar.layer.shadowOpacity = 1
-//        searchBar.layer.shadowRadius = 4
-//        searchBar.layer.masksToBounds = false
     }
     
     // MARK: Actions
@@ -196,7 +190,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
         inAndOutTransactions.setTitle("Outgoing", forSegmentAt: 1)
         inAndOutTransactions.selectedSegmentIndex = 0
         inAndOutTransactions.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged) // Add the segment change action
-
+        
     }
     
     private func updateTableView() {
@@ -250,19 +244,18 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
                         UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
                         
                         displayNewBalance(amount: amount)
-
+                        
                         self.transferVC?.didTransferMoneySuccessfully()
-                    
+                        
                         handleTransferMoneyNotification()
                         DispatchQueue.main.async {
                             self.loadCoreData()
                         }
-           
+                        
                     case .failure(let error):
                         UIAlertController.showErrorAlert(title: error.message ?? "",
                                                          message: "\(errorStatusCodeMessage) \(error.statusCode)",
                                                          controller: self)
-            
                 }
             })
         }
@@ -284,15 +277,13 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
         
         let filteredTransactions: [TransactionEntity]
         switch filterType {
-        case .ingoing:
-            filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
-        case .outgoing:
-            filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }
-        case .all:
-            filteredTransactions = transactions
+            case .ingoing:
+                filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
+            case .outgoing:
+                filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }
+            case .all:
+                filteredTransactions = transactions
         }
-        
-        
         
         if let startDate = startDate, let endDate = endDate {
             let filteredByDateTransactions = filteredTransactions.filter { transaction in
@@ -317,17 +308,17 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
         let transactions = viewModel.fetchedResultsController?.fetchedObjects ?? []
         
         switch filterType {
-        case .ingoing:
-            filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
-        case .outgoing:
-            filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }
-        case .all:
-            filteredTransactions = transactions
+            case .ingoing:
+                filteredTransactions = transactions.filter { $0.receivingAccountId == currentLoggedInAccount?.id ?? -1 }
+            case .outgoing:
+                filteredTransactions = transactions.filter { $0.sendingAccountId == currentLoggedInAccount?.id ?? -1 }
+            case .all:
+                filteredTransactions = transactions
         }
         
         let filteredByDateTransactions: [TransactionEntity]
         if let startDate = startDate, let endDate = endDate {
-        
+            
             filteredByDateTransactions = filteredTransactions.filter { transaction in
                 transaction.transactionTime >= startDate && transaction.transactionTime <= endDate
             }
@@ -373,8 +364,6 @@ extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDe
         searchBar.showsCancelButton = true
     }
     
-    
-    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.text = nil
         viewModel?.retrieveDataFromCoreData()
@@ -383,26 +372,21 @@ extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDe
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-  
         searchBar.resignFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
         viewModel?.retrieveDataFromCoreData(searchText: searchText)
         self.tableView?.reloadData()
     }
 }
 
 extension TransactionsListViewController: FilterViewControllerDelegate {
-
+    
     
     func filterViewController(_ filterViewController: FilterViewController, didSelectStartDate startDate: Int64?, endDate: Int64?) {
         self.startDate = startDate
         self.endDate = endDate
-        
-
-        
         tableView?.reloadData()
     }
 }

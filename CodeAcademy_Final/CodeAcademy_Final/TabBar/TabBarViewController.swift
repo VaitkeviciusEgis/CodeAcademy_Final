@@ -46,7 +46,7 @@ class TabBarViewController: UITabBarController {
         }
         
         tabBar.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
-
+        
         tabBar.tintColor = titleColor
         homeVC.title = "Home"
         settingsVC.title = "Settings"

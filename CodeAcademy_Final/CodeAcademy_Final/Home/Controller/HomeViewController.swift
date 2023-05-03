@@ -31,6 +31,7 @@ class HomeViewController: UIViewController, CoreDataLoading {
         setupUI()
         NotificationCenter.default.addObserver(self, selector: #selector(transactionSuccessful(_:)), name: NSNotification.Name("TransactionSuccessful"), object: nil)
     }
+    
     @objc func transactionSuccessful(_ notification: Notification) {
         // Reload table view data
         tableView.reloadData()
@@ -317,8 +318,8 @@ extension HomeViewController: UITableViewDataSource {
         tableView.layer.opacity = 0.8
         cell.selectionStyle = .none
         cell.backgroundColor = UIColor(red: 78/255, green: 129/255, blue: 123/255, alpha: 1)
-
-
+        
+        
         cell.configureCell(with: transaction)
         setupShowHideButton()
         return cell
@@ -332,7 +333,7 @@ extension HomeViewController: UITableViewDataSource {
 extension HomeViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
-       
+        
         let newLength = currentText.count + string.count - range.length
         if newLength >= allowedCharacters.count || currentText == "0" ||  currentText.isEmpty && string == "0" {
             return false
