@@ -356,6 +356,11 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
 }
 
 extension TransactionsListViewController: UISearchDisplayDelegate, UISearchBarDelegate, UISearchControllerDelegate {
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let textWithoutSpaces = searchBar.text?.replacingOccurrences(of: " ", with: "")
+        searchBar.text = textWithoutSpaces
+        return true
+    }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true

@@ -251,12 +251,12 @@ extension LoginViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         
+        let textWithoutSpaces = textField.text?.replacingOccurrences(of: " ", with: "")
+            textField.text = textWithoutSpaces
         
         if textField == passwordTextField || textField == phoneTextField {
             let newLength = text.count + string.count - range.length
             let limit = textFieldLimit
-            let textWithoutSpaces = textField.text?.replacingOccurrences(of: " ", with: "")
-                textField.text = textWithoutSpaces
             if newLength > limit {
                 return false
             }

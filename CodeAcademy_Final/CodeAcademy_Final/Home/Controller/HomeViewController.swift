@@ -332,6 +332,7 @@ extension HomeViewController: UITableViewDataSource {
 
 extension HomeViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
         let currentText = textField.text ?? ""
         
         let newLength = currentText.count + string.count - range.length
