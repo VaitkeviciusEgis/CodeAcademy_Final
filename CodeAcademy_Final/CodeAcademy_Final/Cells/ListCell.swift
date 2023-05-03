@@ -20,7 +20,7 @@ class ListCell: UITableViewCell {
     
     private  let amountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 8, weight: .bold)
         return label
     }()
     
@@ -32,7 +32,7 @@ class ListCell: UITableViewCell {
     
     private  let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 8, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 10, weight: .light)
         return label
     }()
     
@@ -63,12 +63,11 @@ class ListCell: UITableViewCell {
             
             commentLabel.leadingAnchor.constraint(equalTo: phoneNumberLabel.trailingAnchor, constant: 12),
             commentLabel.centerYAnchor.constraint(equalTo: phoneNumberLabel.centerYAnchor),
-            commentLabel.trailingAnchor.constraint(equalTo: amountLabel.leadingAnchor, constant: -8),
             
             amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            dateLabel.widthAnchor.constraint(equalToConstant: 70),
+            dateLabel.widthAnchor.constraint(equalToConstant: 40),
             commentLabel.widthAnchor.constraint(equalToConstant: 90)
         ])
     }
@@ -77,11 +76,15 @@ class ListCell: UITableViewCell {
         amountLabel.font = .boldSystemFont(ofSize: 13)
         phoneNumberLabel.lineBreakMode = .byTruncatingHead
         phoneNumberLabel.numberOfLines = 1
+        commentLabel.textAlignment = .center
+        dateLabel.textAlignment = .left
+        phoneNumberLabel.textAlignment = .left
     }
     
     
     
     func configureCell(with transaction: TransactionEntity) {
+        
         let amount = transaction.amount
         let formatter = currencyFormatter()
         
@@ -95,6 +98,8 @@ class ListCell: UITableViewCell {
         dateFormatter.timeStyle = .none
         let dateString = dateFormatter.string(from: date)
         dateLabel.text = dateString
+        
+        
     }
     
 }
