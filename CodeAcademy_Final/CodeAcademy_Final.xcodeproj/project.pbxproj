@@ -13,6 +13,7 @@
 		ED303CE929FF36830040CEA8 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ED303CE829FF36830040CEA8 /* KeychainSwift */; };
 		ED303CF129FF733A0040CEA8 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED303CF029FF733A0040CEA8 /* UITextFieldExtension.swift */; };
 		ED673BDF2A01281C00AAB0CD /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED673BDE2A01281C00AAB0CD /* FilterViewController.swift */; };
+		ED9326292A023D3D002D05C0 /* CodeAcademy_FinalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9326282A023D3D002D05C0 /* CodeAcademy_FinalTests.swift */; };
 		EDF0F02C29F4B6F300DD41F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */; };
 		EDF0F02E29F4B6F300DD41F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */; };
 		EDF0F03629F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F03429F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld */; };
@@ -50,12 +51,24 @@
 		EDF0F12529F7552C00DD41F5 /* TransactionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F12129F7552C00DD41F5 /* TransactionEntity+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		ED93262A2A023D3D002D05C0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDF0F02029F4B6F300DD41F5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EDF0F02729F4B6F300DD41F5;
+			remoteInfo = CodeAcademy_Final;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		ED1773B629FBA98000269392 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		ED303CE029FEE5E80040CEA8 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		ED303CE529FEF56A0040CEA8 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		ED303CF029FF733A0040CEA8 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		ED673BDE2A01281C00AAB0CD /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		ED9326262A023D3C002D05C0 /* CodeAcademy_FinalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeAcademy_FinalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED9326282A023D3D002D05C0 /* CodeAcademy_FinalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeAcademy_FinalTests.swift; sourceTree = "<group>"; };
 		EDF0F02829F4B6F300DD41F5 /* CodeAcademy_Final.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeAcademy_Final.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +109,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		ED9326232A023D3C002D05C0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EDF0F02529F4B6F300DD41F5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -181,10 +201,19 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		ED9326272A023D3D002D05C0 /* CodeAcademy_FinalTests */ = {
+			isa = PBXGroup;
+			children = (
+				ED9326282A023D3D002D05C0 /* CodeAcademy_FinalTests.swift */,
+			);
+			path = CodeAcademy_FinalTests;
+			sourceTree = "<group>";
+		};
 		EDF0F01F29F4B6F300DD41F5 = {
 			isa = PBXGroup;
 			children = (
 				EDF0F02A29F4B6F300DD41F5 /* CodeAcademy_Final */,
+				ED9326272A023D3D002D05C0 /* CodeAcademy_FinalTests */,
 				EDF0F02929F4B6F300DD41F5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -193,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				EDF0F02829F4B6F300DD41F5 /* CodeAcademy_Final.app */,
+				ED9326262A023D3C002D05C0 /* CodeAcademy_FinalTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -382,6 +412,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		ED9326252A023D3C002D05C0 /* CodeAcademy_FinalTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ED93262C2A023D3D002D05C0 /* Build configuration list for PBXNativeTarget "CodeAcademy_FinalTests" */;
+			buildPhases = (
+				ED9326222A023D3C002D05C0 /* Sources */,
+				ED9326232A023D3C002D05C0 /* Frameworks */,
+				ED9326242A023D3C002D05C0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ED93262B2A023D3D002D05C0 /* PBXTargetDependency */,
+			);
+			name = CodeAcademy_FinalTests;
+			productName = CodeAcademy_FinalTests;
+			productReference = ED9326262A023D3C002D05C0 /* CodeAcademy_FinalTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		EDF0F02729F4B6F300DD41F5 /* CodeAcademy_Final */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EDF0F03F29F4B6F600DD41F5 /* Build configuration list for PBXNativeTarget "CodeAcademy_Final" */;
@@ -412,6 +460,10 @@
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					ED9326252A023D3C002D05C0 = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = EDF0F02729F4B6F300DD41F5;
+					};
 					EDF0F02729F4B6F300DD41F5 = {
 						CreatedOnToolsVersion = 14.3;
 					};
@@ -434,11 +486,19 @@
 			projectRoot = "";
 			targets = (
 				EDF0F02729F4B6F300DD41F5 /* CodeAcademy_Final */,
+				ED9326252A023D3C002D05C0 /* CodeAcademy_FinalTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		ED9326242A023D3C002D05C0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EDF0F02629F4B6F300DD41F5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -453,6 +513,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		ED9326222A023D3C002D05C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED9326292A023D3D002D05C0 /* CodeAcademy_FinalTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EDF0F02429F4B6F300DD41F5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -498,6 +566,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		ED93262B2A023D3D002D05C0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EDF0F02729F4B6F300DD41F5 /* CodeAcademy_Final */;
+			targetProxy = ED93262A2A023D3D002D05C0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		EDF0F03929F4B6F600DD41F5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -510,6 +586,42 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		ED93262D2A023D3D002D05C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.maxw31l.CodeAcademy-FinalTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CodeAcademy_Final.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CodeAcademy_Final";
+			};
+			name = Debug;
+		};
+		ED93262E2A023D3D002D05C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.maxw31l.CodeAcademy-FinalTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CodeAcademy_Final.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CodeAcademy_Final";
+			};
+			name = Release;
+		};
 		EDF0F03D29F4B6F600DD41F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -679,6 +791,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		ED93262C2A023D3D002D05C0 /* Build configuration list for PBXNativeTarget "CodeAcademy_FinalTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED93262D2A023D3D002D05C0 /* Debug */,
+				ED93262E2A023D3D002D05C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EDF0F02329F4B6F300DD41F5 /* Build configuration list for PBXProject "CodeAcademy_Final" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

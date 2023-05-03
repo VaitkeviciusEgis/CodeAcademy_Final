@@ -71,7 +71,6 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
         super.viewDidLoad()
         configureView()
         setupTableView()
-        addObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -112,6 +111,7 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
     
     private func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleTransferMoneyNotification), name: didReceiveTransferMoneyNotification, object: nil)
+        
     }
     
     private func removeObservers() {
@@ -175,8 +175,10 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
         guard let viewModel = self.viewModel else {
             return
         }
-        viewModel.retrieveDataFromCoreData()
-        tableView?.reloadData()
+     
+            viewModel.retrieveDataFromCoreData()
+            self.updateTableView()
+        
     }
     
     // MARK: Private Methods
@@ -245,12 +247,19 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
                         
                         displayNewBalance(amount: amount)
                         
-                        self.transferVC?.didTransferMoneySuccessfully()
                         
-                        handleTransferMoneyNotification()
-                        DispatchQueue.main.async {
-                            self.loadCoreData()
-                        }
+                        
+                       
+                        
+              
+                        self.transferVC?.didTransferMoneySuccessfully()
+                       try? viewModel?.fetchedResultsController?.performFetch()
+                
+                        
+                        viewModel?.retrieveDataFromCoreData()
+                        
+                        self.tableView?.reloadData()
+
                         
                     case .failure(let error):
                         UIAlertController.showErrorAlert(title: error.message ?? "",
