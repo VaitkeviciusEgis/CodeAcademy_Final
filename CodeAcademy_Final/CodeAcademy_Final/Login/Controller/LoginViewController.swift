@@ -255,7 +255,8 @@ extension LoginViewController: UITextFieldDelegate {
         if textField == passwordTextField || textField == phoneTextField {
             let newLength = text.count + string.count - range.length
             let limit = textFieldLimit
-            
+            let textWithoutSpaces = textField.text?.replacingOccurrences(of: " ", with: "")
+                textField.text = textWithoutSpaces
             if newLength > limit {
                 return false
             }

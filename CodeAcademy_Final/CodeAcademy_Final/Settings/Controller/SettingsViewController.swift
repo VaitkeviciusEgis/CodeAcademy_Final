@@ -233,7 +233,8 @@ extension SettingsViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
-        
+        let textWithoutSpaces = textField.text?.replacingOccurrences(of: " ", with: "")
+            textField.text = textWithoutSpaces
         if textField == phoneTextField  {
             
             return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)
