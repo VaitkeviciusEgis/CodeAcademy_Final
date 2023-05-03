@@ -246,20 +246,8 @@ class TransactionsListViewController: UIViewController, CoreDataLoading, NewBala
                         UIAlertController.showErrorAlert(title: "Success!", message: message, controller: self)
                         
                         displayNewBalance(amount: amount)
-                        
-                        
-                        
-                       
-                        
-              
                         self.transferVC?.didTransferMoneySuccessfully()
-                       try? viewModel?.fetchedResultsController?.performFetch()
-                
-                        
-                        viewModel?.retrieveDataFromCoreData()
-                        
-                        self.tableView?.reloadData()
-
+                        self.loadCoreData()
                         
                     case .failure(let error):
                         UIAlertController.showErrorAlert(title: error.message ?? "",
@@ -353,7 +341,7 @@ extension TransactionsListViewController: UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+        self.loadCoreData()
         guard filterType == .outgoing else {
             return
         }
