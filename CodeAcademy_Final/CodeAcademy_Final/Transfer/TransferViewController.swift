@@ -290,9 +290,6 @@ extension TransferViewController: UITextFieldDelegate {
             return newLength <= maxCommentLength
         }
         
-        
-        
-        
         if textField == enterAmountTextField  {
             
             let currentText = textField.text ?? ""
@@ -313,8 +310,6 @@ extension TransferViewController: UITextFieldDelegate {
         }
         return true
     }
-    
-    
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == recipientPhoneNumberTextField || textField == commentTextField || textField == enterAmountTextField {

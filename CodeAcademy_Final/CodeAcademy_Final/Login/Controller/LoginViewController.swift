@@ -263,9 +263,7 @@ extension LoginViewController: UITextFieldDelegate {
         }
         
         if textField == phoneTextField {
-            let allowedCharacterSet = CharacterSet(charactersIn: allowedCharacters)
-            let replacementStringCharacterSet = CharacterSet(charactersIn: string)
-            return allowedCharacterSet.isSuperset(of: replacementStringCharacterSet)
+            return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)
         }
         return true
     }
