@@ -5,7 +5,7 @@
 //  Created by Egidijus Vaitkevičius on 2023-04-17.
 //
 
-import Foundation
+import UIKit
 
 struct TransactionInfo: Decodable {
     let senderPhoneNumber: String
@@ -15,6 +15,7 @@ struct TransactionInfo: Decodable {
     let transactionTime: Int64
     let amount: Double
     let comment: String
+
 }
 
 

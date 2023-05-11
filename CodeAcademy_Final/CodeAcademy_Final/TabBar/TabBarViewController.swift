@@ -1,70 +1,107 @@
 //
 //  ViewController.swift
-//  APITask-Egidijus
+//  CodeAcademy_Final-Egidijus
 //
 //  Created by Egidijus Vaitkevičius on 2023-03-01.
 //
 
 import UIKit
+import CoreData
 
 
 class TabBarViewController: UITabBarController {
-
-    let homeVC = HomeViewController()
-    let transactionsVC = TransactionsListViewController()
-    let settingsVC = SettingsViewController()
-    let sendMoneyVC = TransferViewController()
     
+    // MARK: - Properties
     
-    var serviceAPI: ServiceAPI? // Perduodu is loginVC
-
+    private let homeVC = HomeViewController()
+    private let transactionsVC = TransactionsListViewController()
+    private let settingsVC = SettingsViewController()
+    private let transferVC = TransferViewController()
+    private let viewModel = TransactionsViewModel()
+    private var serviceAPI: ServiceAPI?
+    private var loggedInAccount: AccountEntity?
+    
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBarUI()
-
     }
-
-    func setupTabBarUI() {
+    
+    // MARK: - Private methods
+    
+    private func setupTabBarUI() {
         let transactionsViewControllerNavigation = UINavigationController(rootViewController: transactionsVC)
-        self.setViewControllers([transactionsViewControllerNavigation, homeVC, sendMoneyVC, settingsVC], animated: true)
-        guard let items = self.tabBar.items else { return }
-        let images = ["list.bullet.clipboard.fill", "house.fill", "arrow.left.arrow.right", "gearshape.fill"]
-        let color = UIColor(red: 48/255, green: 176/255, blue: 199/255, alpha: 1.0)
-
+        setViewControllers([homeVC, transactionsViewControllerNavigation, transferVC, settingsVC], animated: true)
+        guard let items = tabBar.items else { return }
+        
+        let images = ["house.fill", "arrow.left.arrow.right","list.bullet.clipboard.fill", "gearshape.fill"]
+        let color = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        let titleColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        
         for image in 0...3 {
             let origImage = UIImage(systemName: images[image])
             let tintedImage = origImage?.withTintColor(color, renderingMode: .alwaysOriginal)
             items[image].image = tintedImage
         }
-
-        self.tabBar.backgroundColor = UIColor(red: 18/255, green: 79/255, blue: 80/255, alpha: 1)
+        
+        tabBar.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
+        
+        tabBar.tintColor = titleColor
         homeVC.title = "Home"
         settingsVC.title = "Settings"
-        sendMoneyVC.title = "Transfer"
+        transferVC.title = "Transfer"
         transactionsVC.title = "Transactions"
-        
+        transactionsVC.navigationItem.title = ""
         
     }
-
+    
+    
     func setUser(_ loggedInUser: UserAuthenticationResponse, serviceAPI: ServiceAPI?) {
-        homeVC.loggedInUser = loggedInUser
-        transactionsVC.loggedInUser = loggedInUser
-        settingsVC.loggedInUser = loggedInUser
-        sendMoneyVC.loggedInUser = loggedInUser
-
         self.serviceAPI = serviceAPI
-
+        
         guard let serviceAPI = serviceAPI else {
-            print("Reference of serviceAPI was not transferred")
             return
         }
-
+        
+        guard let container = CoreDataManager.sharedInstance.container?.viewContext else {
+            return
+        }
+        
+        let loggedInAccount = AccountEntity(context: container)
+        
+        loggedInAccount.id = Int64(loggedInUser.accountInfo.id)
+        
+        CoreDataManager.sharedInstance.saveAccountToCoreData(accountEntity: loggedInAccount)
+        serviceAPI.fetchingTransactions(url: URLBuilder.getTransactionURL(withId: loggedInUser.accountInfo.id), completion: { [weak self] (result) in
+            guard self == self else {
+                return
+            }
+            DispatchQueue.main.async {
+                switch result {
+                    case .success(_):
+                        break
+                    case .failure(let error):
+                        UIAlertController.showErrorAlert(title: "\(error)",
+                                                         message: "Error saving data to CoreData",
+                                                         controller: UIViewController())
+                }
+            }
+        })
+        
+        transactionsVC.transferVC = transferVC
+        transactionsVC.loggedInUser = loggedInUser
+        transactionsVC.currentLoggedInAccount = loggedInAccount
+        transactionsVC.viewModel = viewModel
         homeVC.serviceAPI = serviceAPI
+        homeVC.viewModel = viewModel
+        homeVC.loggedInUser = loggedInUser
         settingsVC.serviceAPI = serviceAPI
         settingsVC.homeVC = homeVC
-        sendMoneyVC.serviceAPI = serviceAPI
-        transactionsVC.serviceAPI = serviceAPI
-
+        settingsVC.loggedInUser = loggedInUser
+        transferVC.loggedInUser = loggedInUser
+        transferVC.viewModel = viewModel
+        transferVC.serviceAPI = serviceAPI
     }
-
+    
 }

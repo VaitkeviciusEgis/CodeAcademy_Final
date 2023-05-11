@@ -15,3 +15,5 @@ struct Transfer: Encodable {
     let amount: Double
     let comment: String
 }
+
+

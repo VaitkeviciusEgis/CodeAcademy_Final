@@ -5,73 +5,65 @@
 //  Created by Egidijus Vaitkevičius on 2023-04-22.
 //
 
-import Foundation
-import CoreData
 import UIKit
+import CoreData
 
-protocol UpdateTableViewDelegate: NSObjectProtocol {
+protocol UpdateTableViewDelegate: AnyObject {
     func reloadData(sender: TransactionsViewModel)
 }
 
-class TransactionsViewModel: NSObject, NSFetchedResultsControllerDelegate {
+final class TransactionsViewModel: NSObject {
     
-    var isDataLoaded = false
-    private let container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    // MARK: - Properties
     
+    private let container: NSPersistentContainer?
     var fetchedResultsController: NSFetchedResultsController<TransactionEntity>?
-    
     weak var delegate: UpdateTableViewDelegate?
     
-
+    // MARK: - Initializer
     
-    //MARK: - Fetched Results Controller - Retrieve data from Core Data
-    func retrieveDataFromCoreData() {
-           if let context = container?.viewContext {
-               let fetchRequest: NSFetchRequest<TransactionEntity> = TransactionEntity.fetchRequest()
-               fetchRequest.sortDescriptors = [NSSortDescriptor(key: "transactionTime", ascending: false)]
-               fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-               fetchedResultsController?.delegate = self
-      
-               do {
-                   try fetchedResultsController?.performFetch()
-
-               } catch {
-                   print("Failed to initialize FetchedResultsController: \(error)")
-               }
-           }
-       }
-
-    // Changes have happened in fetchedResultsController so we need to notify the tableView
-//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        // Update the tableView
-//        self.delegate?.reloadData(sender: self)
-//    }
-//
-//    //MARK: - TableView DataSource functions
-//    func numberOfRowsInSection (section: Int) -> Int {
-//        return fetchedResultsController?.sections?[section].numberOfObjects ?? 0
-//
-//    }
-//
-//    func object (indexPath: IndexPath) -> TransactionEntity? {
-//        return fetchedResultsController?.object(at: indexPath)
-//
-//    }
-
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return fetchedResultsController?.sections?.count ?? 0
-//    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedResultsController?.sections?[section].numberOfObjects ?? 0
+    init(container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer) {
+        self.container = container
+        super.init()
     }
+    
+    // MARK: - Public Functions
+    
+    func retrieveDataFromCoreData(searchText: String? = nil) {
+        guard let context = container?.viewContext else { return }
+        let fetchRequest: NSFetchRequest<TransactionEntity> = TransactionEntity.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "transactionTime", ascending: false)]
+        
+        if let searchText = searchText, !searchText.isEmpty {
+            let searchPredicate = NSPredicate(format: "comment CONTAINS[c] %@ OR amount == %@", searchText, searchText)
+            fetchRequest.predicate = searchPredicate
+        } else {
+            fetchRequest.predicate = nil
+        }
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController?.delegate = self
+        
+        do {
+            try fetchedResultsController?.performFetch()
+        } catch {
+            print("Error fetching transactions: \(error.localizedDescription)")
+        }
+    }
+}
 
-
-
-    // MARK: - NSFetchedResultsControllerDelegate
-
+extension TransactionsViewModel: NSFetchedResultsControllerDelegate  {
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.delegate?.reloadData(sender: self)
-
+        delegate?.reloadData(sender: self)
+    }
+    
+    func numberOfRowsInSection(section: Int) -> Int {
+        let lastFiveTransactions = fetchedResultsController?.fetchedObjects?.suffix(5) ?? []
+        return min(lastFiveTransactions.count, 5)
+    }
+    
+    func object(indexPath: IndexPath) -> TransactionEntity? {
+        return fetchedResultsController?.object(at: indexPath)
     }
 }

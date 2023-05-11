@@ -1,8 +1,8 @@
 //
 //  UpdateBalanceResponse.swift
-//  FinalProject-CodaAcademy
+//  CodeAcademy_Final
 //
-//  Created by Egidijus Vaitkevičius on 2023-04-18.
+//  Created by Egidijus Vaitkevičius on 2023-04-24.
 //
 
 import UIKit

@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "loginScreenWallpaper3.png",
+      "filename" : "wire-transfer-time-1024x1024.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "wire-transfer-time-1024x1024@2x.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "wire-transfer-time-1024x1024@3x.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

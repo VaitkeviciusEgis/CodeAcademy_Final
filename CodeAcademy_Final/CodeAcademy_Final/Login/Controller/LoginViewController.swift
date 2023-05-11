@@ -6,175 +6,277 @@
 //
 
 import UIKit
+import CoreData
 
 class LoginViewController: UIViewController {
     
-    //MARK: Outlets
-    @IBOutlet private weak var signButtonOutlet: UIButton!
+    //MARK: - Outlets
+    @IBOutlet private weak var stateButton: UIButton!
     @IBOutlet private weak var loginRegisterLabel: UILabel!
     @IBOutlet private weak var confirmPasswordTextField: UITextField!
     @IBOutlet private weak var questionLabel: UILabel!
-    @IBOutlet private weak var actionButtonOutlet: UIButton!
-    @IBOutlet weak var phoneNumberTextField: UITextField!
-    @IBOutlet private weak var passwordTextField: UITextField!
-//    @IBOutlet private weak var maxMinCharactersLabel: UILabel!
+    @IBOutlet private weak var actionButton: UIButton!
+    @IBOutlet weak var phoneTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var currencyPickerView: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        currencyPickerView.delegate = self
-        currencyPickerView.dataSource = self
-        currencyPickerView.isHidden = true 
+        pickerViewSetup()
+        saveLoginCredentials()
     }
     
-    //MARK: Properties
-    let serviceAPI = ServiceAPI(networkService: NetworkService())
-    let taskBarNav = TabBarViewController()
-    let currencies = ["EUR", "USD"]
-    var selectedCurrency: Currency = .EUR
+    //MARK: - Properties
     
-    enum Currency {
-          case EUR
-          case USD
-          
-          var description: String {
-              switch self {
-              case .EUR:
-                  return "EUR"
-              case .USD:
-                  return "USD"
-              }
-          }
-      }
+    private let serviceAPI = ServiceAPI(networkService: NetworkService())
+    private let tabBarNav = TabBarViewController()
+    private var selectedCurrency: Currency = .EUR
+    private var selectedCurrencyRow: Int = 0
+    
+    
+    // MARK: - Enums
+    
+    enum Currency: CaseIterable {
+        case EUR
+        case USD
+        
+        var description: String {
+            switch self {
+                case .EUR:
+                    return "EUR"
+                case .USD:
+                    return "USD"
+            }
+        }
+    }
     
     enum State {
         case register
         case login
     }
-    private var currentState: State = .login
+    
+    // MARK: - Properties
+    
+    private var currentState: State = .login {
+        didSet {
+            confirmPasswordTextField.isHidden = currentState != .register
+            currencyPickerView.isHidden = currentState != .register
+            
+            switch currentState {
+                case .login:
+                    stateButton.setTitle("Sign Up", for: .normal)
+                    loginRegisterLabel.text = "Login"
+                    questionLabel.text = "Don't have an account?"
+                    actionButton.setTitle("Login", for: .normal)
+                    
+                case .register:
+                    stateButton.setTitle("Sign In", for: .normal)
+                    loginRegisterLabel.text = "Register"
+                    questionLabel.text = "Already have an account?"
+                    actionButton.setTitle("Register", for: .normal)
+            }
+        }
+    }
+    
+    //MARK: -  Action
     
     @IBAction private func signButtonTapped(_ sender: Any) {
         
-        if currentState == .login {
-            currentState = .register
-        } else if currentState == .register {
-            currentState = .login
-        }
-        confirmPasswordTextField.isHidden = currentState != .register
-        currencyPickerView.isHidden = currentState != .register
-//        maxMinCharactersLabel.isHidden = currentState != .register
-        switch currentState {
-            case .login:
-                signButtonOutlet.setTitle("Sign Up", for: .normal)
-                loginRegisterLabel.text = "Login"
-                questionLabel.text = "Don't have an account ?"
-                actionButtonOutlet.setTitle("Login", for: .normal)
-            case .register:
-                signButtonOutlet.setTitle("Sign In", for: .normal)
-                loginRegisterLabel.text = "Register"
-                questionLabel.text = "Already have an account ?"
-                actionButtonOutlet.setTitle("Register", for: .normal)
-        }
+        currentState = currentState == .login ? .register : .login
     }
     
-    //MARK: Action
     func setupUI() {
-        passwordTextField.isSecureTextEntry = true
-        confirmPasswordTextField.isSecureTextEntry = true
-        signButtonOutlet.layer.masksToBounds = true
-        signButtonOutlet.layer.cornerRadius = 8
+        setupTextFields()
         
-        phoneNumberTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        passwordTextField.isSecureTextEntry = true
-        confirmPasswordTextField.isSecureTextEntry = true
-        signButtonOutlet.layer.masksToBounds = true
-        signButtonOutlet.layer.cornerRadius = 8
-        phoneNumberTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-
-        // Implement the editingChanged event handler
+        actionButton.tintColor = .white
+        stateButton.layer.masksToBounds = true
+        stateButton.layer.cornerRadius = 8
+        stateButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        // Remove all non-numeric characters from the text field's text
-        let modifiedPhoneNumber = String(textField.text?.filter { "0123456789+".contains($0) } ?? "")
+    func setupTextFields() {
+        phoneTextField.borderStyle = .roundedRect
+        phoneTextField.keyboardType = .phonePad
+        phoneTextField.backgroundColor = deSelectedColor
+        phoneTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        phoneTextField.delegate = self
         
-        // Update the text field's text to only include numeric characters
-        phoneNumberTextField.text = modifiedPhoneNumber
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.borderStyle = .roundedRect
+        passwordTextField.backgroundColor = deSelectedColor
+        passwordTextField.keyboardType = .namePhonePad
+        passwordTextField.delegate = self
         
-        // Print the numeric characters as a string
-        print(modifiedPhoneNumber)
+        confirmPasswordTextField.keyboardType = .namePhonePad
+        confirmPasswordTextField.borderStyle = .roundedRect
+        confirmPasswordTextField.isSecureTextEntry = true
+        confirmPasswordTextField.backgroundColor = deSelectedColor
+        confirmPasswordTextField.delegate = self
     }
     
-    @IBAction func actionButtonTapped(_ sender: Any) {
+    func saveLoginCredentials() {
+        let savedPhoneNumber = keyChain.get(keyPhoneNumber) ?? ""
+        let savedPassword = keyChain.get(keyPassword) ?? ""
+        phoneTextField.text = savedPhoneNumber
+        passwordTextField.text = savedPassword
+    }
+    
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        let modifiedPhoneNumber = String(textField.text?.filter { allowedCharacters.contains($0) } ?? "")
+        phoneTextField.text = modifiedPhoneNumber
+    }
+    
+    @IBAction private func actionButtonTapped(_ sender: Any) {
         switch currentState {
             case .register:
-                register()
+                confirmPassword(password: passwordTextField.text ?? "", confirmation: confirmPasswordTextField.text ?? "", phoneNumber: phoneTextField.text ?? "", currency: selectedCurrency.description)
+                
             case .login:
                 login()
         }
     }
     
-    func register() {
-        serviceAPI.registerUser(phoneNumber: phoneNumberTextField.text!,
-                                password: passwordTextField.text!, currency: selectedCurrency.description) { [weak self] result in
+    private func confirmPassword(password: String, confirmation: String, phoneNumber: String, currency: String) {
+        if password != confirmation {
+            UIAlertController.showErrorAlert(title: "Try again!", message: "This time make sure that passwords do match!", controller: self)
+            
+        } else {
+            register(phoneNumber: phoneNumber, password: password, currency: currency)
+            
+        }
+    }
+    
+    private func pickerViewSetup() {
+        currencyPickerView.delegate = self
+        currencyPickerView.dataSource = self
+        currencyPickerView.isHidden = true
+    }
+    
+    private func register(phoneNumber: String, password: String, currency: String) {
+        guard let password = passwordTextField.text, let phone = phoneTextField.text else {
+            return
+        }
+        serviceAPI.registerUser(phoneNumber: phone,
+                                password: password, currency: currency) { [weak self] result in
             guard let self else { return }
             switch result {
                 case .success(_):
+                    UIAlertController.showErrorAlert(title: "Registered!", message: "Please login", controller: self)
                     signButtonTapped(self)
-                    // make user to login after registration !!
                     currentState = .login
                 case .failure(let error):
-                
+                    
                     UIAlertController.showErrorAlert(title: error.message ?? "",
-                                                     message: "Error with status code: \(error.statusCode)",
+                                                     message: "\(errorStatusCodeMessage) \(error.statusCode)",
                                                      controller: self)
             }
         }
     }
     
-    func login() {
-        serviceAPI.loginUser(phoneNumber: "0963", password: "q") { [weak self] result in
-            guard let self else { return }
+    private func login() {
+        guard let password = passwordTextField.text, let phone = phoneTextField.text else {
+            return
+        }
+        
+        serviceAPI.loginUser(phoneNumber: phone, password: password) { [weak self] result in
+            guard let self = self else { return }
             switch result {
                 case .success(let loggedUser):
-//                    print(loggedUser.userId)
-//                    print(loggedUser.accountInfo.ownerPhoneNumber)
-//                    print("ZIRUETI CIA")
-//                    
-//                    
+                    keyChain.set(password, forKey: keyPassword)
+                    keyChain.set(phone, forKey: keyPhoneNumber)
+                    keyChain.set(loggedUser.accessToken, forKey: keyAccessToken)
                     
-                    taskBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
                     
-                    self.navigationController?.setViewControllers([self.taskBarNav], animated: true)
+                    tabBarNav.setUser(loggedUser, serviceAPI: serviceAPI)
+                    
+                    self.navigationController?.setViewControllers([tabBarNav], animated: true)
                 case .failure(let error):
                     UIAlertController.showErrorAlert(title: error.message ?? "",
-                                                     message: "Error with status code: \(error.statusCode)",
+                                                     message: "\(errorStatusCodeMessage) \(error.statusCode)",
                                                      controller: self)
             }
         }
     }
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedCurrency = Currency.allCases[row]
+        pickerViewSetup()
+    }
 }
+
+// MARK: - UIPickerView
 
 extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-           return 1
-       }
-       
-       func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-           return currencies.count
-       }
-       
-       // MARK: - UIPickerViewDelegate
-       
-       func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-           return currencies[row]
-       }
+        return pickerNumberOfComponents
+    }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-           selectedCurrency = row == 0 ? .EUR : .USD
-           print("Selected currency: \(selectedCurrency.description)")
-       }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return Currency.allCases.count
+    }
     
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let currency = Currency.allCases[row]
+        return currency.description
+    }
 }
+
+extension LoginViewController: UITextFieldDelegate {
+    
+    private func textFieldShouldPaste(_ textField: UITextField) -> Bool {
+        return false
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if textField == phoneTextField {
+            passwordTextField.becomeFirstResponder()
+        } else if textField == passwordTextField {
+            confirmPasswordTextField.becomeFirstResponder()
+        } else if textField == confirmPasswordTextField {
+            actionButtonTapped(self)
+        }
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        
+        let textWithoutSpaces = textField.text?.replacingOccurrences(of: " ", with: "")
+            textField.text = textWithoutSpaces
+        
+        if textField == passwordTextField || textField == phoneTextField {
+            let newLength = text.count + string.count - range.length
+            let limit = textFieldLimit
+            if newLength > limit {
+                return false
+            }
+        }
+        
+        if textField == phoneTextField {
+            return textField.validatePhoneNumber(allowedCharacters: allowedCharacters, replacementString: string)
+        }
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == phoneTextField || textField == passwordTextField || textField == confirmPasswordTextField {
+            textField.backgroundColor = selectedColor
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.backgroundColor = deSelectedColor
+    }
+}
+
+
