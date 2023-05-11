@@ -82,7 +82,6 @@ class ListCell: UITableViewCell {
     }
     
     
-    
     func configureCell(with transaction: TransactionEntity) {
         
         let amount = transaction.amount

@@ -7,15 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ED1465F02A026E210002ACD1 /* UpdateUser_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1465EF2A026E210002ACD1 /* UpdateUser_Tests.swift */; };
-		ED1465F22A0274720002ACD1 /* SendMoneyButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1465F12A0274720002ACD1 /* SendMoneyButtonTests.swift */; };
 		ED1773B729FBA98100269392 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1773B629FBA98000269392 /* Constants.swift */; };
 		ED303CE129FEE5E80040CEA8 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED303CE029FEE5E80040CEA8 /* UIViewExtension.swift */; };
 		ED303CE629FEF56B0040CEA8 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED303CE529FEF56A0040CEA8 /* NumberFormatter.swift */; };
 		ED303CE929FF36830040CEA8 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ED303CE829FF36830040CEA8 /* KeychainSwift */; };
 		ED303CF129FF733A0040CEA8 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED303CF029FF733A0040CEA8 /* UITextFieldExtension.swift */; };
 		ED673BDF2A01281C00AAB0CD /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED673BDE2A01281C00AAB0CD /* FilterViewController.swift */; };
-		ED9326292A023D3D002D05C0 /* CodeAcademy_FinalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9326282A023D3D002D05C0 /* CodeAcademy_FinalTests.swift */; };
 		EDF0F02C29F4B6F300DD41F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */; };
 		EDF0F02E29F4B6F300DD41F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */; };
 		EDF0F03629F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EDF0F03429F4B6F300DD41F5 /* CodeAcademy_Final.xcdatamodeld */; };
@@ -64,15 +61,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		ED1465EF2A026E210002ACD1 /* UpdateUser_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUser_Tests.swift; sourceTree = "<group>"; };
-		ED1465F12A0274720002ACD1 /* SendMoneyButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMoneyButtonTests.swift; sourceTree = "<group>"; };
 		ED1773B629FBA98000269392 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		ED303CE029FEE5E80040CEA8 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		ED303CE529FEF56A0040CEA8 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		ED303CF029FF733A0040CEA8 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		ED673BDE2A01281C00AAB0CD /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		ED9326262A023D3C002D05C0 /* CodeAcademy_FinalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeAcademy_FinalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		ED9326282A023D3D002D05C0 /* CodeAcademy_FinalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeAcademy_FinalTests.swift; sourceTree = "<group>"; };
 		EDF0F02829F4B6F300DD41F5 /* CodeAcademy_Final.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeAcademy_Final.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDF0F02B29F4B6F300DD41F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDF0F02D29F4B6F300DD41F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -205,21 +199,10 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		ED9326272A023D3D002D05C0 /* CodeAcademy_FinalTests */ = {
-			isa = PBXGroup;
-			children = (
-				ED9326282A023D3D002D05C0 /* CodeAcademy_FinalTests.swift */,
-				ED1465EF2A026E210002ACD1 /* UpdateUser_Tests.swift */,
-				ED1465F12A0274720002ACD1 /* SendMoneyButtonTests.swift */,
-			);
-			path = CodeAcademy_FinalTests;
-			sourceTree = "<group>";
-		};
 		EDF0F01F29F4B6F300DD41F5 = {
 			isa = PBXGroup;
 			children = (
 				EDF0F02A29F4B6F300DD41F5 /* CodeAcademy_Final */,
-				ED9326272A023D3D002D05C0 /* CodeAcademy_FinalTests */,
 				EDF0F02929F4B6F300DD41F5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -523,9 +506,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED1465F22A0274720002ACD1 /* SendMoneyButtonTests.swift in Sources */,
-				ED9326292A023D3D002D05C0 /* CodeAcademy_FinalTests.swift in Sources */,
-				ED1465F02A026E210002ACD1 /* UpdateUser_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
